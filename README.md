@@ -25,7 +25,7 @@ Below is the recommended directory structure for this project:
         /assets
             /images
             /fonts
-    /dist (or /build)
+    /dist
         /css
         /js
         /assets
@@ -38,7 +38,7 @@ Below is the recommended directory structure for this project:
 - **`/ts`**: Contains TypeScript files. The main file is `app.ts`, with other files such as `contact-form.ts` handling specific functionalities.
 - **`/assets`**: Used for static resources like images and fonts, organized into subdirectories (`/images`, `/fonts`).
 
-### Distribution Directory (`/build`)
+### Distribution Directory (`/dist`)
 
 This directory hosts the compiled or processed files ready for deployment. It mirrors the structure of `/src` but contains the output from the build process, including compiled CSS and JavaScript files.
 
