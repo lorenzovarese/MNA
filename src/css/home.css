@@ -1,0 +1,179 @@
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+html {
+	box-sizing: border-box;
+	font-family: 'Arial', sans-serif;
+}
+
+/* Container for the squares */
+.squares-container {
+	padding: 0;
+	margin: 6em auto; /* Center the container vertically */
+	width: 80%; /* Set the width of the container */
+	max-width: 1100px; /* Limit the maximum width */
+	display: flex;
+	flex-wrap: wrap; /* Allow squares to wrap to the next line */
+	gap: 0.7em; /* Space between grid items */
+	display: flex;
+	justify-content: center; /* Center the items horizontally */
+	align-items: center; /* Center the items vertically */
+}
+
+/* Media query for small screen */
+@media (max-width: 600px) {
+	.squares-container {
+		margin: 3em auto; /* Center the container vertically */
+		width: 95%; /* Set the width of the container */
+	}
+}
+
+/* Styling for individual squares */
+.square {
+	width: 2.25em; /* Width of the square */
+	height: 2.25em; /* Height of the square */
+	background-color: #ffffff; /* Background color of the square */
+	font-family: Arial, Helvetica, sans-serif; /* Monospace font styling */
+	font-size: 1.5rem;
+	letter-spacing: 0.1em; /* Increase letter spacing */
+	line-height: 1em; /* Increase line spacing */
+	font-weight: bold; /* Make font bold */
+	color: #ffffff; /* Font color */
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.square img {
+	display: block; /* Removes any default inline spacing */
+	max-width: 100%; /* Ensures the image is not wider than the square */
+	max-height: 100%; /* Ensures the image is not taller than the square */
+	object-fit: contain; /* Ensures the image maintains aspect ratio without stretching */
+	margin: auto; /* Additional measure to center the image */
+}
+
+.navigation-square {
+	background-color: rgb(0, 0, 0);
+}
+
+.square.placeholder {
+    background-color: #cccccc;
+}
+
+.social-square {
+	background-color: rgb(155, 155, 155);
+}
+
+.urban-planning {
+	background-color: rgb(169, 210, 82);
+}
+
+.single-building {
+	background-color: rgb(147, 219, 224);
+}
+
+.installation {
+	background-color: rgb(255, 206, 54);
+}
+
+.activity {
+	background-color: rgb(255, 173, 195);
+}
+
+.transformation {
+	background-color: rgb(255, 173, 195);
+}
+
+/* Pop-up styles */
+
+#popup {
+    position: absolute;
+    width: 12em; /* Adjust size as needed */
+    height: 12em; /* Keep square shape */
+    overflow: hidden;
+    border: none; /* Removed the border */
+}
+
+.popup-hidden {
+    display: none;
+}
+
+.popup-image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.95; /* Reduced opacity */
+	background-color: aliceblue;
+}
+
+#popup-image::after {
+    content: ''; /* Required for pseudo-elements */
+    position: absolute; /* Position it over the popup image */
+    top: 0; /* Align it to the top */
+    left: 0; /* Align it to the left */
+    right: 0; /* Stretch it to the right */
+    bottom: 0; /* Stretch it to the bottom */
+    background-color: rgba(55, 55, 55, 0.37); /* Dark gray with opacity */
+    z-index: 1; /* Ensure it's above the image but below the content */
+}
+
+.popup-content {
+    position: relative;
+    z-index: 2; /* Ensure the content is above the overlay */
+}
+
+.popup-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.5em; /* Added padding */
+}
+
+/* Close button styles */
+#popup-close {
+    background: none;
+    border: none;
+	color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+/* Redirect button styles */
+#popup-redirect {
+    background: none;
+    border: none;
+    color: #ffffff;
+	font-size: 2rem;
+    cursor: pointer;
+    align-self: flex-end;
+}
+
+#popup-redirect:before {
+    padding-right: 5px;
+}
+
+/* Table styles */
+#popup-data {
+    align-self: flex-start;
+    margin-left: 0.25em; /* Added margin to the left */
+    margin-bottom: 0.25em; /* Added margin to the bottom */
+}
+
+/* Pop-up table styles */
+
+#popup-data, table {
+    text-align: left;
+	font-size: 0.7rem;
+	color: #ffffff;
+}

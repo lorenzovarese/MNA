@@ -6,11 +6,11 @@ class Slideshow {
 
     constructor(private imgElements: NodeListOf<HTMLImageElement>, private duration: number = 3000) {
         this.images = [
-            '../assets/landing-page/img1.webp',
-            '../assets/landing-page/img2.webp',
-            '../assets/landing-page/img3.webp',
-            '../assets/landing-page/img4.webp',
-            '../assets/landing-page/img5.webp'
+            '../assets/img/landing-page/img1.webp',
+            '../assets/img/landing-page/img2.webp',
+            '../assets/img/landing-page/img3.webp',
+            '../assets/img/landing-page/img4.webp',
+            '../assets/img/landing-page/img5.webp'
         ];
 
         // Initialize first two images

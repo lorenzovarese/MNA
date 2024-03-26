@@ -1,12 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Project Title</title>
+    <title>Marcello Nasso Architect</title>
+    <link rel="icon" type="image/png" href="../assets/img/icons/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tauri&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/home.css">
 </head>
 <body>
-    <p>Test Home  Page</p>
+    <div class="squares-container"></div>
+
+    <div id="popup" class="popup-hidden">
+        <div id="popup-image" class="popup-image"></div>
+        <div class="popup-content">
+            <button id="popup-close">X</button>
+            <table id="popup-data">
+                <tr><th>Project Number</th><td id="popup-project-number"></td></tr>
+                <tr><th>Title</th><td id="popup-title"></td></tr>
+                <tr><th>Category</th><td id="popup-category"></td></tr>
+                <tr><th>Year</th><td id="popup-year"></td></tr>
+            </table>
+            <button id="popup-redirect">+</button>
+        </div>
+    </div>
+    <div>
+        <!-- Add a list of elements -->
+        <ul>
+            <li>Should we resize the squares and the font?</li>
+            <li>White space handling in the home?</li>
+            <li>Random placement of navigation square in the top part of the list instead of a fixed 5 square header?</li>
+        </ul>
+    </div>    
 </body>
-<script src="../js/landing-page.js"></script>
+<script type="module" src="../js/get-projects.js"></script>
+<script type="module" src="../js/home.js"></script>
 </html>
