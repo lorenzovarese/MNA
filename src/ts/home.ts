@@ -1,7 +1,3 @@
-interface PageInformation {
-    title: string;
-    link: string;
-}
 
 interface Project {
     project: string; // mandatory
@@ -26,28 +22,21 @@ interface Project {
     seaElevation: string | null;
 }
 
-interface NavigationSquare {
+interface PageInformation {
     name: string;
-    icon: string;
+    iconFileName?: string;
     link: string;
-}
-
-interface PopupData {
-    type: 'project' | 'legend' | 'social';
-    x: number;
-    y: number;
-    link?: string;
-    name?: string;
-    entries?: LegendEntry[];
-    projectNumber?: number;
-    title?: string;
-    category?: string;
-    year?: number;
 }
 
 interface LegendEntry {
     title: string;
     color: string;
+}
+
+interface PopupData {
+    type: 'project' | 'legend' | 'menu' | 'languages' | 'blog' | 'sorting';
+    x: number;
+    y: number;
 }
 
 interface ProjectData extends PopupData {
@@ -57,6 +46,34 @@ interface ProjectData extends PopupData {
     year: number;
 }
 
+interface NavigationData extends PopupData {
+    pages: PageInformation[];
+}
+
+interface LegendData extends PopupData {
+    entries: LegendEntry[];
+}
+
+interface LanguageData extends PopupData {
+    languages: Languages[];
+}
+
+interface SortingData extends PopupData {
+    options: SortingOptions[];
+}
+
+enum Languages{
+    EN = 'EN',
+    DE = 'DE',
+    IT = 'IT',
+}
+
+enum SortingOptions {
+    NUMBER = 'number',
+    COLOUR = 'colour',
+    PROGRAM = 'program',
+    STATUS = 'status',
+}
 
 /**
  * Creates squares for each project in the provided data object and appends them to the squares container.
@@ -148,12 +165,12 @@ function insertProjectSquares(container: HTMLDivElement, projectsArray: Project[
 
 function insertSocialSquares(container: HTMLDivElement, numberOfProjects: number): void {
     // Define social media icons
-    const socialIcons: NavigationSquare[] = [
-        { name: "Facebook", icon: "facebook-icon.webp", link: "https://www.facebook.com/marcello.nasso" },
-        { name: "Instagram", icon: "instagram-icon.webp", link: "https://www.instagram.com/marcello.nasso/" },
-        { name: "YouTube", icon: "youtube-icon.webp", link: "https://www.youtube.com/channel/UCtx0smQTZry7_R40w26-r7A?view_as=subscriber" },
-        { name: "LinkedIn", icon: "linkedin-icon.webp", link: "https://www.linkedin.com/company/marcello-nasso-architect/about/" },
-        { name: "Spazio", icon: "spazio-icon.webp", link: "https://www.spaziodiffuso.com" },
+    const socialIcons: PageInformation[] = [
+        { name: "Facebook", iconFileName: "facebook-icon.webp", link: "https://www.facebook.com/marcello.nasso" },
+        { name: "Instagram", iconFileName: "instagram-icon.webp", link: "https://www.instagram.com/marcello.nasso/" },
+        { name: "YouTube", iconFileName: "youtube-icon.webp", link: "https://www.youtube.com/channel/UCtx0smQTZry7_R40w26-r7A?view_as=subscriber" },
+        { name: "LinkedIn", iconFileName: "linkedin-icon.webp", link: "https://www.linkedin.com/company/marcello-nasso-architect/about/" },
+        { name: "Spazio", iconFileName: "spazio-icon.webp", link: "https://www.spaziodiffuso.com" },
     ];
 
     // Calculate the current number ofsquares
@@ -164,7 +181,7 @@ function insertSocialSquares(container: HTMLDivElement, numberOfProjects: number
         const socialDiv = document.createElement('div');
         socialDiv.className = 'square social-square';
         socialDiv.innerHTML = `<a href="${socialIcon.link}" target="_blank">
-                                   <img src="../assets/img/icons/${socialIcon.icon}" alt="${socialIcon.name}" width="40">
+                                   <img src="../assets/img/icons/${socialIcon.iconFileName}" alt="${socialIcon.name}" width="40">
                                </a>`;
         return socialDiv;
     }, socialIcons.length, currentSquareCount / 2, currentSquareCount - 1);
@@ -175,11 +192,10 @@ function insertControlSquares(container: HTMLDivElement): void {
     const numberOfControlSquares = 5; // Menu + Legend + Blog + Sorting + Language
 
     const pages: PageInformation[] = [
-        { title: "Contact", link: "contact.html" },
-        { title: "Biography", link: "biography.html" },
-        { title: "Imprint", link: "imprint.html" },
+        { name: "Contact", link: "contact.html" },
+        { name: "Biography", link: "biography.html" },
+        { name: "Imprint", link: "imprint.html" },
     ];
-
     const legend: LegendEntry[] = [
         { title: "urban planning", color: "#a9d252" },
         { title: "single building", color: "#93dbe0" },
@@ -187,23 +203,29 @@ function insertControlSquares(container: HTMLDivElement): void {
         { title: "interior work", color: "#ffa937" },
         { title: "installation", color: "#ffce36" },
     ];
-
-    const blogPage: NavigationSquare = { name: "Blog", icon:"", link: "blog.html" };
-
-    const sortingOption: string[] = ["number", "colour", "program", "status"];
-
-    const languages: string[] = ["de", "en", "it"];
+    const blogPage: PageInformation = { name: "Blog", link: "blog.html" };
+    const languages: Languages[] = [Languages.EN, Languages.DE, Languages.IT];
+    const sortingOption: SortingOptions[] = [SortingOptions.NUMBER, SortingOptions.COLOUR, SortingOptions.PROGRAM, SortingOptions.STATUS];
 
     const currentSquareCount = container.querySelectorAll('.square').length;
 
     // Randomly select positions for control squares from 0 to currentSquareCount/2
-    const randomPositions = getRandomPositions(0, currentSquareCount/2, numberOfControlSquares);
+    const randomPositions = getRandomPositions(0, currentSquareCount / 2, numberOfControlSquares);
 
     // Insert square for navigation menu
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square small';
         controlDiv.innerHTML = `<img src="../assets/img/icons/menu-white.webp" alt="Menu" width="40">`;
+        // Add event listener for menu squares
+        controlDiv.addEventListener('click', (event: MouseEvent) => {
+            showPopup({
+                type: 'menu',
+                x: event.x,
+                y: event.y,
+                pages: pages,
+            });
+        });
         return controlDiv;
     }, randomPositions[0], 0);
 
@@ -230,6 +252,11 @@ function insertControlSquares(container: HTMLDivElement): void {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square small';
         controlDiv.innerHTML = `<img src="../assets/img/icons/blog-white.webp" alt="Blog" width="40">`;
+        // Add event listener for blog squares
+        controlDiv.addEventListener('click', (event: MouseEvent) => {
+            //Navigate to blog page
+            window.location.href = blogPage.link;
+        });
         return controlDiv;
     }, randomPositions[2], 2);
 
@@ -238,6 +265,15 @@ function insertControlSquares(container: HTMLDivElement): void {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square small';
         controlDiv.innerHTML = `<img src="../assets/img/icons/sorting-white.webp" alt="Sorting" width="40">`;
+        // Add event listener for sorting squares
+        controlDiv.addEventListener('click', (event: MouseEvent) => {
+            showPopup({
+                type: 'sorting',
+                x: event.x,
+                y: event.y,
+                options: sortingOption,
+            });
+        });
         return controlDiv;
     }, randomPositions[3], 3);
 
@@ -246,6 +282,15 @@ function insertControlSquares(container: HTMLDivElement): void {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square small';
         controlDiv.innerHTML = `<img src="../assets/img/icons/world-white.webp" alt="Language" width="40">`;
+        // Add event listener for language squares
+        controlDiv.addEventListener('click', (event: MouseEvent) => {
+            showPopup({
+                type: 'languages',
+                x: event.x,
+                y: event.y,
+                languages: languages,
+            });
+        });
         return controlDiv;
     }, randomPositions[4], 4);
 
@@ -299,7 +344,7 @@ function redirectToProjectPage(projectNumber: number): void {
     window.location.href = `project-details.html?projectNumber=${projectNumber}`;
 }
 
-function showPopup(data: PopupData): void {
+function showPopup(data: ProjectData | NavigationData | LegendData | LanguageData | SortingData): void {
     const popup = document.getElementById('generic-popup') as HTMLDivElement;
     const popupContent = document.getElementById('popup-content') as HTMLDivElement;
     const popupClose = document.getElementById('popup-close') as HTMLButtonElement;
@@ -314,18 +359,29 @@ function showPopup(data: PopupData): void {
 
     switch (data.type) {
         case 'project':
+            data = data as ProjectData;
             updateProjectImage(data as ProjectData);
             generateProjectContent(data as ProjectData, popupContent);
             break;
         case 'legend':
-            if (data.entries) {
-                popupContent.innerHTML = generateLegendContent(data.entries);
-            }
+            data = data as LegendData;
+            popupContent.innerHTML = generateLegendContent(data.entries);
             break;
-        case 'social':
-            if (data.link && data.name) {
-                popupContent.innerHTML = `<a href="${data.link}" target="_blank">${data.name}</a>`;
-            }
+        case 'menu':
+            data = data as NavigationData;
+            popupContent.innerHTML = `<ul class="menu-list">${generateMenuContent(data.pages)}</ul>`;
+            break;
+        case 'languages':
+            data = data as LanguageData;
+            popupContent.innerHTML = generateLanguageOptions();
+            setupLanguageOptions();
+            break;
+        case 'blog':
+            // Redirect to blog page with the click event
+            break;
+        case 'sorting':
+            data = data as SortingData;
+            // Generate sorting options popup
             break;
     }
 
@@ -375,6 +431,53 @@ function generateLegendContent(legends: LegendEntry[]): string {
     `).join('');
 }
 
+function generateMenuContent(pages: PageInformation[]): string {
+    return pages.map(page => `
+      <li class="menu-item">
+          <a href="${page.link}">${page.name}</a>
+      </li>
+    `).join('');
+  }
+
+//#region Language selection
+
+function generateLanguageOptions(): string {
+    const languages: Languages[] = [Languages.EN, Languages.DE, Languages.IT]; // Available languages
+    return languages.map(lang => `
+        <div class="language-option" data-lang="${lang}">
+            ${lang}
+        </div>
+    `).join('');
+}
+
+function applyLanguage(language: string): void {
+    // Save the selected language in local storage
+    localStorage.setItem('selectedLanguage', language);
+
+    // Apply the language selection to the page (e.g., update text content)
+    // This is where you might update the page content based on the selected language
+}
+
+function updatePageContent() {
+    // Simply reload the page to reflect the new language selection
+    window.location.reload();
+}
+
+function setupLanguageOptions(): void {
+    document.querySelectorAll(".language-option").forEach(langOption => {
+        langOption.addEventListener('click', () => {
+            const selectedLang = (langOption as HTMLElement).dataset.lang;
+            if (selectedLang) {
+                applyLanguage(selectedLang);
+                // Reload or update the page content as necessary
+                updatePageContent();
+            }
+        });
+    });
+}
+
+//#endregion
+
 document.addEventListener('ProjectsDataLoaded', () => {
     const projectsData = localStorage.getItem('projectsData') || '{}';
     createSquares(JSON.parse(projectsData));
@@ -384,3 +487,8 @@ document.addEventListener('ProjectsDataLoaded', () => {
 if (localStorage.getItem('projectsData')) {
     createSquares(JSON.parse(localStorage.getItem('projectsData') || '{}'));
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const selectedLang = localStorage.getItem('selectedLanguage') || Languages.EN; // Default to English
+    applyLanguage(selectedLang);
+});
