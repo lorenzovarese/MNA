@@ -253,7 +253,7 @@ function insertControlSquares(container: HTMLDivElement): void {
     // Insert square for legend
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
-        controlDiv.className = 'square control-square';
+        controlDiv.className = 'square control-square logo-img';
         controlDiv.innerHTML = `<img src="../assets/img/icons/mna-logo-white.webp" alt="Legend" width="40">`;
         // Add event listener for legend squares
         controlDiv.addEventListener('click', (event: MouseEvent) => {
