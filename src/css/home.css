@@ -78,7 +78,7 @@ html {
 }
 
 .installation {
-	background-color: #ffa937;
+	background-color: #ffce36;
 }
 
 .activity {
@@ -87,6 +87,10 @@ html {
 
 .transformation {
 	background-color: #ffadc3;
+}
+
+.interior-work {
+	background-color: #ffa937;
 }
 
 /* Pop-up styles */
