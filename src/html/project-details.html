@@ -1,12 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Marcello Nasso Project</title>
+    <link rel="icon" type="image/png" href="public/img/icons/favicon.png">
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: "Courier New", monospace;
+        }
+        #project-details-container {
+            margin: 0;
+            margin-top: 3vh;
+            margin-bottom: 4vh;
+        }
+
+        /* Carousel Styling */
+        .carousel {
+            position: relative;
+            max-width: 800px;
+            /* Maximum width of the carousel */
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+        }
+
+        .carousel-inner {
+            position: relative;
+            width: 100%;
+        }
+
+        .carousel-item {
+            display: none;
+            /* Hide all items initially */
+            width: 100%;
+        }
+
+        .carousel-item.active {
+            display: block;
+            /* Show only the active item */
+        }
+
+        .carousel-item img {
+            width: auto;
+            max-width: 100%;
+            max-height: 450px;
+            /* Maximum height for images */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .carousel-button {
+            position: absolute;
+            bottom: 10px;
+            transform: translateY(50%);
+            background-color: #333;
+            /* Button background color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .carousel-button.left {
+            left: 10px;
+        }
+
+        .carousel-button.right {
+            right: 10px;
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Test project page</h1>
-    <p>Here will be injected the content of the project</p>
+    <div id="project-details-container">
+        <!-- Project details will be dynamically inserted here -->
+    </div>
+    <script type="module" src="../js/get-projects.js"></script>
+    <script type="module" src="../js/project-details.js"></script>
 </body>
 </html>

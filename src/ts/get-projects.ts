@@ -1,9 +1,9 @@
 // Base interface with projectNumber property
-interface BaseProject {
+export interface BaseProject {
     projectNumber: number; 
 }
 
-interface Project extends BaseProject {
+export interface Project extends BaseProject {
     project: string;
     title: string;
     category: string;
@@ -11,7 +11,7 @@ interface Project extends BaseProject {
     country: string | null;
     city: string | null;
     street: string | null;
-    number: string | null;
+    houseNumber: string | null;
     cantonRegion: string | null;
     zipCode: string | null;
     GPS: string | null;
@@ -26,7 +26,7 @@ interface Project extends BaseProject {
     seaElevation: string | null;
 }
 
-interface ProjectMetadata extends BaseProject {
+export interface ProjectMetadata extends BaseProject {
     project: string;
     year: number;
     projectNumber: number;
@@ -103,7 +103,7 @@ fetchAndStore<Project>("../assets/data/02_projects.csv", "projectsData", columns
     country: columns[4] || null,
     city: columns[5] || null,
     street: columns[6] || null,
-    number: columns[7] || null,
+    houseNumber: columns[7] || null,
     cantonRegion: columns[8] || null,
     zipCode: columns[9] || null,
     GPS: columns[10] || null,
