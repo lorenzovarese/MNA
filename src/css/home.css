@@ -48,6 +48,10 @@ html {
 	text-align: center;
 }
 
+.square:hover {
+	cursor: pointer; /* Change cursor to pointer on hover */
+}
+
 .square img {
 	display: block; /* Removes any default inline spacing */
 	width: 70%; /* Set the width of the image */
