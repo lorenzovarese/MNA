@@ -79,18 +79,17 @@ function createSquares(data: Record<string, Project>): void {
       }, 100));
 }
 
-function getRandomPositions(totalCount: number, insertCount: number): number[] {
-    let positions = new Set<number>();
-    while (positions.size < insertCount) {
-        const position = Math.floor(Math.random() * totalCount);
-        positions.add(position);
+function getRandomPositions(startIndex: number, endIndex: number, count: number): number[] {
+    const positions = new Set<number>();
+    while (positions.size < count) {
+        const randomPosition = Math.floor(Math.random() * (endIndex - startIndex + 1)) + startIndex;
+        positions.add(randomPosition);
     }
     return Array.from(positions);
 }
 
-function insertRandomElements(container: HTMLDivElement, createDiv: (index: number) => HTMLDivElement, insertCount: number): void {
-    const currentSquareCount = container.children.length;
-    const randomPositions = getRandomPositions(currentSquareCount + insertCount, insertCount);
+function insertRandomElements(container: HTMLDivElement, createDiv: (index: number) => HTMLDivElement, insertCount: number, startIndex: number, endIndex: number): void {
+    const randomPositions = getRandomPositions(startIndex, endIndex, insertCount);
 
     randomPositions.forEach((position, index) => {
         const newDiv = createDiv(index);
@@ -109,6 +108,9 @@ function insertSocialSquares(container: HTMLDivElement, numberOfProjects: number
         { name: "Spazio", icon: "spazio-icon.webp", link: "https://www.spaziodiffuso.com" },
     ];
 
+    // Calculate the current number ofsquares
+    const currentSquareCount = container.querySelectorAll('.square').length;
+
     insertRandomElements(container, (index) => {
         const socialIcon = socialIcons[index];
         const socialDiv = document.createElement('div');
@@ -117,36 +119,8 @@ function insertSocialSquares(container: HTMLDivElement, numberOfProjects: number
                                    <img src="../assets/img/icons/${socialIcon.icon}" alt="${socialIcon.name}" width="40">
                                </a>`;
         return socialDiv;
-    }, socialIcons.length);
+    }, socialIcons.length, currentSquareCount/2, currentSquareCount - 1);
 }
-
-// function addPlaceholderSquares(container: HTMLDivElement): void {
-//     const containerStyle = window.getComputedStyle(container);
-//     const squareStyle = window.getComputedStyle(document.querySelector('.square') as Element);
-    
-//     const squareWidth = parseFloat(squareStyle.width);
-//     const containerWidth = parseFloat(containerStyle.width)
-//     const gapWidth = parseFloat(containerStyle.gap);
-
-//     // Calculate how many squares fit per row
-//     const squaresPerRow = Math.floor((containerWidth + gapWidth) / (squareWidth + gapWidth));
-    
-//     // Calculate the current number of squares
-//     const currentSquareCount = container.querySelectorAll('.square:not(.placeholder)').length;
-    
-//     // Determine how many squares are in the last row
-//     const squaresInLastRow = currentSquareCount % squaresPerRow;
-    
-//     // Calculate how many placeholders are needed
-//     const placeholdersNeeded = squaresInLastRow > 0 ? squaresPerRow - squaresInLastRow : 0;
-    
-//     // Create and append the placeholder squares
-//     for (let i = 0; i < placeholdersNeeded; i++) {
-//         const placeholderDiv = document.createElement('div');
-//         placeholderDiv.className = 'square placeholder';
-//         container.appendChild(placeholderDiv);
-//     }
-// }
 
 function addPlaceholderSquares(container: HTMLDivElement): void {
     // Clear previous placeholders before adding new ones
@@ -177,7 +151,7 @@ function addPlaceholderSquares(container: HTMLDivElement): void {
         const placeholderDiv = document.createElement('div');
         placeholderDiv.className = 'square placeholder';
         return placeholderDiv;
-    }, placeholdersNeeded);
+    }, placeholdersNeeded, 0, currentSquareCount + placeholdersNeeded );
 }
 
 function debounce(callback: (...args: any[]) => void, wait: number): () => void {
