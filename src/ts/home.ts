@@ -1,3 +1,7 @@
+interface PageInformation {
+    title: string;
+    link: string;
+}
 
 interface Project {
     project: string; // mandatory
@@ -10,16 +14,16 @@ interface Project {
     number: string | null;
     cantonRegion: string | null;
     zipCode: string | null;
-    GPS: string | null; 
+    GPS: string | null;
     year: number; // mandatory
     projectNumber: number;
-    cadNum: string | null; 
-    client: string | null; 
-    buildingCosts: string | null; 
-    deepness: string | null; 
+    cadNum: string | null;
+    client: string | null;
+    buildingCosts: string | null;
+    deepness: string | null;
     phase: string | null;
-    subphase: string | null; 
-    seaElevation: string | null; 
+    subphase: string | null;
+    seaElevation: string | null;
 }
 
 interface NavigationSquare {
@@ -27,6 +31,32 @@ interface NavigationSquare {
     icon: string;
     link: string;
 }
+
+interface PopupData {
+    type: 'project' | 'legend' | 'social';
+    x: number;
+    y: number;
+    link?: string;
+    name?: string;
+    entries?: LegendEntry[];
+    projectNumber?: number;
+    title?: string;
+    category?: string;
+    year?: number;
+}
+
+interface LegendEntry {
+    title: string;
+    color: string;
+}
+
+interface ProjectData extends PopupData {
+    projectNumber: number;
+    title: string;
+    category: string;
+    year: number;
+}
+
 
 /**
  * Creates squares for each project in the provided data object and appends them to the squares container.
@@ -41,51 +71,40 @@ function createSquares(data: Record<string, Project>): void {
 
     // Convert object to array and sort it based on year
     const projectsArray: Project[] = Object.values(data).sort((a, b) => a.year - b.year);
-
-    // Create squares for all projects
-    projectsArray.forEach((project: Project) => {
-        const div = document.createElement('div');
-        const projectCategoryClass = project.category.toLowerCase().replace(/ /g, '-');
-        div.className = `square ${projectCategoryClass}`;
-        const yearCode = project.year.toString().substring(2, 4); // Adjusted for TypeScript
-        div.innerHTML = `0${yearCode}<br>${project.projectNumber < 100 ? `0${project.projectNumber}` : project.projectNumber}`;
-        div.setAttribute('data-info', JSON.stringify(project));
-        container.appendChild(div);
-
-        div.addEventListener('click', (event) => {
-            // Define the event for passing the coordinates of the click
-            if (window.innerWidth > 415) {
-                showPopup(event, project);
-            } else {
-                redirectToProjectPage(project.projectNumber);
-            }
-        });
-    });
-
+    insertProjectSquares(container, projectsArray);
     insertSocialSquares(container, projectsArray.length);
-    addPlaceholderSquares(document.querySelector('.squares-container') as HTMLDivElement);
+    insertControlSquares(container);
+    insertPlaceholderSquares(container);
 
     let lastWindowWidth = window.innerWidth;
 
     window.addEventListener('resize', debounce(() => {
         const currentWindowWidth = window.innerWidth;
-      
-        // Check if the width has changed
-        if (currentWindowWidth !== lastWindowWidth) {
-          const container = document.querySelector('.squares-container') as HTMLDivElement;
-          addPlaceholderSquares(container);
-          lastWindowWidth = currentWindowWidth; // Update the last known width
+        if (currentWindowWidth !== lastWindowWidth) { // Check if the width has changed
+            insertPlaceholderSquares(container);
+            lastWindowWidth = currentWindowWidth; // Update the last known width
         }
-      }, 100));
+    }, 100));
+}
+
+//#region Helper functions
+
+function getRandomPosition(startIndex: number, endIndex: number): number {
+    return Math.floor(Math.random() * (endIndex - startIndex + 1)) + startIndex;
 }
 
 function getRandomPositions(startIndex: number, endIndex: number, count: number): number[] {
     const positions = new Set<number>();
     while (positions.size < count) {
-        const randomPosition = Math.floor(Math.random() * (endIndex - startIndex + 1)) + startIndex;
-        positions.add(randomPosition);
+        positions.add(getRandomPosition(startIndex, endIndex));
     }
     return Array.from(positions);
+}
+
+function insertRandomElement(container: HTMLDivElement, createDiv: (index: number) => HTMLDivElement, randomPosition: number, index: number): void {
+    const newDiv = createDiv(index);
+    const insertBeforeNode = container.children[randomPosition] || null;
+    container.insertBefore(newDiv, insertBeforeNode);
 }
 
 function insertRandomElements(container: HTMLDivElement, createDiv: (index: number) => HTMLDivElement, insertCount: number, startIndex: number, endIndex: number): void {
@@ -95,6 +114,35 @@ function insertRandomElements(container: HTMLDivElement, createDiv: (index: numb
         const newDiv = createDiv(index);
         const insertBeforeNode = container.children[position] || null;
         container.insertBefore(newDiv, insertBeforeNode);
+    });
+}
+
+//#endregion
+
+function insertProjectSquares(container: HTMLDivElement, projectsArray: Project[]): void {
+    // Create squares for all projects
+    projectsArray.forEach((project: Project) => {
+        const div = document.createElement('div');
+        const projectCategoryClass = project.category.toLowerCase().replace(/ /g, '-');
+        div.className = `square project-square ${projectCategoryClass}`;
+        div.id = `${project.projectNumber}`;
+        const yearCode = project.year.toString().substring(2, 4); // Adjusted for TypeScript
+        div.innerHTML = `0${yearCode}<br>${project.projectNumber < 100 ? `0${project.projectNumber}` : project.projectNumber}`;
+        div.setAttribute('data-info', JSON.stringify(project));
+        container.appendChild(div);
+
+        // Add event listener for project squares
+        div.addEventListener('click', (event: MouseEvent) => {
+            showPopup({
+                type: 'project',
+                x: event.x,
+                y: event.y,
+                projectNumber: project.projectNumber,
+                title: project.title,
+                category: project.category,
+                year: project.year,
+            });
+        });
     });
 }
 
@@ -119,10 +167,91 @@ function insertSocialSquares(container: HTMLDivElement, numberOfProjects: number
                                    <img src="../assets/img/icons/${socialIcon.icon}" alt="${socialIcon.name}" width="40">
                                </a>`;
         return socialDiv;
-    }, socialIcons.length, currentSquareCount/2, currentSquareCount - 1);
+    }, socialIcons.length, currentSquareCount / 2, currentSquareCount - 1);
 }
 
-function addPlaceholderSquares(container: HTMLDivElement): void {
+function insertControlSquares(container: HTMLDivElement): void {
+
+    const numberOfControlSquares = 5; // Menu + Legend + Blog + Sorting + Language
+
+    const pages: PageInformation[] = [
+        { title: "Contact", link: "contact.html" },
+        { title: "Biography", link: "biography.html" },
+        { title: "Imprint", link: "imprint.html" },
+    ];
+
+    const legend: LegendEntry[] = [
+        { title: "urban planning", color: "#a9d252" },
+        { title: "single building", color: "#93dbe0" },
+        { title: "transformation", color: "#ffadc3" },
+        { title: "interior work", color: "#ffa937" },
+        { title: "installation", color: "#ffce36" },
+    ];
+
+    const blogPage: NavigationSquare = { name: "Blog", icon:"", link: "blog.html" };
+
+    const sortingOption: string[] = ["number", "colour", "program", "status"];
+
+    const languages: string[] = ["de", "en", "it"];
+
+    const currentSquareCount = container.querySelectorAll('.square').length;
+
+    // Randomly select positions for control squares from 0 to currentSquareCount/2
+    const randomPositions = getRandomPositions(0, currentSquareCount/2, numberOfControlSquares);
+
+    // Insert square for navigation menu
+    insertRandomElement(container, (index) => {
+        const controlDiv = document.createElement('div');
+        controlDiv.className = 'square control-square small';
+        controlDiv.innerHTML = `<img src="../assets/img/icons/menu-white.webp" alt="Menu" width="40">`;
+        return controlDiv;
+    }, randomPositions[0], 0);
+
+    // Insert square for legend
+    insertRandomElement(container, (index) => {
+        const controlDiv = document.createElement('div');
+        controlDiv.className = 'square control-square big';
+        controlDiv.innerHTML = `<img src="../assets/img/icons/mna-logo-white.webp" alt="Legend" width="40">`;
+        // Add event listener for legend squares
+        controlDiv.addEventListener('click', (event: MouseEvent) => {
+            showPopup({
+                type: 'legend',
+                x: event.x,
+                y: event.y,
+                entries: legend,
+            });
+        });
+
+        return controlDiv;
+    }, randomPositions[1], 1);
+
+    // Insert square for blog
+    insertRandomElement(container, (index) => {
+        const controlDiv = document.createElement('div');
+        controlDiv.className = 'square control-square small';
+        controlDiv.innerHTML = `<img src="../assets/img/icons/blog-white.webp" alt="Blog" width="40">`;
+        return controlDiv;
+    }, randomPositions[2], 2);
+
+    // Insert square for sorting options
+    insertRandomElement(container, (index) => {
+        const controlDiv = document.createElement('div');
+        controlDiv.className = 'square control-square small';
+        controlDiv.innerHTML = `<img src="../assets/img/icons/sorting-white.webp" alt="Sorting" width="40">`;
+        return controlDiv;
+    }, randomPositions[3], 3);
+
+    // Insert square for language options
+    insertRandomElement(container, (index) => {
+        const controlDiv = document.createElement('div');
+        controlDiv.className = 'square control-square small';
+        controlDiv.innerHTML = `<img src="../assets/img/icons/world-white.webp" alt="Language" width="40">`;
+        return controlDiv;
+    }, randomPositions[4], 4);
+
+}
+
+function insertPlaceholderSquares(container: HTMLDivElement): void {
     // Clear previous placeholders before adding new ones
     container.querySelectorAll('.square.placeholder').forEach(placeholder => {
         container.removeChild(placeholder);
@@ -151,73 +280,100 @@ function addPlaceholderSquares(container: HTMLDivElement): void {
         const placeholderDiv = document.createElement('div');
         placeholderDiv.className = 'square placeholder';
         return placeholderDiv;
-    }, placeholdersNeeded, 0, currentSquareCount + placeholdersNeeded );
+    }, placeholdersNeeded, 0, currentSquareCount + placeholdersNeeded);
 }
 
 function debounce(callback: (...args: any[]) => void, wait: number): () => void {
     let timeoutId: number | undefined;
-  
+
     return function (...args: any[]) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        callback.apply(null, args);
-      }, wait);
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            callback.apply(null, args);
+        }, wait);
     };
-  }
+}
 
 function redirectToProjectPage(projectNumber: number): void {
     // Redirect to a details page with projectNumber as a URL parameter
     window.location.href = `project-details.html?projectNumber=${projectNumber}`;
 }
 
-function showPopup(event: MouseEvent, project: Project) {
-    const popup = document.getElementById('popup') as HTMLDivElement;
-    const popupImage = document.getElementById('popup-image') as HTMLDivElement;
-    const popupProjectNumber = document.getElementById('popup-project-number') as HTMLTableCellElement; // Change to HTMLTableCellElement
-    const popupTitle = document.getElementById('popup-title') as HTMLTableCellElement; // Change to HTMLTableCellElement
-    const popupCategory = document.getElementById('popup-category') as HTMLTableCellElement; // Change to HTMLTableCellElement
-    const popupYear = document.getElementById('popup-year') as HTMLTableCellElement; // Change to HTMLTableCellElement
+function showPopup(data: PopupData): void {
+    const popup = document.getElementById('generic-popup') as HTMLDivElement;
+    const popupContent = document.getElementById('popup-content') as HTMLDivElement;
     const popupClose = document.getElementById('popup-close') as HTMLButtonElement;
-    const popupRedirect = document.getElementById('popup-redirect') as HTMLButtonElement;
+    popup.classList.remove('popup-hidden');
 
-    if (!popup || !popupImage || !popupProjectNumber || !popupTitle || !popupCategory || !popupYear || !popupClose || !popupRedirect) {
-        console.error('One or more popup elements are missing.');
+    if (!popup || !popupContent || !popupClose) {
+        console.error('Popup elements are missing.');
         return;
     }
 
-    // Retrieve the project data from localStorage
-    const projectData: Project | undefined = JSON.parse(localStorage.getItem('projectsData') || '{}')[project.projectNumber.toString()];
+    popupContent.innerHTML = '';
 
-    // Populate the popup with project data
-    if (projectData) {
-        popupProjectNumber.textContent = projectData.projectNumber.toString();
-        popupTitle.textContent = projectData.title;
-        popupCategory.textContent = projectData.category;
-        popupYear.textContent = projectData.year.toString();
+    switch (data.type) {
+        case 'project':
+            updateProjectImage(data as ProjectData);
+            generateProjectContent(data as ProjectData, popupContent);
+            break;
+        case 'legend':
+            if (data.entries) {
+                popupContent.innerHTML = generateLegendContent(data.entries);
+            }
+            break;
+        case 'social':
+            if (data.link && data.name) {
+                popupContent.innerHTML = `<a href="${data.link}" target="_blank">${data.name}</a>`;
+            }
+            break;
     }
 
-    // Associate the popup image with the project thumbnail
-    popupImage.style.backgroundImage = `url(../assets/projects/${project.projectNumber}/img/thumbnail.jpg)`;
-
     // Calculate popup position to avoid overflow
-    const x = Math.min(event.clientX, window.innerWidth - 300); // 300px is the popup width
-    const y = Math.min(event.clientY, window.innerHeight - 300); // 300px is the popup height
+    const x = Math.min(data.x, window.innerWidth - 300); // 300px is the popup width
+    const y = Math.min(data.y, window.innerHeight - 300); // 300px is the popup height
 
     popup.style.left = `${x}px`;
     popup.style.top = `${y}px`;
 
-    (popup as HTMLDivElement).classList.remove('popup-hidden');
-
     popupClose.addEventListener('click', () => {
-        (popup as HTMLDivElement).classList.add('popup-hidden');
-    });
-
-    popupRedirect.addEventListener('click', () => {
-        redirectToProjectPage(project.projectNumber);
+        popup.classList.add('popup-hidden');
     });
 }
 
+function generateProjectContent(project: ProjectData, container: HTMLElement): void {
+    container.innerHTML = `
+        <h2>${project.title}</h2>
+        <p>Project Number: ${project.projectNumber}</p>
+        <p>Category: ${project.category}</p>
+        <p>Year: ${project.year}</p>
+    `;
 
+    // Create a button for redirection
+    const button = document.createElement('button');
+    button.className = 'project-button';
+    button.textContent = '+';
+    button.addEventListener('click', () => redirectToProjectPage(project.projectNumber));
+
+    // Append button to the after the project content
+    container.appendChild(button);
+}
+
+function updateProjectImage(project: ProjectData) {
+    const popupImage = document.getElementById('popup-image') as HTMLDivElement;
+    if (popupImage) {
+        popupImage.style.backgroundImage = `url(../assets/projects/${project.projectNumber}/img/thumbnail.jpg)`;
+    }
+}
+
+function generateLegendContent(legends: LegendEntry[]): string {
+    return legends.map(legend => `
+        <div class="legend-entry">
+            <span class="legend-color" style="background-color: ${legend.color};"></span>
+            <span class="legend-text">${legend.title}</span>
+        </div>
+    `).join('');
+}
 
 document.addEventListener('ProjectsDataLoaded', () => {
     const projectsData = localStorage.getItem('projectsData') || '{}';

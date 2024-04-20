@@ -14,19 +14,12 @@
 <body>
     <div class="squares-container"></div>
 
-    <div id="popup" class="popup-hidden">
-        <div id="popup-image" class="popup-image"></div>
-        <div class="popup-content">
-            <button id="popup-close">X</button>
-            <table id="popup-data">
-                <tr><th>Project Number</th><td id="popup-project-number"></td></tr>
-                <tr><th>Title</th><td id="popup-title"></td></tr>
-                <tr><th>Category</th><td id="popup-category"></td></tr>
-                <tr><th>Year</th><td id="popup-year"></td></tr>
-            </table>
-            <button id="popup-redirect">+</button>
+    <div id="generic-popup" class="generic-popup popup-hidden">
+        <div id="popup-image" class="popup-image">
+            <button id="popup-close" class="popup-close">X</button>
+            <div id="popup-content" class="popup-content"></div>
         </div>
-    </div>
+    </div>    
 </body>
 <script type="module" src="../js/get-projects.js"></script>
 <script type="module" src="../js/home.js"></script>
