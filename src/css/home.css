@@ -33,11 +33,11 @@ html {
 
 /* Styling for individual squares */
 .square {
-	width: 2.25em; /* Width of the square */
-	height: 2.25em; /* Height of the square */
+	width: 2.375em; /* Width of the square */
+	height: 2.375em; /* Height of the square */
 	background-color: #ffffff; /* Background color of the square */
 	font-family: Arial, Helvetica, sans-serif; /* Monospace font styling */
-	font-size: 1.5rem;
+	font-size: 2rem;
 	letter-spacing: 0.1em; /* Increase letter spacing */
 	line-height: 1em; /* Increase line spacing */
 	font-weight: bold; /* Make font bold */
@@ -50,7 +50,8 @@ html {
 
 .square img {
 	display: block; /* Removes any default inline spacing */
-	max-width: 100%; /* Ensures the image is not wider than the square */
+	width: 70%; /* Set the width of the image */
+	max-height: 100%; /* Ensures the image is not wider than the square */
 	max-height: 100%; /* Ensures the image is not taller than the square */
 	object-fit: contain; /* Ensures the image maintains aspect ratio without stretching */
 	margin: auto; /* Additional measure to center the image */
