@@ -62,7 +62,7 @@ interface SortingData extends PopupData {
     options: SortingOptions[];
 }
 
-enum Languages{
+enum Languages {
     EN = 'EN',
     DE = 'DE',
     IT = 'IT',
@@ -72,7 +72,7 @@ enum SortingOptions {
     NUMBER = 'number',
     COLOUR = 'colour',
     PROGRAM = 'program',
-    STATUS = 'status',
+    PHASE = 'phase',
 }
 
 /**
@@ -80,14 +80,14 @@ enum SortingOptions {
  * 
  * @param data - The data object containing project information.
  */
-function createSquares(data: Record<string, Project>): void {
+function createSquares(data: Record<string, Project>, sortOrder: SortingOptions = SortingOptions.NUMBER): void {
     const container = document.querySelector('.squares-container') as HTMLDivElement;
     if (!container) return; // Guard to ensure container exists
 
     container.innerHTML = ''; // Clear existing squares before adding new ones
 
-    // Convert object to array and sort it based on year
-    const projectsArray: Project[] = Object.values(data).sort((a, b) => a.year - b.year);
+    const projectsArray: Project[] = sortProjects(Object.values(data), sortOrder);
+
     insertProjectSquares(container, projectsArray);
     insertSocialSquares(container, projectsArray.length);
     insertControlSquares(container);
@@ -103,6 +103,27 @@ function createSquares(data: Record<string, Project>): void {
         }
     }, 100));
 }
+
+function sortProjects(projectsArray: Project[], sortOrder: SortingOptions): Project[] {
+    // Sort logic here depends on what 'sortOrder' actually represents in your data
+    return projectsArray.sort((a, b) => {
+        switch (sortOrder) {
+            case SortingOptions.NUMBER:
+                return a.projectNumber - b.projectNumber;
+            case SortingOptions.COLOUR:
+                return a.category.localeCompare(b.category);
+            case SortingOptions.PROGRAM:
+                if (!a.program) return 0;
+                return a.program.localeCompare(b.program || '');
+            case SortingOptions.PHASE:
+                if (!a.phase || !b.phase) return 0;
+                return (a.phase || '').localeCompare(b.phase || '');
+            default:
+                return 0;
+        }
+    });
+}
+
 
 //#region Helper functions
 
@@ -205,7 +226,7 @@ function insertControlSquares(container: HTMLDivElement): void {
     ];
     const blogPage: PageInformation = { name: "Blog", link: "blog.html" };
     const languages: Languages[] = [Languages.EN, Languages.DE, Languages.IT];
-    const sortingOption: SortingOptions[] = [SortingOptions.NUMBER, SortingOptions.COLOUR, SortingOptions.PROGRAM, SortingOptions.STATUS];
+    const sortingOption: SortingOptions[] = [SortingOptions.NUMBER, SortingOptions.COLOUR, SortingOptions.PROGRAM, SortingOptions.PHASE];
 
     const currentSquareCount = container.querySelectorAll('.square').length;
 
@@ -293,7 +314,6 @@ function insertControlSquares(container: HTMLDivElement): void {
         });
         return controlDiv;
     }, randomPositions[4], 4);
-
 }
 
 function insertPlaceholderSquares(container: HTMLDivElement): void {
@@ -381,7 +401,8 @@ function showPopup(data: ProjectData | NavigationData | LegendData | LanguageDat
             break;
         case 'sorting':
             data = data as SortingData;
-            // Generate sorting options popup
+            popupContent.innerHTML = generateSortingOptions(data.options);
+            setupSortingOptions();
             break;
     }
 
@@ -437,7 +458,25 @@ function generateMenuContent(pages: PageInformation[]): string {
           <a href="${page.link}">${page.name}</a>
       </li>
     `).join('');
-  }
+}
+
+function generateSortingOptions(options: SortingOptions[]): string {
+    return options.map(option => `
+      <li class="sorting-option" data-sort="${option}">
+        ${option}
+      </li>
+    `).join('');
+}
+
+function setupSortingOptions(): void {
+    document.querySelectorAll(".sorting-option").forEach(option => {
+        option.addEventListener('click', () => {
+            const sortOrder = (option as HTMLElement).dataset.sort as SortingOptions;
+            const projectsData = JSON.parse(localStorage.getItem('projectsData') || '{}');
+            createSquares(projectsData, sortOrder);
+        });
+    });
+}
 
 //#region Language selection
 
