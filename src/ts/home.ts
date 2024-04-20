@@ -236,7 +236,7 @@ function insertControlSquares(container: HTMLDivElement): void {
     // Insert square for navigation menu
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
-        controlDiv.className = 'square control-square small';
+        controlDiv.className = 'square control-square';
         controlDiv.innerHTML = `<img src="../assets/img/icons/menu-white.webp" alt="Menu" width="40">`;
         // Add event listener for menu squares
         controlDiv.addEventListener('click', (event: MouseEvent) => {
@@ -253,7 +253,7 @@ function insertControlSquares(container: HTMLDivElement): void {
     // Insert square for legend
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
-        controlDiv.className = 'square control-square big';
+        controlDiv.className = 'square control-square';
         controlDiv.innerHTML = `<img src="../assets/img/icons/mna-logo-white.webp" alt="Legend" width="40">`;
         // Add event listener for legend squares
         controlDiv.addEventListener('click', (event: MouseEvent) => {
@@ -271,7 +271,7 @@ function insertControlSquares(container: HTMLDivElement): void {
     // Insert square for blog
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
-        controlDiv.className = 'square control-square small';
+        controlDiv.className = 'square control-square';
         controlDiv.innerHTML = `<img src="../assets/img/icons/blog-white.webp" alt="Blog" width="40">`;
         // Add event listener for blog squares
         controlDiv.addEventListener('click', (event: MouseEvent) => {
@@ -284,7 +284,7 @@ function insertControlSquares(container: HTMLDivElement): void {
     // Insert square for sorting options
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
-        controlDiv.className = 'square control-square small';
+        controlDiv.className = 'square control-square';
         controlDiv.innerHTML = `<img src="../assets/img/icons/sorting-white.webp" alt="Sorting" width="40">`;
         // Add event listener for sorting squares
         controlDiv.addEventListener('click', (event: MouseEvent) => {
@@ -301,7 +301,7 @@ function insertControlSquares(container: HTMLDivElement): void {
     // Insert square for language options
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
-        controlDiv.className = 'square control-square small';
+        controlDiv.className = 'square control-square';
         controlDiv.innerHTML = `<img src="../assets/img/icons/world-white.webp" alt="Language" width="40">`;
         // Add event listener for language squares
         controlDiv.addEventListener('click', (event: MouseEvent) => {
@@ -367,10 +367,10 @@ function redirectToProjectPage(projectNumber: number): void {
 function showPopup(data: ProjectData | NavigationData | LegendData | LanguageData | SortingData): void {
     const popup = document.getElementById('generic-popup') as HTMLDivElement;
     const popupContent = document.getElementById('popup-content') as HTMLDivElement;
-    const popupClose = document.getElementById('popup-close') as HTMLButtonElement;
+    const popupCloseButton = document.getElementById('popup-close') as HTMLButtonElement;
     popup.classList.remove('popup-hidden');
 
-    if (!popup || !popupContent || !popupClose) {
+    if (!popup || !popupContent || !popupCloseButton) {
         console.error('Popup elements are missing.');
         return;
     }
@@ -382,18 +382,22 @@ function showPopup(data: ProjectData | NavigationData | LegendData | LanguageDat
             data = data as ProjectData;
             updateProjectImage(data as ProjectData);
             generateProjectContent(data as ProjectData, popupContent);
+            popup.classList.add('popup-project');
             break;
         case 'legend':
             data = data as LegendData;
             popupContent.innerHTML = generateLegendContent(data.entries);
+            popup.classList.add('popup-legend');
             break;
         case 'menu':
             data = data as NavigationData;
             popupContent.innerHTML = `<ul class="menu-list">${generateMenuContent(data.pages)}</ul>`;
+            popup.classList.add('popup-menu');
             break;
         case 'languages':
             data = data as LanguageData;
             popupContent.innerHTML = generateLanguageOptions();
+            popup.classList.add('popup-language');
             setupLanguageOptions();
             break;
         case 'blog':
@@ -403,6 +407,7 @@ function showPopup(data: ProjectData | NavigationData | LegendData | LanguageDat
             data = data as SortingData;
             popupContent.innerHTML = generateSortingOptions(data.options);
             setupSortingOptions();
+            popup.classList.add('popup-sorting');
             break;
     }
 
@@ -413,7 +418,21 @@ function showPopup(data: ProjectData | NavigationData | LegendData | LanguageDat
     popup.style.left = `${x}px`;
     popup.style.top = `${y}px`;
 
-    popupClose.addEventListener('click', () => {
+    addClosePopupEvent(popup, popupCloseButton);
+}
+
+function addClosePopupEvent(popup: HTMLDivElement, popupCloseButton: HTMLButtonElement): void {
+    popupCloseButton.addEventListener('click', () => {
+        //Remove classes that are specific to the popup type
+        popup.classList.forEach(className => {
+            if (className !== 'generic-popup') {
+                popup.classList.remove(className);
+            }
+        });
+        // Remove the project image
+        removeProjectImage(); // Remove old project image if present
+
+        // Hide the popup
         popup.classList.add('popup-hidden');
     });
 }
@@ -430,6 +449,7 @@ function generateProjectContent(project: ProjectData, container: HTMLElement): v
     const button = document.createElement('button');
     button.className = 'project-button';
     button.textContent = '+';
+    button.style.fontSize = '2rem';
     button.addEventListener('click', () => redirectToProjectPage(project.projectNumber));
 
     // Append button to the after the project content
@@ -439,7 +459,16 @@ function generateProjectContent(project: ProjectData, container: HTMLElement): v
 function updateProjectImage(project: ProjectData) {
     const popupImage = document.getElementById('popup-image') as HTMLDivElement;
     if (popupImage) {
-        popupImage.style.backgroundImage = `url(../assets/projects/${project.projectNumber}/img/thumbnail.jpg)`;
+        popupImage.style.background = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), url('../assets/projects/${project.projectNumber}/img/thumbnail.jpg')`;
+        popupImage.style.backgroundSize = 'cover';
+        popupImage.style.backgroundPosition = 'center';
+    }
+}
+
+function removeProjectImage() {
+    const popupImage = document.getElementById('popup-image') as HTMLDivElement;
+    if (popupImage) {
+        popupImage.style.background = '';
     }
 }
 
@@ -462,9 +491,9 @@ function generateMenuContent(pages: PageInformation[]): string {
 
 function generateSortingOptions(options: SortingOptions[]): string {
     return options.map(option => `
-      <li class="sorting-option" data-sort="${option}">
+      <div class="sorting-option" data-sort="${option}">
         ${option}
-      </li>
+      </div>
     `).join('');
 }
 
