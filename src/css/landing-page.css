@@ -61,3 +61,7 @@
 .cross-symbol:hover {
     transform: translate(-50%, -50%) rotate(45deg);
 }
+
+a:hover {
+    fill: #4c4c4c;
+}
