@@ -32,27 +32,34 @@
     pointer-events: none; /* Ensure clicks pass through to images below */
 }
 
+#Ebene_1 {
+    width: 100%;
+    height: auto; /* Maintains the aspect ratio */
+    display: block; /* Removes extra space below the SVG */
+}
 
 .logo-wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 70%;
-    max-width: 250px;
+    width: 90%;
+    max-width: 350px;
 }
 
-.logo-wrapper img {
+/* Old style in case of an image */
+
+/* .logo-wrapper img {
     width: 100%;
     height: auto;
-}
+} */
 
 .cross-symbol {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.5rem;
+    font-size: 2rem;
     color: #000000;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
