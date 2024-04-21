@@ -1,84 +1,28 @@
 
-interface Project {
-    project: string; // mandatory
-    title: string; // mandatory
-    category: string; // mandatory
-    program: string | null;
-    country: string | null;
-    city: string | null;
-    street: string | null;
-    number: string | null;
-    cantonRegion: string | null;
-    zipCode: string | null;
-    GPS: string | null;
-    year: number; // mandatory
-    projectNumber: number;
-    cadNum: string | null;
-    client: string | null;
-    buildingCosts: string | null;
-    deepness: string | null;
-    phase: string | null;
-    subphase: string | null;
-    seaElevation: string | null;
-}
+import { Project } from './interfaces/project-interfaces';
+import { ProjectData, NavigationData, LegendData, LanguageData, SortingData, LegendEntry, PageInformation } from './interfaces/home-interfaces';
 
-interface PageInformation {
-    name: string;
-    iconFileName?: string;
-    link: string;
-}
-
-interface LegendEntry {
-    title: string;
-    color: string;
-}
-
-interface PopupData {
-    type: 'project' | 'legend' | 'menu' | 'languages' | 'blog' | 'sorting';
-    x: number;
-    y: number;
-}
-
-interface ProjectData extends PopupData {
-    projectNumber: number;
-    title: string;
-    category: string;
-    year: number;
-}
-
-interface NavigationData extends PopupData {
-    pages: PageInformation[];
-}
-
-interface LegendData extends PopupData {
-    entries: LegendEntry[];
-}
-
-interface LanguageData extends PopupData {
-    languages: Languages[];
-}
-
-interface SortingData extends PopupData {
-    options: SortingOptions[];
-}
-
-enum Languages {
+export enum Languages {
     EN = 'EN',
     DE = 'DE',
     IT = 'IT',
 }
 
-enum SortingOptions {
+export enum SortingOptions {
     NUMBER = 'number',
     COLOUR = 'colour',
     PROGRAM = 'program',
     PHASE = 'phase',
 }
 
+//#region Squares Display Functions
+
 /**
- * Creates squares for each project in the provided data object and appends them to the squares container.
+ * Creates visual representations of projects as squares within a specified container.
+ * The squares can be sorted based on specified criteria, and will adjust layout on window resize.
  * 
- * @param data - The data object containing project information.
+ * @param {Record<string, Project>} data - Object containing project data keyed by unique identifiers.
+ * @param {SortingOptions} sortOrder - The criteria by which projects are sorted (defaults to SortingOptions.NUMBER).
  */
 function createSquares(data: Record<string, Project>, sortOrder: SortingOptions = SortingOptions.NUMBER): void {
     const container = document.querySelector('.squares-container') as HTMLDivElement;
@@ -104,59 +48,13 @@ function createSquares(data: Record<string, Project>, sortOrder: SortingOptions 
     }, 100));
 }
 
-function sortProjects(projectsArray: Project[], sortOrder: SortingOptions): Project[] {
-    // Sort logic here depends on what 'sortOrder' actually represents in your data
-    return projectsArray.sort((a, b) => {
-        switch (sortOrder) {
-            case SortingOptions.NUMBER:
-                return a.projectNumber - b.projectNumber;
-            case SortingOptions.COLOUR:
-                return a.category.localeCompare(b.category);
-            case SortingOptions.PROGRAM:
-                if (!a.program) return 0;
-                return a.program.localeCompare(b.program || '');
-            case SortingOptions.PHASE:
-                if (!a.phase || !b.phase) return 0;
-                return (a.phase || '').localeCompare(b.phase || '');
-            default:
-                return 0;
-        }
-    });
-}
-
-
-//#region Helper functions
-
-function getRandomPosition(startIndex: number, endIndex: number): number {
-    return Math.floor(Math.random() * (endIndex - startIndex + 1)) + startIndex;
-}
-
-function getRandomPositions(startIndex: number, endIndex: number, count: number): number[] {
-    const positions = new Set<number>();
-    while (positions.size < count) {
-        positions.add(getRandomPosition(startIndex, endIndex));
-    }
-    return Array.from(positions);
-}
-
-function insertRandomElement(container: HTMLDivElement, createDiv: (index: number) => HTMLDivElement, randomPosition: number, index: number): void {
-    const newDiv = createDiv(index);
-    const insertBeforeNode = container.children[randomPosition] || null;
-    container.insertBefore(newDiv, insertBeforeNode);
-}
-
-function insertRandomElements(container: HTMLDivElement, createDiv: (index: number) => HTMLDivElement, insertCount: number, startIndex: number, endIndex: number): void {
-    const randomPositions = getRandomPositions(startIndex, endIndex, insertCount);
-
-    randomPositions.forEach((position, index) => {
-        const newDiv = createDiv(index);
-        const insertBeforeNode = container.children[position] || null;
-        container.insertBefore(newDiv, insertBeforeNode);
-    });
-}
-
-//#endregion
-
+/**
+ * Inserts project-specific squares into the provided container.
+ * Each square represents a project and is clickable to show more details.
+ * 
+ * @param {HTMLDivElement} container - The container where project squares will be inserted.
+ * @param {Project[]} projectsArray - Array of projects to display.
+ */
 function insertProjectSquares(container: HTMLDivElement, projectsArray: Project[]): void {
     // Create squares for all projects
     projectsArray.forEach((project: Project) => {
@@ -184,6 +82,13 @@ function insertProjectSquares(container: HTMLDivElement, projectsArray: Project[
     });
 }
 
+/**
+ * Inserts squares for social media links dynamically into the squares container.
+ * The positions of these squares are calculated based on the current number of squares.
+ * 
+ * @param {HTMLDivElement} container - The container where social squares will be added.
+ * @param {number} numberOfProjects - The number of projects currently displayed, used to determine insert positions.
+ */
 function insertSocialSquares(container: HTMLDivElement, numberOfProjects: number): void {
     // Define social media icons
     const socialIcons: PageInformation[] = [
@@ -208,6 +113,12 @@ function insertSocialSquares(container: HTMLDivElement, numberOfProjects: number
     }, socialIcons.length, currentSquareCount / 2, currentSquareCount - 1);
 }
 
+/**
+ * Inserts control squares such as menu, legend, blog, sorting, and language options into the container.
+ * These control squares are placed at random positions based on current layout.
+ * 
+ * @param {HTMLDivElement} container - The container where control squares will be inserted.
+ */
 function insertControlSquares(container: HTMLDivElement): void {
 
     const numberOfControlSquares = 5; // Menu + Legend + Blog + Sorting + Language
@@ -316,6 +227,11 @@ function insertControlSquares(container: HTMLDivElement): void {
     }, randomPositions[4], 4);
 }
 
+/**
+ * Inserts placeholder squares to maintain grid layout integrity during window resizing.
+ * 
+ * @param {HTMLDivElement} container - The container where placeholder squares will be added.
+ */
 function insertPlaceholderSquares(container: HTMLDivElement): void {
     // Clear previous placeholders before adding new ones
     container.querySelectorAll('.square.placeholder').forEach(placeholder => {
@@ -348,22 +264,17 @@ function insertPlaceholderSquares(container: HTMLDivElement): void {
     }, placeholdersNeeded, 0, currentSquareCount + placeholdersNeeded);
 }
 
-function debounce(callback: (...args: any[]) => void, wait: number): () => void {
-    let timeoutId: number | undefined;
+//#endregion
 
-    return function (...args: any[]) {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            callback.apply(null, args);
-        }, wait);
-    };
-}
+//#region Popup Display and Interaction Functions
 
-function redirectToProjectPage(projectNumber: number): void {
-    // Redirect to a details page with projectNumber as a URL parameter
-    window.location.href = `project-details.html?projectNumber=${projectNumber}`;
-}
-
+/**
+ * Displays a popup based on the provided data type. The function dynamically changes the content
+ * and style of the popup depending on the type of information (project, legend, etc.) to be displayed.
+ * It also sets the popup's position to ensure it does not overflow the window bounds.
+ *
+ * @param {ProjectData | NavigationData | LegendData | LanguageData | SortingData} data - The data to be displayed in the popup.
+ */
 function showPopup(data: ProjectData | NavigationData | LegendData | LanguageData | SortingData): void {
     const popup = document.getElementById('generic-popup') as HTMLDivElement;
     const popupContent = document.getElementById('popup-content') as HTMLDivElement;
@@ -421,22 +332,12 @@ function showPopup(data: ProjectData | NavigationData | LegendData | LanguageDat
     addClosePopupEvent(popup, popupCloseButton);
 }
 
-function addClosePopupEvent(popup: HTMLDivElement, popupCloseButton: HTMLButtonElement): void {
-    popupCloseButton.addEventListener('click', () => {
-        //Remove classes that are specific to the popup type
-        popup.classList.forEach(className => {
-            if (className !== 'generic-popup') {
-                popup.classList.remove(className);
-            }
-        });
-        // Remove the project image
-        removeProjectImage(); // Remove old project image if present
-
-        // Hide the popup
-        popup.classList.add('popup-hidden');
-    });
-}
-
+/**
+ * Generates HTML content for a project popup, including project details and a redirection button.
+ *
+ * @param {ProjectData} project - Data about the project to display.
+ * @param {HTMLElement} container - The container where the project content will be rendered.
+ */
 function generateProjectContent(project: ProjectData, container: HTMLElement): void {
     container.innerHTML = `
         <h2>${project.title}</h2>
@@ -456,6 +357,11 @@ function generateProjectContent(project: ProjectData, container: HTMLElement): v
     container.appendChild(button);
 }
 
+/**
+ * Updates the background image of the popup to show the project's image.
+ *
+ * @param {ProjectData} project - Data about the project to display its image.
+ */
 function updateProjectImage(project: ProjectData) {
     const popupImage = document.getElementById('popup-image') as HTMLDivElement;
     if (popupImage) {
@@ -465,6 +371,9 @@ function updateProjectImage(project: ProjectData) {
     }
 }
 
+/**
+ * Clears the background image from the popup when it is closed or when the popup's content is changed.
+ */
 function removeProjectImage() {
     const popupImage = document.getElementById('popup-image') as HTMLDivElement;
     if (popupImage) {
@@ -472,6 +381,22 @@ function removeProjectImage() {
     }
 }
 
+/**
+ * Redirects the user to a detailed page for a specific project.
+ *
+ * @param {number} projectNumber - The project number to redirect to.
+ */
+function redirectToProjectPage(projectNumber: number): void {
+    // Redirect to a details page with projectNumber as a URL parameter
+    window.location.href = `project-details.html?projectNumber=${projectNumber}`;
+}
+
+/**
+ * Generates HTML content for displaying legend information in a popup.
+ *
+ * @param {LegendEntry[]} legends - Array of legend entries to display.
+ * @returns {string} HTML string representing the legend entries.
+ */
 function generateLegendContent(legends: LegendEntry[]): string {
     return legends.map(legend => `
         <div class="legend-entry">
@@ -481,6 +406,12 @@ function generateLegendContent(legends: LegendEntry[]): string {
     `).join('');
 }
 
+/**
+ * Generates HTML content for the menu popup, listing navigation links.
+ *
+ * @param {PageInformation[]} pages - Array of page information objects for menu items.
+ * @returns {string} HTML string representing the menu items.
+ */
 function generateMenuContent(pages: PageInformation[]): string {
     return pages.map(page => `
       <li class="menu-item">
@@ -489,6 +420,12 @@ function generateMenuContent(pages: PageInformation[]): string {
     `).join('');
 }
 
+/**
+ * Generates HTML content for sorting options in a popup.
+ *
+ * @param {SortingOptions[]} options - Array of sorting options to display.
+ * @returns {string} HTML string representing sorting options.
+ */
 function generateSortingOptions(options: SortingOptions[]): string {
     return options.map(option => `
       <div class="sorting-option" data-sort="${option}">
@@ -497,6 +434,9 @@ function generateSortingOptions(options: SortingOptions[]): string {
     `).join('');
 }
 
+/**
+ * Sets up event listeners for sorting options in the popup to allow dynamic sorting of project squares.
+ */
 function setupSortingOptions(): void {
     document.querySelectorAll(".sorting-option").forEach(option => {
         option.addEventListener('click', () => {
@@ -507,8 +447,105 @@ function setupSortingOptions(): void {
     });
 }
 
-//#region Language selection
+//#endregion
 
+//#region Sorting and Array Manipulation Functions
+
+/**
+ * Sorts an array of projects based on a specified criterion.
+ * 
+ * @param {Project[]} projectsArray - The array of projects to sort.
+ * @param {SortingOptions} sortOrder - The criterion by which to sort the projects.
+ * @returns {Project[]} The sorted array of projects.
+ */
+function sortProjects(projectsArray: Project[], sortOrder: SortingOptions): Project[] {
+    // Sort logic here depends on what 'sortOrder' actually represents in your data
+    return projectsArray.sort((a, b) => {
+        switch (sortOrder) {
+            case SortingOptions.NUMBER:
+                return a.projectNumber - b.projectNumber;
+            case SortingOptions.COLOUR:
+                return a.category.localeCompare(b.category);
+            case SortingOptions.PROGRAM:
+                if (!a.program) return 0;
+                return a.program.localeCompare(b.program || '');
+            case SortingOptions.PHASE:
+                if (!a.phase || !b.phase) return 0;
+                return (a.phase || '').localeCompare(b.phase || '');
+            default:
+                return 0;
+        }
+    });
+}
+
+/**
+ * Generates a random position within a specified range.
+ * 
+ * @param {number} startIndex - The start index of the range.
+ * @param {number} endIndex - The end index of the range.
+ * @returns {number} A random index between the start and end indices.
+ */
+function getRandomPosition(startIndex: number, endIndex: number): number {
+    return Math.floor(Math.random() * (endIndex - startIndex + 1)) + startIndex;
+}
+
+/**
+ * Generates multiple unique random positions within a specified range.
+ * 
+ * @param {number} startIndex - The start index of the range.
+ * @param {number} endIndex - The end index of the range.
+ * @param {number} count - The number of unique positions to generate.
+ * @returns {number[]} An array of unique random positions.
+ */
+function getRandomPositions(startIndex: number, endIndex: number, count: number): number[] {
+    const positions = new Set<number>();
+    while (positions.size < count) {
+        positions.add(getRandomPosition(startIndex, endIndex));
+    }
+    return Array.from(positions);
+}
+
+/**
+ * Inserts a newly created element at a specified position within a container.
+ * 
+ * @param {HTMLDivElement} container - The container where the element will be inserted.
+ * @param {(index: number) => HTMLDivElement} createDiv - A function that creates the new div element.
+ * @param {number} randomPosition - The position in the container where the new element should be inserted.
+ * @param {number} index - The index that may be used by the createDiv function to customize the element.
+ */
+function insertRandomElement(container: HTMLDivElement, createDiv: (index: number) => HTMLDivElement, randomPosition: number, index: number): void {
+    const newDiv = createDiv(index);
+    const insertBeforeNode = container.children[randomPosition] || null;
+    container.insertBefore(newDiv, insertBeforeNode);
+}
+
+/**
+ * Inserts multiple new elements at random positions within a specified range in a container.
+ * 
+ * @param {HTMLDivElement} container - The container where elements will be inserted.
+ * @param {(index: number) => HTMLDivElement} createDiv - A function that creates new div elements.
+ * @param {number} insertCount - The number of new elements to insert.
+ * @param {number} startIndex - The start index of the range within the container.
+ * @param {number} endIndex - The end index of the range within the container.
+ */
+function insertRandomElements(container: HTMLDivElement, createDiv: (index: number) => HTMLDivElement, insertCount: number, startIndex: number, endIndex: number): void {
+    const randomPositions = getRandomPositions(startIndex, endIndex, insertCount);
+
+    randomPositions.forEach((position, index) => {
+        insertRandomElement(container, createDiv, position, index);
+    });
+}
+
+//#endregion
+
+//#region Language Handling Functions
+
+/**
+ * Generates HTML string for language selection options based on available languages.
+ * This function creates div elements for each language that can be clicked to change the language setting.
+ * 
+ * @returns {string} HTML string containing div elements for each language option.
+ */
 function generateLanguageOptions(): string {
     const languages: Languages[] = [Languages.EN, Languages.DE, Languages.IT]; // Available languages
     return languages.map(lang => `
@@ -518,19 +555,29 @@ function generateLanguageOptions(): string {
     `).join('');
 }
 
+/**
+ * Saves the selected language in local storage and applies it to the page.
+ * This typically triggers UI updates to reflect the new language.
+ * 
+ * @param {string} language - The language code to apply (e.g., 'EN', 'DE', 'IT').
+ */
 function applyLanguage(language: string): void {
-    // Save the selected language in local storage
     localStorage.setItem('selectedLanguage', language);
-
-    // Apply the language selection to the page (e.g., update text content)
-    // This is where you might update the page content based on the selected language
+    // Additional UI update logic can be implemented here to change text content based on the selected language.
 }
 
+/**
+ * Reloads the page to reflect the language change.
+ * This function is called after a new language setting is applied to ensure the entire page reflects the selected language.
+ */
 function updatePageContent() {
-    // Simply reload the page to reflect the new language selection
     window.location.reload();
 }
 
+/**
+ * Sets up event listeners for all language options on the page.
+ * When a language option is clicked, the selected language is applied and the page content is updated accordingly.
+ */
 function setupLanguageOptions(): void {
     document.querySelectorAll(".language-option").forEach(langOption => {
         langOption.addEventListener('click', () => {
@@ -546,17 +593,84 @@ function setupLanguageOptions(): void {
 
 //#endregion
 
-document.addEventListener('ProjectsDataLoaded', () => {
-    const projectsData = localStorage.getItem('projectsData') || '{}';
-    createSquares(JSON.parse(projectsData));
-});
+//#region Utility Functions
 
-// Additionally, check if data is already available on page load and immediately display squares if so
-if (localStorage.getItem('projectsData')) {
-    createSquares(JSON.parse(localStorage.getItem('projectsData') || '{}'));
+/**
+ * Creates a debounced function that delays invoking the provided callback until after
+ * a specified amount of milliseconds has elapsed since the last time it was invoked.
+ * This is useful for performing actions such as resizing or scrolling, where you do not
+ * want to handle every single event but rather after the events have stopped arriving.
+ * 
+ * @param {(...args: any[]) => void} callback - The function to debounce.
+ * @param {number} wait - The number of milliseconds to delay the function invocation.
+ * @returns {() => void} A function that can be called in place of the original function.
+ */
+function debounce(callback: (...args: any[]) => void, wait: number): () => void {
+    let timeoutId: number | undefined;
+
+    return function (...args: any[]) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            callback.apply(null, args);
+        }, wait);
+    };
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const selectedLang = localStorage.getItem('selectedLanguage') || Languages.EN; // Default to English
-    applyLanguage(selectedLang);
-});
+//#endregion
+
+//#region Event Handling
+
+/**
+ * Adds an event listener to a popup close button to hide the popup and perform cleanup when clicked.
+ * This function is responsible for removing the popup from view, clearing any specific popup-related
+ * classes, and ensuring that any project images are removed to prevent outdated or incorrect data
+ * from being displayed when the popup is reused.
+ * 
+ * @param {HTMLDivElement} popup - The popup element that contains the close button.
+ * @param {HTMLButtonElement} popupCloseButton - The button element that closes the popup when clicked.
+ */
+function addClosePopupEvent(popup: HTMLDivElement, popupCloseButton: HTMLButtonElement): void {
+    popupCloseButton.addEventListener('click', () => {
+        //Remove classes that are specific to the popup type
+        popup.classList.forEach(className => {
+            if (className !== 'generic-popup') {
+                popup.classList.remove(className);
+            }
+        });
+        // Remove the project image
+        removeProjectImage(); // Remove old project image if present
+
+        // Hide the popup
+        popup.classList.add('popup-hidden');
+    });
+}
+
+//#endregion
+
+/**
+ * Initializes the display of project squares based on data available in local storage.
+ * Ensures that the data is loaded and displayed only once, either upon direct check or when
+ * a specific event indicates that project data has been loaded.
+ */
+function initializeProjectDisplay() {
+    const projectsData = localStorage.getItem('projectsData') || '{}';
+    createSquares(JSON.parse(projectsData));
+}
+
+async function main() {
+    // Check if project data is already available in local storage to display it immediately on page load
+    if (localStorage.getItem('projectsData')) {
+        initializeProjectDisplay();
+    } else {
+        // Listen for the event that indicates data has just been loaded into local storage
+        document.addEventListener('ProjectsDataLoaded', initializeProjectDisplay);
+    }
+
+    // Set up language settings based on stored preferences or default to English
+    document.addEventListener('DOMContentLoaded', () => {
+        const selectedLang = localStorage.getItem('selectedLanguage') || Languages.EN;
+        applyLanguage(selectedLang);
+    });
+}
+
+main();

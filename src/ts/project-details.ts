@@ -1,4 +1,4 @@
-import { Project, ProjectMetadata } from "./get-projects";
+import { Project, ProjectMetadata } from "./interfaces/project-interfaces";
 
 enum Languages {
     EN = 'EN',
@@ -97,8 +97,6 @@ function generateThumbnail(project: ProjectMetadata): string {
 
 // Generate the HTML for the project details table
 function generateTableHTML(project: Project, selectedLanguage: Languages): string {
-    console.log("selectedLanguage", selectedLanguage);
-
     // Retrieve the map of labels for the selected language
     const labels = tableLabelTranslations.get(selectedLanguage);
 
@@ -224,12 +222,20 @@ function displayProjectDetails(project: Project, projectMetadata: ProjectMetadat
 }
 
 function loadContent(): void {
+    //Check if the localStorage contains the entry projectsData, if not, wait for the data to be loaded and then attach the event listener
+    const projectDetailsContainer = document.getElementById("project-details-container") as HTMLElement;
+    
+    if (!localStorage.getItem("projectsData")) {
+        projectDetailsContainer.innerText = "Loading project data... Refresh the page";
+        return;
+    } 
+
     document.addEventListener("DOMContentLoaded", () => {
         const projectNumberString = getProjectNumberFromURL();
         const projectNumber = projectNumberString ? parseInt(projectNumberString, 10) : null;
 
-        if (!projectNumber) {
-            console.error('Invalid or missing project number in URL.');
+        if (!projectNumber || projectNumber < 0 || projectNumber > 1000) {
+            projectDetailsContainer.innerText = 'Invalid or missing project number in URL.';
             return;
         }
 
@@ -249,9 +255,7 @@ function loadContent(): void {
             displayProjectDetails(projectData, projectMetadata);
             setupCarouselNavigation();
         } else {
-            console.error(`Project ${projectNumber} not found or data is incomplete.`);
-            const container = document.getElementById("project-details-container") as HTMLElement;
-            container.innerText = "Project not found or data is incomplete.";
+            projectDetailsContainer.innerText = `Project ${projectNumber} not found or data is incomplete.`;
         }
     });
 }
