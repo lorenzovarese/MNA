@@ -1,0 +1,166 @@
+/* styles.css */
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+body, html {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+	padding: 0;
+	margin: 4em auto; /* Center the container vertically */
+	width: 70%; /* Set the width of the container */
+	max-width: 900px; /* Limit the maximum width */
+	display: flex;
+	flex-wrap: wrap; /* Allow squares to wrap to the next line */
+	gap: 0.7em; /* Space between grid items */
+	display: flex;
+	justify-content: center; /* Center the items horizontally */
+	align-items: center; /* Center the items vertically */
+}
+
+.header {
+    position: relative; /* Ensures the header is the positioning context */
+    width: 100%; /* Full width */
+    height: auto; /* Auto height based on content */
+}
+
+.image-overlay-container {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+
+.img-overlay {
+    width: 100%; /* Ensures the image covers the container */
+    display: block; /* Removes bottom space/gap */
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Semi-transparent black overlay */
+    z-index: 1; /* Ensure it is above the image but below the text */
+}
+
+.overlay-text {
+    position: absolute;
+    bottom: 0.5em; /* Position from the bottom */
+    left: 0.5em; /* Position from the left */
+    color: white; /* Text color */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Black shadow for legibility */
+    z-index: 2; /* Ensures text is above the overlay */
+    margin: 0; /* Removes default margins */
+    padding: 0; /* No padding around the text */
+}
+
+.back-home-button {
+    position: absolute;
+    top: 10px; /* Position from the top */
+    right: 10px; /* Position from the right */
+    padding: 0.25em; /* Padding inside the button */
+    width: 4em; /* Width of the button/logo */
+    height: 4em; /* Height of the button/logo */
+    background-color: white; /* Background color of the button */
+    border: none; /* No border */
+    z-index: 2; /* Ensures button is above the overlay */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for better visibility */
+}
+
+.text-section {
+    background-color: #f0f0f0;
+    padding: 2em;
+}
+
+.table-container {
+    width: 100%;
+    min-height: 250px; /* Adjusted by JavaScript, as necessary */
+    overflow-y: auto; /* Adds scrollbar when necessary */
+    border: #ccc 1px solid; /* Add border for separation */
+}
+
+.table-container table {
+    width: 100%; /* Full width of the entries div */
+    border-collapse: collapse;
+}
+
+.table-container td {
+    padding: 8px;
+    border: 1px solid #ccc; /* Add borders to cells */
+}
+
+.phase-image {
+    flex: 1; /* Keep your existing configuration */
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    position: relative; /* Ensures proper stacking */
+    min-height: 250px; /* Adjust based on your image's typical height or keep it responsive */
+}
+
+.video{
+    width: 100%;
+    min-height: 45vh;
+}
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ensures that the elements are spaced out evenly */
+    gap: 10px; /* Sets gap between rows and columns */
+}
+
+.image-gallery img {
+    width: calc(33.33% - 10px); /* Adjust width considering 10px gap */
+    display: block; /* Optional, ensures no extra space below images */
+}
+
+
+.footer {
+    width: 100%;
+}
+
+.footer .navigation {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+
+.footer .navigation img {
+    width: 100px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        margin: 2em auto;
+    }
+
+    .video{
+        min-height: 35vh;
+    }
+
+    .image-gallery img {
+        width: calc(50% - 5px); /* Adjust the subtraction for margin/padding */
+    }
+
+    .text-section {
+        padding: 0.5em 1em;
+    }
+}

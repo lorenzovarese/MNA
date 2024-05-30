@@ -1,88 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Marcello Nasso Project</title>
-    <link rel="icon" type="image/png" href="public/img/icons/favicon.png">
-    <style>
-        body{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-family: "Courier New", monospace;
-        }
-        #project-details-container {
-            margin: 0;
-            margin-top: 3vh;
-            margin-bottom: 4vh;
-        }
-
-        /* Carousel Styling */
-        .carousel {
-            position: relative;
-            max-width: 800px;
-            /* Maximum width of the carousel */
-            margin-left: auto;
-            margin-right: auto;
-            overflow: hidden;
-        }
-
-        .carousel-inner {
-            position: relative;
-            width: 100%;
-        }
-
-        .carousel-item {
-            display: none;
-            /* Hide all items initially */
-            width: 100%;
-        }
-
-        .carousel-item.active {
-            display: block;
-            /* Show only the active item */
-        }
-
-        .carousel-item img {
-            width: auto;
-            max-width: 100%;
-            max-height: 450px;
-            /* Maximum height for images */
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .carousel-button {
-            position: absolute;
-            bottom: 10px;
-            transform: translateY(50%);
-            background-color: #333;
-            /* Button background color */
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-
-        .carousel-button.left {
-            left: 10px;
-        }
-
-        .carousel-button.right {
-            right: 10px;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="project-details-container">
-        <!-- Project details will be dynamically inserted here -->
+    <link rel="icon" type="image/png" href="../assets/img/mna-logo.png" />
+    <link rel="stylesheet" href="../css/project-details.css" />
+  </head>
+  <body>
+    <div class="container">
+        <header class="header">
+            <div class="image-overlay-container">
+                <img class="img-overlay" src="../assets/projects/70/global/img/thumbnail.jpg" alt="Building" />
+                <div class="overlay"></div>
+                <h2 class="overlay-text">Project Name (viaindustria.caslano)</h2>
+                <a href="/src/html/home.html" class="back-home-button">
+                    <img src="/src/assets/img/mna-logo.png" alt="Home" style="width:100%; height:auto;"/>
+                </a>
+            </div>
+        </header>              
+      <section class="text-section TODO-color-backgound-by-type-of-project">
+        <p>
+            The depicted structure is a modern residential complex characterized by sleek, contemporary architecture. It consists of several multi-storied buildings with a mix of glass and white façade elements that contribute to a clean, minimalist aesthetic. The buildings are designed with spacious balconies and large windows that enhance natural light inside the apartments. The complex is situated in an urban area with well-landscaped surroundings, including pedestrian paths and street-level commercial spaces that likely serve the residents and the local community.
+        </p>
+      </section>
+      <!--Table section with project details-->
+        <div class="table-container">
+            <table>
+                <tr>
+                  <td>Project:</td><script type="module" src="../js/get-projects.js"></script>
+                  <td>040_viaindustria.caslano</td>
+                </tr>
+                <tr>
+                  <td>Title:</td>
+                  <td>viaindustria.caslano</td>
+                </tr>
+                <tr>
+                  <td>Category:</td>
+                  <td>urban planning</td>
+                </tr>
+                <tr>
+                  <td>Program:</td>
+                  <td>gymnasium</td>
+                </tr>
+                <tr>
+                  <td>Country:</td>
+                  <td>Switzerland</td>
+                </tr>
+                <tr>
+                  <td>City:</td>
+                  <td>Caslano</td>
+                </tr>
+                <tr>
+                  <td>Street:</td>
+                  <td>Via Industria</td>
+                </tr>
+                <tr>
+                  <td>Canton Region:</td>
+                  <td>Ticino</td>
+                </tr>
+                <tr>
+                  <td>Zip Code:</td><script type="module" src="../js/get-projects.js"></script>
+                  <td>6987</td>
+                </tr>
+                <tr>
+                  <td>GPS:</td>
+                  <td>45.97143401195718, 8.873892458611419</td>
+                </tr>
+                <tr>
+                  <td>Year:</td>
+                  <td>2012</td>
+                </tr>
+                <tr>
+                  <td>Project Number:</td>
+                  <td>40</td>
+                </tr>
+                <tr>
+                  <td>Client:</td>
+                  <td>public</td>
+                </tr>
+                <tr>
+                  <td>Building Costs:</td>
+                  <td>CHF 20'000'000</td>
+                </tr>
+                <tr>
+                  <td>Deepness:</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>Phase:</td>
+                  <td>2</td>
+                </tr>
+                <tr>
+                  <td>Subphase:</td>
+                  <td>competition</td>
+                </tr>
+              </table>
+        </div>
+        <section class="header">
+            <div class="image-overlay-container">
+                <img class="img-overlay" src="../assets/projects/70/phase2/img/thumbnail.jpg" alt="Building" />
+                <div class="overlay"></div>
+                <h2 class="overlay-text">Phase 2</h2>
+            </div>
+        </section>  
+      <section class="image-gallery">
+        <img
+          src="../assets/projects/70/phase2/img/image1.webp"
+          alt="Gallery Image 1"
+        />
+        <img
+          src="../assets/projects/70/phase2/img/image2.webp"
+          alt="Gallery Image 2"
+        />
+        <img
+          src="../assets/projects/70/phase2/img/image3.webp"
+          alt="Gallery Image 3"
+        />
+        <img
+          src="../assets/projects/70/phase2/img/image1.webp"
+          alt="Gallery Image 1"
+        />
+        <img
+          src="../assets/projects/70/phase2/img/image2.webp"
+          alt="Gallery Image 2"
+        />
+        <img
+          src="../assets/projects/70/phase2/img/image3.webp"
+          alt="Gallery Image 3"
+        />
+        <!-- Repeat for other images -->
+      </section>
+        <iframe
+          src="https://www.youtube.com/embed/cqxv-CsiE8g"
+          frameborder="0"
+          allowfullscreen
+          sandbox="allow-scripts allow-forms allow-same-origin"
+          class="video"
+        ></iframe>
+      <footer class="footer">
+        <div class="navigation">
+          <img src="../assets/img/icons/mna-logo.png" alt="Phase 1 Logo" />
+          <img src="../assets/img/icons/mna-logo.png" alt="Phase 2 Logo" />
+          <img src="../assets/img/icons/mna-logo.png" alt="Phase 3 Logo" />
+        </div>
+      </footer>
     </div>
     <script type="module" src="../js/get-projects.js"></script>
-    <script type="module" src="../js/project-details.js"></script>
-</body>
+    <!--TODO: script specific for filling this project page dynamically -->
+  </body>
 </html>
