@@ -1,11 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact</title>
-</head>
-<body>
-    <h1>Contact</h1>
-</body>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+      }
+
+      .container {
+        padding: 2em;
+        width: 75%;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      .contact-info {
+        margin-bottom: 20px;
+      }
+      .back-home-button {
+        position:absolute;
+        top: 3em; /* Position from the top */
+        right: 3em; /* Position from the right */
+        padding: 0.25em; /* Padding inside the button */
+        width: 4em; /* Width of the button/logo */
+        height: 4em; /* Height of the button/logo */
+        background-color: white; /* Background color of the button */
+        border: none; /* No border */
+        z-index: 2; /* Ensures button is above the overlay */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for better visibility */
+      }
+      .back-button:hover {
+        background-color: #5c5c5c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Contact</h1>
+      <a href="/src/html/home.html" class="back-home-button">
+        <img
+          src="/src/assets/img/mna-logo.png"
+          alt="Home"
+          style="width: 100%; height: auto"
+        />
+      </a>
+      <div class="contact-info">
+        <p>Marcello Nasso Architekten GmbH</p>
+        <p>Seefeldstrasse 139, CH 8008 Zürich</p>
+        <p>Via del pellegrino 49, IT 50133 Firenze</p>
+        <p>+41 (0)79 454 38 12</p>
+        <p>info@marcellonasso.com</p>
+        <p>MwSt CHE-278.668.969</p>
+        <p>IBAN CH38 0900 0000 8552 9347 0</p>
+      </div>
+    </div>
+  </body>
 </html>
