@@ -190,7 +190,7 @@ function generateVideoHTML(projectMetadata: ProjectMetadata): string {
 
 // Generate the HTML for the project board download link
 function generateProjectBoardHTML(projectMetadata: ProjectMetadata, projectNumber: string): string {
-    if (projectMetadata.projectboard === "Yes") {
+    if (projectMetadata.projectboard) {
         const projectboardPath = `public/projects/${projectNumber}/doc/projectboard.pdf`;
         return `<h2>Project Board</h2>
             <a href="${projectboardPath}" download style="display: inline-block; padding: 8px 15px; color: #000; text-decoration: none; border: 1px solid #000; font-size: 16px;">

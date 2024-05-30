@@ -37,10 +37,13 @@ export interface Project extends BaseProject {
  * Interface for storing metadata related to a project.
  */
 export interface ProjectMetadata extends BaseProject {
-    project: string;
-    year: number;
     projectNumber: number;
+    phase: number;
+    year: number;
+    enDesc: boolean;
+    deDesc: boolean;
+    itDesc: boolean;
     numberOfImages: number;
     youtubeVideoLink: string;
-    projectboard: string;
+    projectboard: boolean;
 }
