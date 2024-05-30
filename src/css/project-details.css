@@ -52,8 +52,8 @@ body, html {
 
 .overlay-text {
     position: absolute;
-    bottom: 0.5em; /* Position from the bottom */
-    left: 0.5em; /* Position from the left */
+    bottom: 2em; /* Position from the bottom */
+    left: 2em; /* Position from the left */
     color: white; /* Text color */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Black shadow for legibility */
     z-index: 2; /* Ensures text is above the overlay */
@@ -150,6 +150,11 @@ body, html {
     .container {
         width: 95%;
         margin: 2em auto;
+    }
+
+    .overlay-text {
+        bottom: 0.5em; /* Position from the bottom */
+        left: 0.5em; /* Position from the left */
     }
 
     .video{

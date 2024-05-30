@@ -19,6 +19,7 @@ export interface PopupData {
 
 export interface ProjectData extends PopupData {
     projectNumber: number;
+    lastProjectPhase: number
     title: string;
     category: string;
     year: number;

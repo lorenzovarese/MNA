@@ -1,264 +1,86 @@
-import { Project, ProjectMetadata } from "./interfaces/project-interfaces";
+import { Project, ProjectMetadata } from './interfaces/project-interfaces';
 
-enum Languages {
-    EN = 'EN',
-    DE = 'DE',
-    IT = 'IT',
-}
-
-type TableLabelTranslations = Map<Languages, Map<string, string>>;
-
-const tableLabelTranslations: TableLabelTranslations = new Map([
-    [Languages.EN, new Map([
-        ["Project", "Project"],
-        ["Title", "Title"],
-        ["Category", "Category"],
-        ["Program", "Program"],
-        ["Country", "Country"],
-        ["City", "City"],
-        ["Street", "Street"],
-        ["Number", "Number"],
-        ["Canton/Region", "Canton/Region"],
-        ["Zip Code", "Zip Code"],
-        ["GPS", "GPS"],
-        ["Year", "Year"],
-        ["Project Number", "Project Number"],
-        ["CAD Number", "CAD Number"],
-        ["Client", "Client"],
-        ["Building Costs", "Building Costs"],
-        ["Deepness", "Deepness"],
-        ["Phase", "Phase"],
-        ["Subphase", "Subphase"],
-        ["Sea Elevation", "Sea Elevation"]
-    ])],
-    [Languages.DE, new Map([
-        ["Project", "Projekt"],
-        ["Title", "Titel"],
-        ["Category", "Kategorie"],
-        ["Program", "Programm"],
-        ["Country", "Land"],
-        ["City", "Stadt"],
-        ["Street", "Straße"],
-        ["Number", "Nummer"],
-        ["Canton/Region", "Kanton/Region"],
-        ["Zip Code", "Postleitzahl"],
-        ["GPS", "GPS"],
-        ["Year", "Jahr"],
-        ["Project Number", "Projektnummer"],
-        ["CAD Number", "CAD-Nummer"],
-        ["Client", "Klient"],
-        ["Building Costs", "Baukosten"],
-        ["Deepness", "Tiefe"],
-        ["Phase", "Phase"],
-        ["Subphase", "Teilphase"],
-        ["Sea Elevation", "Meereshöhe"]
-    ])],
-    [Languages.IT, new Map([
-        ["Project", "Progetto"],
-        ["Title", "Titolo"],
-        ["Category", "Categoria"],
-        ["Program", "Programma"],
-        ["Country", "Paese"],
-        ["City", "Città"],
-        ["Street", "Via"],
-        ["Number", "Numero"],
-        ["Canton/Region", "Cantone/Regione"],
-        ["Zip Code", "Codice Postale"],
-        ["GPS", "GPS"],
-        ["Year", "Anno"],
-        ["Project Number", "Numero del Progetto"],
-        ["CAD Number", "Numero CAD"],
-        ["Client", "Cliente"],
-        ["Building Costs", "Costi di Costruzione"],
-        ["Deepness", "Profondità"],
-        ["Phase", "Fase"],
-        ["Subphase", "Sottofase"],
-        ["Sea Elevation", "Elevazione del mare"]
-    ])]
-]);
-
-
-// Change the document title
-function changeTitle(newTitle: string): void {
-    document.title = newTitle;
-}
-
-// Get project number from the URL query parameters
-function getProjectNumberFromURL(): string | null {
+// Function to get URL parameters
+function getQueryParam(param: string): string | null {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get("projectNumber");
+    return urlParams.get(param);
 }
 
-// Generate the HTML for the thumbnail image
-function generateThumbnail(project: ProjectMetadata): string {
-    const thumbnailSrc = `../assets/projects/${project.projectNumber}/img/thumbnail.jpg`;
-    return `<img src="${thumbnailSrc}" alt="Thumbnail" width="560"><br>`;
-}
+// Function to populate the project details
+function populateProjectDetails(project: Project) {
+    document.querySelector<HTMLTitleElement>('title')!.textContent = `${project.title} Project`;
+    document.querySelector<HTMLImageElement>('.img-overlay')!.src = `../assets/projects/${project.projectNumber}/global/img/thumbnail.jpg`;
+    document.querySelector<HTMLImageElement>('.img-overlay')!.alt = project.title;
+    document.querySelector<HTMLElement>('.overlay-text')!.textContent = project.title;
 
-// Generate the HTML for the project details table
-function generateTableHTML(project: Project, selectedLanguage: Languages): string {
-    // Retrieve the map of labels for the selected language
-    const labels = tableLabelTranslations.get(selectedLanguage);
-
-    // Iterate over the project object and generate the table rows
-    const tableRows = Object.entries(project).map(([key, value]) => {
-        //Convert from camel case to Capital Case the Project keys
-        key = camelToCapitalCase(key);
-
-        // Check if a label exists for this key in the selected language; if not, use the key itself
-        const label = labels?.get(key) || key;
-
-        // Only create a table row if the value is defined
-        if (value !== undefined && value !== null) {
-            return `<tr><td><strong>${label}:</strong></td><td>${value}</td></tr>`;
-        }
-        return "";
-    }).filter(row => row !== "").join("");
-
-    return `<table>${tableRows}</table><br>`;
-}
-
-// From camel case to Capital Case
-function camelToCapitalCase(text: string): string {
-    return text.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase());
-}
-
-
-// Generate the HTML for the image carousel
-function generateCarouselHTML(projectNumber: string, imagesCount: number): string {
-    if (imagesCount === 0) {
-        return "<p>No images found for this project.</p>";
-    }
-
-    const carouselItemsHTML = Array.from({ length: imagesCount }, (_, i) => {
-        const imagePath = `../assets/projects/${projectNumber}/img/image${i + 1}.webp`;
-        return `<div class="carousel-item${i === 0 ? " active" : ""}" data-index="${i + 1}">
-            <img src="${imagePath}" alt="Project Image ${i + 1}" width="560">
-        </div>`;
-    }).join("");
-
-    return `
-        <h2>Gallery</h2>
-        <div class="carousel">
-            <div class="carousel-inner">${carouselItemsHTML}</div>
-            <button class="carousel-button left">←</button>
-            <button class="carousel-button right">→</button>
-        </div><br>
+    const table = document.querySelector<HTMLTableElement>('table')!;
+    table.innerHTML = `
+        <tr><td>Project:</td><td>${project.project}</td></tr>
+        <tr><td>Title:</td><td>${project.title}</td></tr>
+        <tr><td>Category:</td><td>${project.category}</td></tr>
+        <tr><td>Program:</td><td>${project.program}</td></tr>
+        <tr><td>Country:</td><td>${project.country}</td></tr>
+        <tr><td>City:</td><td>${project.city}</td></tr>
+        <tr><td>Street:</td><td>${project.street}</td></tr>
+        <tr><td>Canton Region:</td><td>${project.cantonRegion}</td></tr>
+        <tr><td>Zip Code:</td><td>${project.zipCode}</td></tr>
+        <tr><td>GPS:</td><td>${project.GPS}</td></tr>
+        <tr><td>Year:</td><td>${project.year}</td></tr>
+        <tr><td>Project Number:</td><td>${project.projectNumber}</td></tr>
+        <tr><td>Client:</td><td>${project.client}</td></tr>
+        <tr><td>Building Costs:</td><td>${project.buildingCosts}</td></tr>
+        <tr><td>Deepness:</td><td>${project.deepness}</td></tr>
+        <tr><td>Phase:</td><td>${project.phase}</td></tr>
+        <tr><td>Subphase:</td><td>${project.subphase}</td></tr>
     `;
 }
 
-// Setup carousel navigation
-function setupCarouselNavigation(): void {
-    const leftButton = document.querySelector(".carousel-button.left") as HTMLButtonElement;
-    const rightButton = document.querySelector(".carousel-button.right") as HTMLButtonElement;
-    const items = document.querySelectorAll(".carousel-item");
-    if (!leftButton || !rightButton || items.length === 0) {
-        console.error("Carousel elements not found.");
+// Function to populate media details
+function populateMediaDetails(metadata: ProjectMetadata) {
+    // Populate phase specific thumbnail
+    const phaseImage = document.getElementById('phase-image') as HTMLImageElement;
+    const phaseText = document.getElementById('phase-name') as HTMLTextAreaElement
+    phaseText.textContent = `Phase ${metadata.phase}`;
+    phaseImage.src = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/img/thumbnail.jpg`;
+    phaseImage.alt = `Phase ${metadata.phase} Thumbnail`;
+
+    const gallery = document.querySelector('.image-gallery')!;
+    gallery.innerHTML = '';
+    for (let i = 1; i <= metadata.numberOfImages; i++) {
+        const img = document.createElement('img');
+        img.src = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/img/image${i}.webp`;
+        img.alt = `Gallery Image ${i}`;
+        gallery.appendChild(img);
+    }
+
+    if (metadata.youtubeVideoLink) {
+        const iframe = document.querySelector<HTMLIFrameElement>('.video')!;
+        iframe.src = metadata.youtubeVideoLink;
+    }
+}
+
+// Main function to orchestrate the dynamic population of the page
+async function main() {
+    const projectNumber = getQueryParam('projectNumber');
+    const phase = getQueryParam('phase');
+
+    if (!projectNumber || !phase) {
+        console.error('Missing URL parameters.');
         return;
     }
 
-    let activeIndex = 0;
+    const projectsData = JSON.parse(localStorage.getItem('projectsData')!);
+    const projectsMetadata = JSON.parse(localStorage.getItem('projectsMetadata')!);
 
-    const updateCarousel = (newIndex: number): void => {
-        items[activeIndex].classList.remove("active");
-        items[newIndex].classList.add("active");
-        activeIndex = newIndex;
-    };
+    const project = projectsData[projectNumber];
+    const metadata = projectsMetadata[`${projectNumber}-${phase}`];
 
-    leftButton.addEventListener("click", () => {
-        const newIndex = (activeIndex - 1 + items.length) % items.length;
-        updateCarousel(newIndex);
-    });
-
-    rightButton.addEventListener("click", () => {
-        const newIndex = (activeIndex + 1) % items.length;
-        updateCarousel(newIndex);
-    });
-}
-
-// Generate the HTML for the project video
-function generateVideoHTML(projectMetadata: ProjectMetadata): string {
-    if (projectMetadata.youtubeVideoLink) {
-        const videoId = projectMetadata.youtubeVideoLink.split("v=")[1].split("&")[0];
-        return `<h2>Video</h2>
-            <div class="youtube-video-container" style="margin-top: 20px;">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>
-            </div><br>`;
-    }
-    return "";
-}
-
-// Generate the HTML for the project board download link
-function generateProjectBoardHTML(projectMetadata: ProjectMetadata, projectNumber: string): string {
-    if (projectMetadata.projectboard) {
-        const projectboardPath = `public/projects/${projectNumber}/doc/projectboard.pdf`;
-        return `<h2>Project Board</h2>
-            <a href="${projectboardPath}" download style="display: inline-block; padding: 8px 15px; color: #000; text-decoration: none; border: 1px solid #000; font-size: 16px;">
-                Download Project Board &#x1F4E5;
-            </a><br>`;
-    }
-    return "";
-}
-
-
-// Example conversion of displayProjectDetails to TypeScript
-function displayProjectDetails(project: Project, projectMetadata: ProjectMetadata): void {
-
-    if (project && projectMetadata) {
-        //Retrieve language from local storage
-        const selectedLang = localStorage.getItem("selectedLanguage") as Languages || Languages.EN; // Default to English
-        const container = document.getElementById("project-details-container") as HTMLElement;
-        const title = `<h1>${project.project}</h1>`;
-        const thumbnailHTML = generateThumbnail(projectMetadata);
-        const tableHTML = generateTableHTML(project, selectedLang);
-        const carouselHTML = generateCarouselHTML(project.projectNumber.toString(), projectMetadata.numberOfImages);
-        const videoHTML = generateVideoHTML(projectMetadata);
-        const projectboardHTML = generateProjectBoardHTML(projectMetadata, project.projectNumber.toString());
-        container.innerHTML = `${title}${thumbnailHTML}${tableHTML}${carouselHTML}${videoHTML}${projectboardHTML}`;
+    if (project && metadata) {
+        populateProjectDetails(project);
+        populateMediaDetails(metadata);
     } else {
-        const container = document.getElementById("project-details-container") as HTMLElement;
-        container.innerText = "Project not found.";
+        console.error('Project or metadata not found.');
     }
 }
 
-function loadContent(): void {
-    //Check if the localStorage contains the entry projectsData, if not, wait for the data to be loaded and then attach the event listener
-    const projectDetailsContainer = document.getElementById("project-details-container") as HTMLElement;
-    
-    if (!localStorage.getItem("projectsData")) {
-        projectDetailsContainer.innerText = "Loading project data... Refresh the page";
-        return;
-    } 
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const projectNumberString = getProjectNumberFromURL();
-        const projectNumber = projectNumberString ? parseInt(projectNumberString, 10) : null;
-
-        if (!projectNumber || projectNumber < 0 || projectNumber > 1000) {
-            projectDetailsContainer.innerText = 'Invalid or missing project number in URL.';
-            return;
-        }
-
-        // Retrieve and parse project data and metadata from local storage
-        const projectsDataString = localStorage.getItem("projectsData");
-        const projectsMetadataString = localStorage.getItem("projectsMetadata");
-
-        const projectsData: { [key: number]: Project } = projectsDataString ? JSON.parse(projectsDataString) : {};
-        const projectsMetadata: { [key: number]: ProjectMetadata } = projectsMetadataString ? JSON.parse(projectsMetadataString) : {};
-
-        // Access specific project and metadata using the parsed project number directly
-        const projectData = projectsData[projectNumber];
-        const projectMetadata = projectsMetadata[projectNumber];
-
-        if (projectData && projectMetadata) {
-            changeTitle("MNA - " + projectData.project);
-            displayProjectDetails(projectData, projectMetadata);
-            setupCarouselNavigation();
-        } else {
-            projectDetailsContainer.innerText = `Project ${projectNumber} not found or data is incomplete.`;
-        }
-    });
-}
-
-loadContent();
-
+document.addEventListener('DOMContentLoaded', main);

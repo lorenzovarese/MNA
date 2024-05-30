@@ -74,6 +74,7 @@ function insertProjectSquares(container: HTMLDivElement, projectsArray: Project[
                 x: event.x,
                 y: event.y,
                 projectNumber: project.projectNumber,
+                lastProjectPhase: project.phase || 2, //2 is the most frequent
                 title: project.title,
                 category: project.category,
                 year: project.year,
@@ -351,7 +352,7 @@ function generateProjectContent(project: ProjectData, container: HTMLElement): v
     button.className = 'project-button';
     button.textContent = '+';
     button.style.fontSize = '2rem';
-    button.addEventListener('click', () => redirectToProjectPage(project.projectNumber));
+    button.addEventListener('click', () => redirectToProjectPage(project.projectNumber, project.lastProjectPhase.toString()));
 
     // Append button to the after the project content
     container.appendChild(button);
@@ -382,13 +383,14 @@ function removeProjectImage() {
 }
 
 /**
- * Redirects the user to a detailed page for a specific project.
+ * Redirects the user to a detailed page for a specific project with both project number and phase.
  *
  * @param {number} projectNumber - The project number to redirect to.
+ * @param {string} phase - The project phase to include in the redirection.
  */
-function redirectToProjectPage(projectNumber: number): void {
-    // Redirect to a details page with projectNumber as a URL parameter
-    window.location.href = `project-details.html?projectNumber=${projectNumber}`;
+function redirectToProjectPage(projectNumber: number, phase: string): void {
+    // Correct URL construction with multiple parameters
+    window.location.href = `project-details.html?projectNumber=${projectNumber}&phase=${phase}`;
 }
 
 /**
@@ -470,8 +472,8 @@ function sortProjects(projectsArray: Project[], sortOrder: SortingOptions): Proj
                 if (!a.program) return 0;
                 return a.program.localeCompare(b.program || '');
             case SortingOptions.PHASE:
-                if (!a.phase || !b.phase) return 0;
-                return (a.phase || '').localeCompare(b.phase || '');
+                if (!a.phase || !b.phase) {console.error('Phase not found one of these projects:', a.project, b.project); return 0;}
+                return a.phase - b.phase;
             default:
                 return 0;
         }

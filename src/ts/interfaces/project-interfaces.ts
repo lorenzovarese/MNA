@@ -27,7 +27,7 @@ export interface Project extends BaseProject {
     client: string | null;
     buildingCosts: string | null;
     deepness: string | null;
-    phase: string | null;
+    phase: number | null;
     subphase: string | null;
     seaElevation: string | null;
 }

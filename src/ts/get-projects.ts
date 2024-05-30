@@ -7,7 +7,7 @@ import { BaseProject, Project, ProjectMetadata } from "./interfaces/project-inte
  * @param {(columns: string[]) => T} processRow - A function to process each row into an object of type T.
  * @returns {Record<string, T>} A dictionary of objects indexed by the project number.
  */
-function parseCsvToDict<T extends BaseProject>(csvData: string, separator: string, processRow: (columns: string[]) => T): Record<string, T> {
+function parseCsvToDictProject<T extends BaseProject>(csvData: string, separator: string, processRow: (columns: string[]) => T): Record<string, T> {
     let dict: Record<string, T> = {};
 
     try {
@@ -16,6 +16,34 @@ function parseCsvToDict<T extends BaseProject>(csvData: string, separator: strin
             const columns = parseCsvLine(row, separator);
             const item = processRow(columns);
             dict[item.projectNumber.toString()] = item;
+        });
+    } catch (error) {
+        console.error("Error parsing CSV data:", error);
+        return {};
+    }
+
+    return dict;
+}
+
+/**
+ * Parses a CSV string into a dictionary of objects based on the provided row processing function.
+ * Each row is processed into an object of type T, which extends BaseProject.
+ * The dictionary is indexed by a combination of projectNumber and phase to uniquely identify each entry.
+ * @param {string} csvData - The CSV file content as a string.
+ * @param {string} separator - The column separator, usually the comma or the semicolon.
+ * @param {(columns: string[]) => T} processRow - A function to process each row into an object of type T.
+ * @returns {Record<string, T>} A dictionary of objects indexed by a combination of project number and phase.
+ */
+function parseCsvToDictMetadata<T extends { projectNumber: number, phase: number }>(csvData: string, separator: string, processRow: (columns: string[]) => T): Record<string, T> {
+    let dict: Record<string, T> = {};
+
+    try {
+        const rows = csvData.trim().split("\n");
+        rows.slice(1).forEach(row => {
+            const columns = parseCsvLine(row, separator);
+            const item = processRow(columns);
+            const key = `${item.projectNumber}-${item.phase}`; // Combining projectNumber and phase to form a unique key
+            dict[key] = item;
         });
     } catch (error) {
         console.error("Error parsing CSV data:", error);
@@ -55,12 +83,19 @@ function parseCsvLine(text: string, separator: string): string[] {
  * Fetches CSV data from a given URL and stores it locally after processing.
  * If data for the given key already exists in local storage, it skips fetching.
  * @param {string} url - URL to fetch the CSV data from.
- * @param {string} separator - The column separator, usualy the comma or the semicolon
+ * @param {string} separator - The column separator, usually the comma or the semicolon.
  * @param {string} storageKey - Local storage key under which the data will be stored.
- * @param {(columns: string[]) => T} processRow - Function to convert CSV rows into object of type T.
- * @template T Extends BaseProject indicating the type of the data to fetch and store.
+ * @param {(csvData: string, separator: string, processRow: (columns: string[]) => T) => Record<string, T>} parseCsvToDictFunc - Function that parses CSV data into a dictionary.
+ * @param {(columns: string[]) => T} processRow - Function to convert CSV rows into an object of type T.
+ * @template T - Extends BaseProject indicating the type of the data to fetch and store.
  */
-async function fetchAndStore<T extends BaseProject>(url: string, separator: string, storageKey: string, processRow: (columns: string[]) => T): Promise<void> {
+async function fetchAndStore<T extends BaseProject>(
+    url: string,
+    separator: string,
+    storageKey: string,
+    parseCsvToDictFunc: (csvData: string, separator: string, processRow: (columns: string[]) => T) => Record<string, T>,
+    processRow: (columns: string[]) => T
+): Promise<void> {
     if (localStorage.getItem(storageKey)) {
         console.log(`${storageKey} data already loaded.`);
         return;
@@ -71,7 +106,7 @@ async function fetchAndStore<T extends BaseProject>(url: string, separator: stri
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         const csvData = await response.text();
-        const data = parseCsvToDict(csvData, separator, processRow);
+        const data = parseCsvToDictFunc(csvData, separator, processRow); // Use the provided parse function
         localStorage.setItem(storageKey, JSON.stringify(data));
         console.log(`${storageKey} data loaded and stored.`);
         document.dispatchEvent(new CustomEvent('ProjectsDataLoaded'));
@@ -96,7 +131,7 @@ function stringCompare(str1: string, str2: string): boolean {
  */
 async function main() {
     // Fetching and storing projects data
-    await fetchAndStore<Project>("../assets/data/02_projects.csv", ",", "projectsData", columns => { 
+    await fetchAndStore<Project>("../assets/data/02_projects.csv", ",", "projectsData", parseCsvToDictProject, columns => { 
         return {
         project: columns[0],
         title: columns[1],
@@ -115,13 +150,13 @@ async function main() {
         client: columns[14] || null,
         buildingCosts: columns[15] || null,
         deepness: columns[16] || null,
-        phase: columns[17] || null,
+        phase: parseInt(columns[17], 10) || null,
         subphase: columns[18] || null,
         seaElevation: columns[19] || null,
         }});
 
     // Fetching and storing project media data
-    await fetchAndStore<ProjectMetadata>("../assets/data/02_projects_media.csv", ";", "projectsMetadata", columns => { 
+    await fetchAndStore<ProjectMetadata>("../assets/data/02_projects_media.csv", ";", "projectsMetadata", parseCsvToDictMetadata, columns => { 
         return {
             projectNumber: parseInt(columns[0], 10),
             phase: parseInt(columns[1], 10),
