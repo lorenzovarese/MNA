@@ -1,9 +1,28 @@
 import { Project, ProjectMetadata } from './interfaces/project-interfaces';
+declare var lightGallery: any;
 
 // Function to get URL parameters
 function getQueryParam(param: string): string | null {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(param);
+}
+
+// Function to load project description from a file
+async function loadProjectDescription(projectNumber: number) {
+    const url = `../assets/projects/${projectNumber}/global/doc/en_desc.txt`;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch description');
+        }
+        const text = await response.text();
+        const descriptionSection = document.getElementById('project-description') as HTMLElement;
+        descriptionSection.textContent = text;
+    } catch (error) {
+        console.error('Error fetching project description:', error);
+        const descriptionSection = document.getElementById('project-description') as HTMLElement;
+        descriptionSection.style.display = 'none'; // Hide the section if there is an error
+    }
 }
 
 // Function to populate the project details
@@ -47,16 +66,36 @@ function populateMediaDetails(metadata: ProjectMetadata) {
     const gallery = document.querySelector('.image-gallery')!;
     gallery.innerHTML = '';
     for (let i = 1; i <= metadata.numberOfImages; i++) {
+        const link = document.createElement('a');
+        link.href = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/img/image${i}.webp`;
+        link.classList.add('gallery-item');
+
         const img = document.createElement('img');
-        img.src = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/img/image${i}.webp`;
+        img.src = link.href;
         img.alt = `Gallery Image ${i}`;
-        gallery.appendChild(img);
+
+        link.appendChild(img);
+        gallery.appendChild(link);
     }
 
     if (metadata.youtubeVideoLink) {
         const iframe = document.querySelector<HTMLIFrameElement>('.video')!;
         iframe.src = metadata.youtubeVideoLink;
     }
+
+    initializeLightGallery(); // Initialize the lightGallery on the updated gallery
+}
+
+// Initialize lightGallery on the gallery element
+function initializeLightGallery() {
+    const galleryElement = document.getElementById('project-gallery');
+    lightGallery(galleryElement, {
+        selector: '.gallery-item',
+        download: false, // Disable download button
+        zoom: true,
+        actualSize: true,
+        share: false // Disable sharing buttons
+    });
 }
 
 // Main function to orchestrate the dynamic population of the page
@@ -78,6 +117,7 @@ async function main() {
     if (project && metadata) {
         populateProjectDetails(project);
         populateMediaDetails(metadata);
+        loadProjectDescription(project.projectNumber); // Load the project description from file
     } else {
         console.error('Project or metadata not found.');
     }
