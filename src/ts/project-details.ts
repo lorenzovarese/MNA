@@ -56,8 +56,6 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
   document.querySelector<HTMLElement>(".overlay-text")!.textContent =
     project.title;
 
-  adjustLanguageOptions(metadata);
-
   const descriptionSection = document.getElementById(
     "project-description"
   ) as HTMLElement;
@@ -93,30 +91,6 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
         <tr><td>Phase:</td><td>${project.phase}</td></tr>
         <tr><td>Subphase:</td><td>${project.subphase}</td></tr>
     `;
-}
-
-function adjustLanguageOptions(metadata: ProjectMetadata) {
-  const languageSelect = document.getElementById(
-    "language-dropdown"
-  ) as HTMLElement;
-  const availableLanguages: string[] = []; // Explicitly declare as string array
-  if (metadata.enDesc) availableLanguages.push("en");
-  if (metadata.itDesc) availableLanguages.push("it");
-  if (metadata.deDesc) availableLanguages.push("de");
-
-  // Update visibility and options dynamically
-  const options = languageSelect.querySelectorAll(".language-option");
-  options.forEach((option) => {
-    const lang = option.getAttribute("data-lang");
-    if (availableLanguages.includes(lang!)) {
-      option.classList.remove("hidden");
-    } else {
-      option.classList.add("hidden");
-    }
-  });
-
-  languageSelect.style.display =
-    availableLanguages.length > 1 ? "block" : "none";
 }
 
 // Function to populate media details
@@ -194,9 +168,9 @@ async function main() {
   const metadata = projectsMetadata[`${projectNumber}-${phase}`];
 
   if (project && metadata) {
-    populateProjectDetails(project, metadata);
-    populateMediaDetails(metadata);
-    loadProjectDescription(project.projectNumber); // Load the project description from file
+      populateProjectDetails(project, metadata);
+      populateMediaDetails(metadata);
+      loadProjectDescription(project.projectNumber); // Load the project description from file
   } else {
     console.error("Project or metadata not found.");
   }
