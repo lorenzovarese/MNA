@@ -366,7 +366,7 @@ function generateProjectContent(project: ProjectData, container: HTMLElement): v
 function updateProjectImage(project: ProjectData) {
     const popupImage = document.getElementById('popup-image') as HTMLDivElement;
     if (popupImage) {
-        popupImage.style.background = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), url('../assets/projects/${project.projectNumber}/img/thumbnail.jpg')`;
+        popupImage.style.background = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), url('../assets/projects/${project.projectNumber}/global/img/thumbnail.jpg')`;
         popupImage.style.backgroundSize = 'cover';
         popupImage.style.backgroundPosition = 'center';
     }
