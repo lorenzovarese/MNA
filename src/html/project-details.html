@@ -16,9 +16,17 @@
           <img class="img-overlay" id="project-image" alt="Project Image">
           <div class="overlay"></div>
           <h2 class="overlay-text" id="project-name">Loading Project...</h2>
-          <a href="/src/html/home.html" class="back-home-button">
+          <a href="/src/html/home.html" class="overlay-button back-home-button">
             <img src="/src/assets/img/mna-logo.png" alt="Home" style="width:100%; height:auto;"/>
           </a>
+          <div class="overlay-button language-button transparent-button">
+            <img src="/src/assets/img/icons/world-white.webp" alt="Language" style="width:100%; height:auto; cursor:pointer;" id="language-icon">
+            <div id="language-dropdown" class="language-dropdown" style="display: none;">
+              <div class="language-option" data-lang="en">EN</div>
+              <div class="language-option" data-lang="it">IT</div>
+              <div class="language-option" data-lang="de">DE</div>
+            </div>
+          </div>
         </div>
       </header>
 
@@ -33,6 +41,9 @@
         <!-- Phase specific header, similar to main project header -->
         <section class="header">
             <div class="image-overlay-container">
+                <a id="projectboard-button" class="overlay-button back-home-button">
+                    <img src="/src/assets/img/icons/filedownload.png" alt="Projectboard" style="width:100%; height:auto;"/>
+                  </a>
                 <!-- Phase specific image dynamically set via JavaScript -->
                 <img class="img-overlay" id="phase-image" alt="Phase Image" />
                 <div class="overlay"></div>
@@ -47,8 +58,6 @@
 
         <!-- Dynamic video embed -->
         <iframe id="project-video" frameborder="0" allowfullscreen sandbox="allow-scripts allow-forms allow-same-origin" class="video"></iframe>
-
-        <!--TODO: ADD HERE THE PROJECTBOARD-->
 
         <footer class="footer">
             <div class="navigation">

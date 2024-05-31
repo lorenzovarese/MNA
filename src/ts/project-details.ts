@@ -1,63 +1,80 @@
-import { Project, ProjectMetadata } from './interfaces/project-interfaces';
+import { Project, ProjectMetadata } from "./interfaces/project-interfaces";
 declare var lightGallery: any;
 
 interface categoryColorMapping {
-    title: string;
-    color: string;
+  title: string;
+  color: string;
 }
 
 const categoryColors: categoryColorMapping[] = [
-    { title: "urban planning", color: "#a9d252" },
-    { title: "single building", color: "#93dbe0" },
-    { title: "transformation", color: "#ffadc3" },
-    { title: "interior work", color: "#ffa937" },
-    { title: "installation", color: "#ffce36" },
-    { title: "default", color: "#f0f0f0" },
+  { title: "urban planning", color: "#a9d252" },
+  { title: "single building", color: "#93dbe0" },
+  { title: "transformation", color: "#ffadc3" },
+  { title: "interior work", color: "#ffa937" },
+  { title: "installation", color: "#ffce36" },
+  { title: "default", color: "#f0f0f0" },
 ];
 
 // Function to get URL parameters
 function getQueryParam(param: string): string | null {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get(param);
 }
 
 // Function to load project description from a file
 async function loadProjectDescription(projectNumber: number) {
-    const url = `../assets/projects/${projectNumber}/global/doc/en_desc.txt`;
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Failed to fetch description');
-        }
-        const text = await response.text();
-        const descriptionSection = document.getElementById('project-description') as HTMLElement;
-        descriptionSection.textContent = text;
-    } catch (error) {
-        console.error('Error fetching project description:', error);
-        const descriptionSection = document.getElementById('project-description') as HTMLElement;
-        descriptionSection.style.display = 'none'; // Hide the section if there is an error
+  const selectedLanguage = localStorage.getItem("selectedLanguage") || "en"; // Default to English
+  const url = `../assets/projects/${projectNumber}/global/doc/${selectedLanguage}_desc.txt`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch description");
     }
+    const text = await response.text();
+    const descriptionSection = document.getElementById(
+      "project-description"
+    ) as HTMLElement;
+    descriptionSection.textContent = text;
+  } catch (error) {
+    console.error("Error fetching project description:", error);
+    const descriptionSection = document.getElementById(
+      "project-description"
+    ) as HTMLElement;
+    descriptionSection.style.display = "none"; // Hide the section if there is an error
+  }
 }
 
 // Function to populate the project details
-function populateProjectDetails(project: Project) {
-    document.querySelector<HTMLTitleElement>('title')!.textContent = `${project.title} Project`;
-    document.querySelector<HTMLImageElement>('.img-overlay')!.src = `../assets/projects/${project.projectNumber}/global/img/thumbnail.jpg`;
-    document.querySelector<HTMLImageElement>('.img-overlay')!.alt = project.title;
-    document.querySelector<HTMLElement>('.overlay-text')!.textContent = project.title;
-    
-    
-    const descriptionSection = document.getElementById('project-description') as HTMLElement;
-    const tableContainer = document.querySelector('.table-container') as HTMLElement;
-    
-    const categoryColor = categoryColors.find(entry => entry.title === project.category)?.color;
-    if (categoryColor) {
-        descriptionSection.style.backgroundColor = categoryColor;
-        tableContainer.style.borderColor = categoryColor;
-    } 
-    
-    const table = document.querySelector<HTMLTableElement>('table')!;
-    table.innerHTML = `
+function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
+  document.querySelector<HTMLTitleElement>(
+    "title"
+  )!.textContent = `${project.title} Project`;
+  document.querySelector<HTMLImageElement>(
+    ".img-overlay"
+  )!.src = `../assets/projects/${project.projectNumber}/global/img/thumbnail.jpg`;
+  document.querySelector<HTMLImageElement>(".img-overlay")!.alt = project.title;
+  document.querySelector<HTMLElement>(".overlay-text")!.textContent =
+    project.title;
+
+  adjustLanguageOptions(metadata);
+
+  const descriptionSection = document.getElementById(
+    "project-description"
+  ) as HTMLElement;
+  const tableContainer = document.querySelector(
+    ".table-container"
+  ) as HTMLElement;
+
+  const categoryColor = categoryColors.find(
+    (entry) => entry.title === project.category
+  )?.color;
+  if (categoryColor) {
+    descriptionSection.style.backgroundColor = categoryColor;
+    tableContainer.style.borderColor = categoryColor;
+  }
+
+  const table = document.querySelector<HTMLTableElement>("table")!;
+  table.innerHTML = `
         <tr><td>Project:</td><td>${project.project}</td></tr>
         <tr><td>Title:</td><td>${project.title}</td></tr>
         <tr><td>Category:</td><td>${project.category}</td></tr>
@@ -78,73 +95,136 @@ function populateProjectDetails(project: Project) {
     `;
 }
 
+function adjustLanguageOptions(metadata: ProjectMetadata) {
+  const languageSelect = document.getElementById(
+    "language-dropdown"
+  ) as HTMLElement;
+  const availableLanguages: string[] = []; // Explicitly declare as string array
+  if (metadata.enDesc) availableLanguages.push("en");
+  if (metadata.itDesc) availableLanguages.push("it");
+  if (metadata.deDesc) availableLanguages.push("de");
+
+  // Update visibility and options dynamically
+  const options = languageSelect.querySelectorAll(".language-option");
+  options.forEach((option) => {
+    const lang = option.getAttribute("data-lang");
+    if (availableLanguages.includes(lang!)) {
+      option.classList.remove("hidden");
+    } else {
+      option.classList.add("hidden");
+    }
+  });
+
+  languageSelect.style.display =
+    availableLanguages.length > 1 ? "block" : "none";
+}
+
 // Function to populate media details
 function populateMediaDetails(metadata: ProjectMetadata) {
-    // Populate phase specific thumbnail
-    const phaseImage = document.getElementById('phase-image') as HTMLImageElement;
-    const phaseText = document.getElementById('phase-name') as HTMLTextAreaElement
-    phaseText.textContent = `Phase ${metadata.phase}`;
-    phaseImage.src = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/img/thumbnail.jpg`;
-    phaseImage.alt = `Phase ${metadata.phase} Thumbnail`;
+  // Populate phase specific thumbnail
+  const phaseImage = document.getElementById("phase-image") as HTMLImageElement;
+  const phaseText = document.getElementById(
+    "phase-name"
+  ) as HTMLTextAreaElement;
+  const downloadButton = document.querySelector('#projectboard-button') as HTMLLinkElement;
 
-    const gallery = document.querySelector('.image-gallery')!;
-    gallery.innerHTML = '';
-    for (let i = 1; i <= metadata.numberOfImages; i++) {
-        const link = document.createElement('a');
-        link.href = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/img/image${i}.webp`;
-        link.classList.add('gallery-item');
+  phaseText.textContent = `Phase ${metadata.phase}`;
+  phaseImage.src = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/img/thumbnail.jpg`;
+  phaseImage.alt = `Phase ${metadata.phase} Thumbnail`;
 
-        const img = document.createElement('img');
-        img.src = link.href;
-        img.alt = `Gallery Image ${i}`;
+  // Toggle the visibility of the download button based on projectboard availability
+  if (metadata.projectboard) {
+    downloadButton.style.display = 'block'; // Show if projectboard is true
+    downloadButton.href = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/doc/projectboard.pdf`;
+} else {
+    downloadButton.style.display = 'none'; // Hide if false
+}
 
-        link.appendChild(img);
-        gallery.appendChild(link);
-    }
+  const gallery = document.querySelector(".image-gallery")!;
+  gallery.innerHTML = "";
+  for (let i = 1; i <= metadata.numberOfImages; i++) {
+    const link = document.createElement("a");
+    link.href = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/img/image${i}.webp`;
+    link.classList.add("gallery-item");
 
-    if (metadata.youtubeVideoLink) {
-        const iframe = document.querySelector<HTMLIFrameElement>('.video')!;
-        iframe.src = metadata.youtubeVideoLink;
-    }
+    const img = document.createElement("img");
+    img.src = link.href;
+    img.alt = `Gallery Image ${i}`;
 
-    initializeLightGallery(); // Initialize the lightGallery on the updated gallery
+    link.appendChild(img);
+    gallery.appendChild(link);
+  }
+
+  if (metadata.youtubeVideoLink) {
+    const iframe = document.querySelector<HTMLIFrameElement>(".video")!;
+    iframe.src = metadata.youtubeVideoLink;
+  }
+
+  initializeLightGallery(); // Initialize the lightGallery on the updated gallery
 }
 
 // Initialize lightGallery on the gallery element
 function initializeLightGallery() {
-    const galleryElement = document.getElementById('project-gallery');
-    lightGallery(galleryElement, {
-        selector: '.gallery-item',
-        download: false, // Disable download button
-        zoom: true,
-        actualSize: true,
-        share: false // Disable sharing buttons
-    });
+  const galleryElement = document.getElementById("project-gallery");
+  lightGallery(galleryElement, {
+    selector: ".gallery-item",
+    download: false, // Disable download button
+    zoom: true,
+    actualSize: true,
+    share: false, // Disable sharing buttons
+  });
 }
 
 // Main function to orchestrate the dynamic population of the page
 async function main() {
-    const projectNumber = getQueryParam('projectNumber');
-    const phase = getQueryParam('phase');
+  const projectNumber = getQueryParam("projectNumber");
+  const phase = getQueryParam("phase");
 
-    if (!projectNumber || !phase) {
-        console.error('Missing URL parameters.');
-        return;
-    }
+  if (!projectNumber || !phase) {
+    console.error("Missing URL parameters.");
+    return;
+  }
 
-    const projectsData = JSON.parse(localStorage.getItem('projectsData')!);
-    const projectsMetadata = JSON.parse(localStorage.getItem('projectsMetadata')!);
+  const projectsData = JSON.parse(localStorage.getItem("projectsData")!);
+  const projectsMetadata = JSON.parse(
+    localStorage.getItem("projectsMetadata")!
+  );
 
-    const project = projectsData[projectNumber];
-    const metadata = projectsMetadata[`${projectNumber}-${phase}`];
+  const project = projectsData[projectNumber];
+  const metadata = projectsMetadata[`${projectNumber}-${phase}`];
 
-    if (project && metadata) {
-        populateProjectDetails(project);
-        populateMediaDetails(metadata);
-        loadProjectDescription(project.projectNumber); // Load the project description from file
-    } else {
-        console.error('Project or metadata not found.');
-    }
+  if (project && metadata) {
+    populateProjectDetails(project, metadata);
+    populateMediaDetails(metadata);
+    loadProjectDescription(project.projectNumber); // Load the project description from file
+  } else {
+    console.error("Project or metadata not found.");
+  }
+
+  setupLanguageDropdown();
 }
 
-document.addEventListener('DOMContentLoaded', main);
+function setupLanguageDropdown() {
+    const languageIcon = document.getElementById("language-icon");
+    const dropdown = document.getElementById("language-dropdown") as HTMLElement;
+
+    // Set initial state of dropdown based on local storage or default to hide
+    dropdown.style.display = "none"; // Default hide
+
+    // Toggle dropdown visibility on icon click
+    languageIcon?.addEventListener("click", () => {
+        dropdown.style.display = (dropdown.style.display === "none" ? "block" : "none");
+    });
+
+    // Set click events on language options
+    document.querySelectorAll(".language-option").forEach(option => {
+        option.addEventListener("click", function(this: HTMLElement) {
+            const selectedLanguage = this.getAttribute("data-lang");
+            localStorage.setItem("selectedLanguage", selectedLanguage!);
+            dropdown.style.display = "none"; // Hide dropdown after selection
+            window.location.reload(); // Refresh to apply language
+        });
+    });
+}
+
+document.addEventListener("DOMContentLoaded", main);
