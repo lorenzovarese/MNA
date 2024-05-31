@@ -83,7 +83,7 @@ body, html {
     width: 100%;
     min-height: 250px; /* Adjusted by JavaScript, as necessary */
     overflow-y: auto; /* Adds scrollbar when necessary */
-    border: #ccc 1px solid; /* Add border for separation */
+    border: #ccc 2px solid; /* Add border for separation */
 }
 
 .table-container table {

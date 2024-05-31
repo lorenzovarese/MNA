@@ -1,6 +1,20 @@
 import { Project, ProjectMetadata } from './interfaces/project-interfaces';
 declare var lightGallery: any;
 
+interface categoryColorMapping {
+    title: string;
+    color: string;
+}
+
+const categoryColors: categoryColorMapping[] = [
+    { title: "urban planning", color: "#a9d252" },
+    { title: "single building", color: "#93dbe0" },
+    { title: "transformation", color: "#ffadc3" },
+    { title: "interior work", color: "#ffa937" },
+    { title: "installation", color: "#ffce36" },
+    { title: "default", color: "#f0f0f0" },
+];
+
 // Function to get URL parameters
 function getQueryParam(param: string): string | null {
     const urlParams = new URLSearchParams(window.location.search);
@@ -31,7 +45,17 @@ function populateProjectDetails(project: Project) {
     document.querySelector<HTMLImageElement>('.img-overlay')!.src = `../assets/projects/${project.projectNumber}/global/img/thumbnail.jpg`;
     document.querySelector<HTMLImageElement>('.img-overlay')!.alt = project.title;
     document.querySelector<HTMLElement>('.overlay-text')!.textContent = project.title;
-
+    
+    
+    const descriptionSection = document.getElementById('project-description') as HTMLElement;
+    const tableContainer = document.querySelector('.table-container') as HTMLElement;
+    
+    const categoryColor = categoryColors.find(entry => entry.title === project.category)?.color;
+    if (categoryColor) {
+        descriptionSection.style.backgroundColor = categoryColor;
+        tableContainer.style.borderColor = categoryColor;
+    } 
+    
     const table = document.querySelector<HTMLTableElement>('table')!;
     table.innerHTML = `
         <tr><td>Project:</td><td>${project.project}</td></tr>
