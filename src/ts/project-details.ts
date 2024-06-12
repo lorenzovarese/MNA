@@ -248,21 +248,25 @@ function addTableExtensionListeners(): void {
     const collapseBtn = document.getElementById("collapseTable") as HTMLButtonElement | null;
     const tableWrapper = document.querySelector(".table-wrapper") as HTMLElement | null;
 
-    if (expandBtn && collapseBtn && tableWrapper) {
-        expandBtn.addEventListener("click", () => {
-            tableWrapper.style.maxHeight = "100vh"; // Expand to full height
-            expandBtn.style.display = "none";
-            collapseBtn.style.display = "block";
-        });
-
-        collapseBtn.addEventListener("click", () => {
-            tableWrapper.style.maxHeight = "30vh"; // Collapse to initial height
-            expandBtn.style.display = "block";
-            collapseBtn.style.display = "none";
-        });
-    } else {
-        console.error("Table extension controls or container not found!");
+    // Check if the elements exist in the DOM to prevent runtime errors
+    if (!expandBtn || !collapseBtn || !tableWrapper) {
+        console.error("One or more essential elements are missing!");
+        return;
     }
+
+    expandBtn.addEventListener("click", () => {
+        tableWrapper.style.maxHeight = "100vh";
+        expandBtn.style.display = "none";
+        collapseBtn.style.display = "block";
+        tableWrapper.classList.add("expanded");
+    });
+
+    collapseBtn.addEventListener("click", () => {
+        tableWrapper.style.maxHeight = "30vh";
+        expandBtn.style.display = "block";
+        collapseBtn.style.display = "none";
+        tableWrapper.classList.remove("expanded");
+    });
 }
 
 // Main function to orchestrate the dynamic population of the page
