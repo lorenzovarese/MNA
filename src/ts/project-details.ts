@@ -15,6 +15,84 @@ const categoryColors: categoryColorMapping[] = [
   { title: "default", color: "#f0f0f0" },
 ];
 
+// #region Translation
+export interface Translations {
+    en: Record<string, string>;
+    de: Record<string, string>;
+    it: Record<string, string>;
+}
+
+export const translations: Translations = {
+    en: {
+        "Project": "Project",
+        "Title": "Title",
+        "Category": "Category",
+        "Program": "Program",
+        "Country": "Country",
+        "City": "City",
+        "Street": "Street",
+        "Canton Region": "Canton Region",
+        "Zip Code": "Zip Code",
+        "Year": "Year",
+        "Project Number": "Project Number",
+        "Client": "Client",
+        "Building Costs": "Building Costs",
+        "Deepness": "Deepness",
+        "Phase": "Phase",
+        "Subphase": "Subphase",
+    },
+    de: {
+        "Project": "Projekt",
+        "Title": "Titel",
+        "Category": "Kategorie",
+        "Program": "Programm",
+        "Country": "Land",
+        "City": "Stadt",
+        "Street": "Straße",
+        "Canton Region": "Kanton/Region",
+        "Zip Code": "Postleitzahl",
+        "Year": "Jahr",
+        "Project Number": "Projektnummer",
+        "Client": "Kunde",
+        "Building Costs": "Baukosten",
+        "Deepness": "Tiefe",
+        "Phase": "Phase",
+        "Subphase": "Teilphase"
+    },
+    it: {
+        "Project": "Progetto",
+        "Title": "Titolo",
+        "Category": "Categoria",
+        "Program": "Programma",
+        "Country": "Paese",
+        "City": "Città",
+        "Street": "Via",
+        "Canton Region": "Cantone/Regione",
+        "Zip Code": "Codice Postale",
+        "Year": "Anno",
+        "Project Number": "Numero del Progetto",
+        "Client": "Cliente",
+        "Building Costs": "Costi di Costruzione",
+        "Deepness": "Profondità",
+        "Phase": "Fase",
+        "Subphase": "Sottofase"
+    }    
+};
+
+export function translate(key: string): string {
+    const selectedLanguage = localStorage.getItem("selectedLanguage") || "en";
+    const translationDictionary = translations[selectedLanguage as keyof Translations] || translations.en;
+    
+    if (key in translationDictionary) {
+        return translationDictionary[key];
+    } else {
+        console.warn(`Translation key "${key}" not found in "${selectedLanguage}" dictionary.`);
+        return translations.en[key] || key; // Fallback to English or the key itself
+    }
+}
+
+// #endregion Translation
+
 // Function to get URL parameters
 function getQueryParam(param: string): string | null {
   const urlParams = new URLSearchParams(window.location.search);
@@ -73,8 +151,8 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
   const descriptionSection = document.getElementById(
     "project-description"
   ) as HTMLElement;
-  const tableContainer = document.querySelector(
-    ".table-container"
+  const tableWrapper = document.querySelector(
+    ".table-wrapper"
   ) as HTMLElement;
 
   const categoryColor = categoryColors.find(
@@ -82,27 +160,27 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
   )?.color;
   if (categoryColor) {
     descriptionSection.style.backgroundColor = categoryColor;
-    // tableContainer.style.borderColor = categoryColor;
+    tableWrapper.style.borderColor = categoryColor;
   }
 
   const table = document.querySelector<HTMLTableElement>("table")!;
     table.innerHTML = `
-        <tr><td>Project:</td><td>${project.project}</td></tr>
-        <tr><td>Title:</td><td>${project.title}</td></tr>
-        <tr><td>Category:</td><td>${project.category}</td></tr>
-        <tr><td>Program:</td><td>${project.program}</td></tr>
-        <tr><td>Country:</td><td>${project.country}</td></tr>
-        <tr><td>City:</td><td>${project.city}</td></tr>
-        <tr><td>Street:</td><td>${project.street}</td></tr>
-        <tr><td>Canton Region:</td><td>${project.cantonRegion}</td></tr>
-        <tr><td>Zip Code:</td><td>${project.zipCode}</td></tr>
-        <tr><td>Year:</td><td>${project.year}</td></tr>
-        <tr><td>Project Number:</td><td>${project.projectNumber}</td></tr>
-        <tr><td>Client:</td><td>${project.client}</td></tr>
-        <tr><td>Building Costs:</td><td>${project.buildingCosts}</td></tr>
-        <tr><td>Deepness:</td><td>${project.deepness}</td></tr>
-        <tr><td>Phase:</td><td>${project.phase}</td></tr>
-        <tr><td>Subphase:</td><td>${project.subphase}</td></tr>
+        <tr><td>${translate('Project')}:</td><td>${project.project}</td></tr>
+        <tr><td>${translate('Title')}:</td><td>${project.title}</td></tr>
+        <tr><td>${translate('Category')}:</td><td>${project.category}</td></tr>
+        <tr><td>${translate('Program')}:</td><td>${project.program}</td></tr>
+        <tr><td>${translate('Country')}:</td><td>${project.country}</td></tr>
+        <tr><td>${translate('City')}:</td><td>${project.city}</td></tr>
+        <tr><td>${translate('Street')}:</td><td>${project.street}</td></tr>
+        <tr><td>${translate('Canton Region')}:</td><td>${project.cantonRegion}</td></tr>
+        <tr><td>${translate('Zip Code')}:</td><td>${project.zipCode}</td></tr>
+        <tr><td>${translate('Year')}:</td><td>${project.year}</td></tr>
+        <tr><td>${translate('Project Number')}:</td><td>${project.projectNumber}</td></tr>
+        <tr><td>${translate('Client')}:</td><td>${project.client}</td></tr>
+        <tr><td>${translate('Building Costs')}:</td><td>${project.buildingCosts}</td></tr>
+        <tr><td>${translate('Deepness')}:</td><td>${project.deepness}</td></tr>
+        <tr><td>${translate('Phase')}:</td><td>${project.phase}</td></tr>
+        <tr><td>${translate('Subphase')}:</td><td>${project.subphase}</td></tr>
     `;
     if (project && project.GPS && project.title) {
         initializeOSMMap(project.GPS, project.title);
@@ -165,6 +243,28 @@ function initializeLightGallery() {
   });
 }
 
+function addTableExtensionListeners(): void {
+    const expandBtn = document.getElementById("expandTable") as HTMLButtonElement | null;
+    const collapseBtn = document.getElementById("collapseTable") as HTMLButtonElement | null;
+    const tableWrapper = document.querySelector(".table-wrapper") as HTMLElement | null;
+
+    if (expandBtn && collapseBtn && tableWrapper) {
+        expandBtn.addEventListener("click", () => {
+            tableWrapper.style.maxHeight = "100vh"; // Expand to full height
+            expandBtn.style.display = "none";
+            collapseBtn.style.display = "block";
+        });
+
+        collapseBtn.addEventListener("click", () => {
+            tableWrapper.style.maxHeight = "30vh"; // Collapse to initial height
+            expandBtn.style.display = "block";
+            collapseBtn.style.display = "none";
+        });
+    } else {
+        console.error("Table extension controls or container not found!");
+    }
+}
+
 // Main function to orchestrate the dynamic population of the page
 async function main() {
   const projectNumber = getQueryParam("projectNumber");
@@ -192,6 +292,7 @@ async function main() {
   }
 
   setupLanguageDropdown();
+  addTableExtensionListeners();
 }
 
 function setupLanguageDropdown() {

@@ -35,14 +35,18 @@
       <!-- Dynamic description section -->
         <section class="text-section" id="project-description">Loading Description...</section>
 
-        <!-- Adjusted Table and Google Maps Section -->
+        <!-- Adjusted Table and OpenStreetMap Section -->
         <div class="table-and-map-container">
-            <div class="table-container">
-                <table id="project-details-table"></table>
+            <div class="table-wrapper">
+                <div class="table-controls">
+                    <button id="expandTable" class="table-control-button">+</button>
+                    <button id="collapseTable" class="table-control-button" style="display: none;">-</button>
+                </div>
+                <div class="table-container">
+                    <table id="project-details-table"></table>
+                </div>
             </div>
-            <!-- Placeholder for OpenStreetMap -->
             <div id="osm-map" style="width: 50%; min-height: 30vh;"></div>
-
         </div>
 
         <!-- Phase specific header, similar to main project header -->

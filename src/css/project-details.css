@@ -119,16 +119,41 @@ body, html {
     gap: 1em; /* Add space between the table and the map */
 }
 
-.table-container {
-    width: 50%; /* Table takes half the width */
-    min-height: 250px; /* As previously defined */
-    overflow-y: auto; /* Adds scrollbar when necessary */
+.table-wrapper {
+    flex: 1;
+    position: relative;
+    z-index: 1; /* Ensure table is above other content when expanded */
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 30vh; /* Initial max height same as map */
     border: 3px solid #ccc; /* Separates table from map */
+}
+
+.table-container {
+    overflow-y: auto;
+}
+
+.table-controls {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2; /* Ensure buttons are always clickable */
+}
+
+.table-control-button {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.table-and-map-container > #osm-map {
+    min-height: 30vh;
 }
 
 .table-container, #osm-map {
     flex: 1; 
-    z-index: 0
+    z-index: 2;
 }
 
 .table-container table {
