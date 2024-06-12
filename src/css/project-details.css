@@ -163,7 +163,7 @@ body, html {
 }
 
 .image-gallery a {
-    width: calc(33.33% - 10px); /* Adjust width considering 10px gap */
+    width: calc(33.33% - 6.7px); /* Adjust width considering 10px gap */
     display: block; /* Treats the link as a block, enabling width and height settings */
     text-decoration: none; /* Removes underline from links */
 }
