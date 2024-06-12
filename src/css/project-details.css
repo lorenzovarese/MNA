@@ -29,9 +29,13 @@ body, html {
 }
 
 .image-overlay-container {
-    position: relative;
-    display: block;
-    width: 100%;
+    display: flex; /* Use flexbox for easy alignment */
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    width: 100%; /* Ensure the container takes up the full width */
+    height: 33vh; /* Maximum height of the container */
+    overflow: hidden; /* Hide any part of the image that exceeds the container size */
+    position: relative; /* Ensures the overlay and other elements are positioned correctly */
 }
 
 .img-overlay {
@@ -69,7 +73,7 @@ body, html {
     height: 5em; /* Height of the button/icon */
     background-color: white; /* Background color of the button */
     border: none; /* No border */
-    z-index: 2; /* Ensures button is above the overlay */
+    z-index: 3; /* Ensures button is above the overlay */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); /* Subtle shadow for better visibility */
 }
 
@@ -92,19 +96,18 @@ body, html {
 .language-option {
     padding: 10px;
     cursor: pointer;
-  }
+}
   
-  .language-option:hover {
-    background-color: #f0f0f0;
-  }
+.language-option:hover {
+background-color: #f0f0f0;
+}
 
 .language-dropdown {
     position: absolute;
     background-color: #fff;
     border: 1px solid #ccc;
     width: 100%;
-    z-index: 3;
-    display: none;
+    z-index: 4;
   }
 
 .text-section {
@@ -184,12 +187,13 @@ body, html {
 }
 
 .phase-image {
-    flex: 1; /* Keep your existing configuration */
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    position: relative; /* Ensures proper stacking */
-    min-height: 250px; /* Adjust based on your image's typical height or keep it responsive */
+    width: 100%; /* Image must fill the full width of the container */
+    height: 100%; /* Image must try to fill the full height but will be cropped due to container overflow */
+    object-fit: cover; /* Ensures the image covers the area without stretching */
+    position: absolute; /* Position it relative to its container */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Align the center of the image with the center of the container */
 }
 
 .video{

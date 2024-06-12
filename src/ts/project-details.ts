@@ -223,9 +223,12 @@ function populateMediaDetails(metadata: ProjectMetadata) {
     gallery.appendChild(link);
   }
 
+  const youtubeIframe = document.getElementById("project-video")! as HTMLIFrameElement;
   if (metadata.youtubeVideoLink) {
-    const iframe = document.querySelector<HTMLIFrameElement>(".video")!;
-    iframe.src = metadata.youtubeVideoLink;
+    youtubeIframe.src = metadata.youtubeVideoLink;
+  }
+  else{
+    youtubeIframe.style.display='none';
   }
 
   initializeLightGallery(); // Initialize the lightGallery on the updated gallery
