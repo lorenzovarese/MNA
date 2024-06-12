@@ -112,11 +112,22 @@ body, html {
     padding: 2em;
 }
 
-.table-container {
+.table-and-map-container {
+    display: flex;
     width: 100%;
-    min-height: 250px; /* Adjusted by JavaScript, as necessary */
+    align-items: flex-start; /* Align items at the start of the container */
+    gap: 1em; /* Add space between the table and the map */
+}
+
+.table-container {
+    width: 50%; /* Table takes half the width */
+    min-height: 250px; /* As previously defined */
     overflow-y: auto; /* Adds scrollbar when necessary */
-    border: #ccc 3px solid; /* Add border for separation */
+    border: 3px solid #ccc; /* Separates table from map */
+}
+
+.table-container, #osm-map {
+    flex: 1; 
 }
 
 .table-container table {

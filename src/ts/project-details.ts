@@ -44,6 +44,20 @@ async function loadProjectDescription(projectNumber: number) {
   }
 }
 
+function initializeOSMMap(gpsCoordinates: string, projectTitle: string) {
+    const [lat, lon] = gpsCoordinates.split(",");
+    const map = L.map('osm-map').setView([parseFloat(lat), parseFloat(lon)], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([parseFloat(lat), parseFloat(lon)]).addTo(map)
+        .bindPopup(projectTitle)
+        .openPopup();
+}
+
 // Function to populate the project details
 function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
   document.querySelector<HTMLTitleElement>(
@@ -68,11 +82,11 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
   )?.color;
   if (categoryColor) {
     descriptionSection.style.backgroundColor = categoryColor;
-    tableContainer.style.borderColor = categoryColor;
+    // tableContainer.style.borderColor = categoryColor;
   }
 
   const table = document.querySelector<HTMLTableElement>("table")!;
-  table.innerHTML = `
+    table.innerHTML = `
         <tr><td>Project:</td><td>${project.project}</td></tr>
         <tr><td>Title:</td><td>${project.title}</td></tr>
         <tr><td>Category:</td><td>${project.category}</td></tr>
@@ -82,7 +96,6 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
         <tr><td>Street:</td><td>${project.street}</td></tr>
         <tr><td>Canton Region:</td><td>${project.cantonRegion}</td></tr>
         <tr><td>Zip Code:</td><td>${project.zipCode}</td></tr>
-        <tr><td>GPS:</td><td>${project.GPS}</td></tr>
         <tr><td>Year:</td><td>${project.year}</td></tr>
         <tr><td>Project Number:</td><td>${project.projectNumber}</td></tr>
         <tr><td>Client:</td><td>${project.client}</td></tr>
@@ -91,6 +104,9 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
         <tr><td>Phase:</td><td>${project.phase}</td></tr>
         <tr><td>Subphase:</td><td>${project.subphase}</td></tr>
     `;
+    if (project && project.GPS && project.title) {
+        initializeOSMMap(project.GPS, project.title);
+    }
 }
 
 // Function to populate media details

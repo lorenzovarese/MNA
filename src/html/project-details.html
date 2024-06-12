@@ -8,6 +8,8 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js/dist/css/lightgallery.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/lightgallery.js/dist/js/lightgallery.min.js"></script>
     <link rel="stylesheet" href="../css/project-details.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   </head>
   <body>
     <div class="container">
@@ -33,9 +35,14 @@
       <!-- Dynamic description section -->
         <section class="text-section" id="project-description">Loading Description...</section>
 
-        <!-- Table dynamically filled via JavaScript -->
-        <div class="table-container">
-            <table id="project-details-table"></table>
+        <!-- Adjusted Table and Google Maps Section -->
+        <div class="table-and-map-container">
+            <div class="table-container">
+                <table id="project-details-table"></table>
+            </div>
+            <!-- Placeholder for OpenStreetMap -->
+            <div id="osm-map" style="width: 50%; min-height: 30vh;"></div>
+
         </div>
 
         <!-- Phase specific header, similar to main project header -->
