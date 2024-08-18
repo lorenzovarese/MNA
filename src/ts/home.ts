@@ -115,20 +115,80 @@ function insertSocialSquares(container: HTMLDivElement, numberOfProjects: number
 }
 
 /**
- * Inserts control squares such as menu, legend, blog, sorting, and language options into the container.
- * These control squares are placed at random positions based on current layout.
- * 
- * @param {HTMLDivElement} container - The container where control squares will be inserted.
+ * Inserts category control squares such as Profile, Context, Contents, and Outlook into the container.
+ * Each category control square will display a menu with the respective pages when clicked.
+ *
+ * @param {HTMLDivElement} container - The container where the category control squares will be inserted.
  */
-function insertControlSquares(container: HTMLDivElement): void {
-
-    const numberOfControlSquares = 5; // Menu + Legend + Blog + Sorting + Language
-
-    const pages: PageInformation[] = [
-        { name: "Contact", link: "contact.html" },
-        { name: "Biography", link: "biography.html" },
-        { name: "Imprint", link: "imprint.html" },
+function insertCategoryControlSquares(container: HTMLDivElement): void {
+    const categories: { name: string, pages: PageInformation[], icon: string }[] = [
+        {
+            name: 'Profile',
+            pages: [
+                { name: "Contact", link: "profile/contact.html" },
+                { name: "Experiences", link: "profile/experiences.html" },
+                { name: "Services", link: "profile/services.html" },
+            ],
+            icon: 'profile-icon.webp'
+        },
+        {
+            name: 'Context',
+            pages: [
+                { name: "Introduction", link: "context/introduction.html" },
+                { name: "Biography", link: "context/bio.html" },
+                { name: "Thanks", link: "context/thanks.html" },
+            ],
+            icon: 'context-icon.webp'
+        },
+        {
+            name: 'Contents',
+            pages: [
+                { name: "Systems", link: "contents/systems.html" },
+                { name: "Process", link: "contents/process.html" },
+                { name: "Models", link: "contents/models.html" },
+                { name: "Research", link: "contents/research.html" },
+                { name: "Categories", link: "contents/categories.html" },
+            ],
+            icon: 'contents-icon.webp'
+        },
+        {
+            name: 'Outlook',
+            pages: [
+                { name: "Excursion", link: "outlook/excursion.html" },
+                { name: "Conversation", link: "outlook/conversation.html" },
+            ],
+            icon: 'outlook-icon.webp'
+        }
     ];
+
+    const currentSquareCount = container.querySelectorAll('.square').length;
+    const randomPositions = getRandomPositions(0, currentSquareCount / 2, categories.length);
+
+    categories.forEach((category, index) => {
+        insertRandomElement(container, () => {
+            const controlDiv = document.createElement('div');
+            controlDiv.className = 'square control-square';
+            controlDiv.innerHTML = `<img src="../assets/img/icons/${category.icon}" alt="${category.name}" width="40">`;
+            controlDiv.addEventListener('click', (event: MouseEvent) => {
+                showPopup({
+                    type: 'menu',
+                    x: event.x,
+                    y: event.y,
+                    pages: category.pages,
+                });
+            });
+            return controlDiv;
+        }, randomPositions[index], index);
+    });
+}
+
+/**
+ * Inserts legend and other control squares such as Blog, Sorting, and Language options into the container.
+ *
+ * @param {HTMLDivElement} container - The container where the legend and other control squares will be inserted.
+ */
+function insertLegendAndOtherControlSquares(container: HTMLDivElement): void {
+
     const legend: LegendEntry[] = [
         { title: "urban planning", color: "#a9d252" },
         { title: "single building", color: "#93dbe0" },
@@ -141,33 +201,13 @@ function insertControlSquares(container: HTMLDivElement): void {
     const sortingOption: SortingOptions[] = [SortingOptions.NUMBER, SortingOptions.COLOUR, SortingOptions.PROGRAM, SortingOptions.PHASE];
 
     const currentSquareCount = container.querySelectorAll('.square').length;
-
-    // Randomly select positions for control squares from 0 to currentSquareCount/2
-    const randomPositions = getRandomPositions(0, currentSquareCount / 2, numberOfControlSquares);
-
-    // Insert square for navigation menu
-    insertRandomElement(container, (index) => {
-        const controlDiv = document.createElement('div');
-        controlDiv.className = 'square control-square';
-        controlDiv.innerHTML = `<img src="../assets/img/icons/menu-white.webp" alt="Menu" width="40">`;
-        // Add event listener for menu squares
-        controlDiv.addEventListener('click', (event: MouseEvent) => {
-            showPopup({
-                type: 'menu',
-                x: event.x,
-                y: event.y,
-                pages: pages,
-            });
-        });
-        return controlDiv;
-    }, randomPositions[0], 0);
+    const randomPositions = getRandomPositions(0, currentSquareCount / 2, 4); // Adjust the number based on elements
 
     // Insert square for legend
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square logo-img';
         controlDiv.innerHTML = `<img src="../assets/img/icons/mna-logo-white.webp" alt="Legend" width="40">`;
-        // Add event listener for legend squares
         controlDiv.addEventListener('click', (event: MouseEvent) => {
             showPopup({
                 type: 'legend',
@@ -176,29 +216,25 @@ function insertControlSquares(container: HTMLDivElement): void {
                 entries: legend,
             });
         });
-
         return controlDiv;
-    }, randomPositions[1], 1);
+    }, randomPositions[0], 0);
 
     // Insert square for blog
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square';
         controlDiv.innerHTML = `<img src="../assets/img/icons/blog-white.webp" alt="Blog" width="40">`;
-        // Add event listener for blog squares
-        controlDiv.addEventListener('click', (event: MouseEvent) => {
-            //Navigate to blog page
+        controlDiv.addEventListener('click', () => {
             window.location.href = blogPage.link;
         });
         return controlDiv;
-    }, randomPositions[2], 2);
+    }, randomPositions[1], 1);
 
     // Insert square for sorting options
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square';
         controlDiv.innerHTML = `<img src="../assets/img/icons/sorting-white.webp" alt="Sorting" width="40">`;
-        // Add event listener for sorting squares
         controlDiv.addEventListener('click', (event: MouseEvent) => {
             showPopup({
                 type: 'sorting',
@@ -208,14 +244,13 @@ function insertControlSquares(container: HTMLDivElement): void {
             });
         });
         return controlDiv;
-    }, randomPositions[3], 3);
+    }, randomPositions[2], 2);
 
     // Insert square for language options
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square';
         controlDiv.innerHTML = `<img src="../assets/img/icons/world-white.webp" alt="Language" width="40">`;
-        // Add event listener for language squares
         controlDiv.addEventListener('click', (event: MouseEvent) => {
             showPopup({
                 type: 'languages',
@@ -225,7 +260,18 @@ function insertControlSquares(container: HTMLDivElement): void {
             });
         });
         return controlDiv;
-    }, randomPositions[4], 4);
+    }, randomPositions[3], 3);
+}
+
+/**
+ * Inserts all control squares, including category controls, legend, and other options, into the container.
+ * This function combines the insertion of category control squares with the insertion of legend and other controls.
+ *
+ * @param {HTMLDivElement} container - The container where all control squares will be inserted.
+ */
+function insertControlSquares(container: HTMLDivElement): void {
+    insertCategoryControlSquares(container);
+    insertLegendAndOtherControlSquares(container);
 }
 
 /**
