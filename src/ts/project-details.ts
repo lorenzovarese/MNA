@@ -15,6 +15,8 @@ const categoryColors: categoryColorMapping[] = [
   { title: "default", color: "#f0f0f0" },
 ];
 
+const projectsFolder: String = '../assets/projects'
+
 // #region Translation
 export interface Translations {
     en: Record<string, string>;
@@ -102,7 +104,7 @@ function getQueryParam(param: string): string | null {
 // Function to load project description from a file
 async function loadProjectDescription(projectNumber: number) {
   const selectedLanguage = localStorage.getItem("selectedLanguage") || "en"; // Default to English
-  const url = `../assets/projects/${projectNumber}/global/doc/${selectedLanguage}_desc.txt`;
+  const url = `${projectsFolder}/${projectNumber}/global/doc/${selectedLanguage}_desc.txt`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -143,7 +145,7 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
   )!.textContent = `${project.title} Project`;
   document.querySelector<HTMLImageElement>(
     ".img-overlay"
-  )!.src = `../assets/projects/${project.projectNumber}/global/img/thumbnail.jpg`;
+  )!.src = `${projectsFolder}/${project.projectNumber}/global/img/thumbnail.jpg`;
   document.querySelector<HTMLImageElement>(".img-overlay")!.alt = project.title;
   document.querySelector<HTMLElement>(".overlay-text")!.textContent =
     project.title;
@@ -196,14 +198,16 @@ function populateMediaDetails(metadata: ProjectMetadata) {
   ) as HTMLTextAreaElement;
   const downloadButton = document.querySelector('#projectboard-button') as HTMLLinkElement;
 
+  const phaseFolder: String = `${projectsFolder}/${metadata.projectNumber}/phase${metadata.phase}`
+
   phaseText.textContent = `Phase ${metadata.phase}`;
-  phaseImage.src = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/img/thumbnail.jpg`;
+  phaseImage.src = `${phaseFolder}/img/thumbnail.jpg`;
   phaseImage.alt = `Phase ${metadata.phase} Thumbnail`;
 
   // Toggle the visibility of the download button based on projectboard availability
   if (metadata.projectboard) {
     downloadButton.style.display = 'block'; // Show if projectboard is true
-    downloadButton.href = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/doc/projectboard.pdf`;
+    downloadButton.href = `${phaseFolder}/doc/projectboard.pdf`;
 } else {
     downloadButton.style.display = 'none'; // Hide if false
 }
@@ -212,7 +216,7 @@ function populateMediaDetails(metadata: ProjectMetadata) {
   gallery.innerHTML = "";
   for (let i = 1; i <= metadata.numberOfImages; i++) {
     const link = document.createElement("a");
-    link.href = `../assets/projects/${metadata.projectNumber}/phase${metadata.phase}/img/image${i}.webp`;
+    link.href = `${phaseFolder}/img/image${i}.webp`;
     link.classList.add("gallery-item");
 
     const img = document.createElement("img");
