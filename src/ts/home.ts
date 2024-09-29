@@ -15,6 +15,8 @@ export enum SortingOptions {
     PHASE = 'phase',
 }
 
+const iconFolder : string = "../assets/img/icons";
+
 //#region Squares Display Functions
 
 /**
@@ -108,7 +110,7 @@ function insertSocialSquares(container: HTMLDivElement, numberOfProjects: number
         const socialDiv = document.createElement('div');
         socialDiv.className = 'square social-square';
         socialDiv.innerHTML = `<a href="${socialIcon.link}" target="_blank">
-                                   <img src="../assets/img/icons/${socialIcon.iconFileName}" alt="${socialIcon.name}" width="40">
+                                   <img src="${iconFolder}/${socialIcon.iconFileName}" alt="${socialIcon.name}" width="40">
                                </a>`;
         return socialDiv;
     }, socialIcons.length, currentSquareCount / 2, currentSquareCount - 1);
@@ -168,7 +170,7 @@ function insertCategoryControlSquares(container: HTMLDivElement): void {
         insertRandomElement(container, () => {
             const controlDiv = document.createElement('div');
             controlDiv.className = 'square control-square';
-            controlDiv.innerHTML = `<img src="../assets/img/icons/${category.icon}" alt="${category.name}" width="40">`;
+            controlDiv.innerHTML = `<img src="${iconFolder}/${category.icon}" alt="${category.name}" width="40">`;
             controlDiv.addEventListener('click', (event: MouseEvent) => {
                 showPopup({
                     type: 'menu',
@@ -207,7 +209,7 @@ function insertLegendAndOtherControlSquares(container: HTMLDivElement): void {
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square logo-img';
-        controlDiv.innerHTML = `<img src="../assets/img/icons/mna-logo-white.webp" alt="Legend" width="40">`;
+        controlDiv.innerHTML = `<img src="${iconFolder}/mna-logo-white.webp" alt="Legend" width="40">`;
         controlDiv.addEventListener('click', (event: MouseEvent) => {
             showPopup({
                 type: 'legend',
@@ -223,7 +225,7 @@ function insertLegendAndOtherControlSquares(container: HTMLDivElement): void {
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square';
-        controlDiv.innerHTML = `<img src="../assets/img/icons/blog-white.webp" alt="Blog" width="40">`;
+        controlDiv.innerHTML = `<img src="${iconFolder}/blog-white.webp" alt="Blog" width="40">`;
         controlDiv.addEventListener('click', () => {
             window.location.href = blogPage.link;
         });
@@ -234,7 +236,7 @@ function insertLegendAndOtherControlSquares(container: HTMLDivElement): void {
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square';
-        controlDiv.innerHTML = `<img src="../assets/img/icons/sorting-white.webp" alt="Sorting" width="40">`;
+        controlDiv.innerHTML = `<img src="${iconFolder}/sorting-white.webp" alt="Sorting" width="40">`;
         controlDiv.addEventListener('click', (event: MouseEvent) => {
             showPopup({
                 type: 'sorting',
@@ -250,7 +252,7 @@ function insertLegendAndOtherControlSquares(container: HTMLDivElement): void {
     insertRandomElement(container, (index) => {
         const controlDiv = document.createElement('div');
         controlDiv.className = 'square control-square';
-        controlDiv.innerHTML = `<img src="../assets/img/icons/world-white.webp" alt="Language" width="40">`;
+        controlDiv.innerHTML = `<img src="${iconFolder}/world-white.webp" alt="Language" width="40">`;
         controlDiv.addEventListener('click', (event: MouseEvent) => {
             showPopup({
                 type: 'languages',
@@ -518,7 +520,7 @@ function sortProjects(projectsArray: Project[], sortOrder: SortingOptions): Proj
                 if (!a.program) return 0;
                 return a.program.localeCompare(b.program || '');
             case SortingOptions.PHASE:
-                if (!a.phase || !b.phase) {console.error('Phase not found one of these projects:', a.project, b.project); return 0;}
+                if (!a.phase || !b.phase) {console.error('Cannot sort by phase when comparing these projects:', a.projectName, b.projectName); return 0;}
                 return a.phase - b.phase;
             default:
                 return 0;
