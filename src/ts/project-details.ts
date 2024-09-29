@@ -148,17 +148,37 @@ function initializeOSMMap(latitude: number | null, longitude: number | null, pro
         .openPopup();
 }
 
-// Function to populate the project details
-function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
-  document.querySelector<HTMLTitleElement>(
-    "title"
-  )!.textContent = `${project.title} Project`;
-  document.querySelector<HTMLImageElement>(
-    ".img-overlay"
-  )!.src = `${projectsFolder}/${project.projectNumber}/global/img/thumbnail.jpg`;
-  document.querySelector<HTMLImageElement>(".img-overlay")!.alt = project.title;
-  document.querySelector<HTMLElement>(".overlay-text")!.textContent =
-    project.title;
+/**
+ * Function to populate the project details for common information
+ *
+ * @param {Project} project - The project data.
+ * @param {ProjectMetadata} metadata - The metadata related to the project.
+ */
+function populateProjectCommon(project: Project, metadata: ProjectMetadata) {
+    const projectNumberPadded = project.projectNumber.toString().padStart(3, '0');
+    const commonFolder: string = `${projectsFolder}/${metadata.projectName}/${projectNumberPadded}.00_common`;
+    const imgOverlay = document.querySelector<HTMLImageElement>(".img-overlay");
+    const imgOverlayContainer = document.querySelector<HTMLDivElement>(".image-overlay-container");
+    console.log(imgOverlayContainer)
+
+    document.querySelector<HTMLTitleElement>("title")!.textContent = `${project.title} Project`;
+    
+    if (imgOverlay) {
+        if (metadata.common.covers) {
+            // If image cover exists, display the cover image
+            imgOverlay.src = `${commonFolder}/${projectNumberPadded}.00.01_covers/${projectNumberPadded}.00.01_cover_wide.webp`;
+            imgOverlay.alt = project.title;
+        } else if (imgOverlayContainer) {
+            // If no image cover exists and imgOverlayContainer is found, apply a fallback color based on the project category
+            console.log(project.category)
+            const fallbackColor = categoryColors[project.category] || categoryColors["default"];
+            imgOverlayContainer.style.backgroundColor = fallbackColor;
+        }
+    }else{
+        console.error("Image overlay not found")
+    }
+
+    document.querySelector<HTMLElement>(".overlay-text")!.textContent = project.title;
 
   const descriptionSection = document.getElementById(
     "project-description"
@@ -289,8 +309,8 @@ async function main() {
   const projectNumber = getQueryParam("projectNumber");
   const phase = getQueryParam("phase");
 
-  if (!projectNumber || !phase) {
-    console.error("Missing URL parameters.");
+  if (!projectNumber) {
+    console.error("Missing project number in the URL parameter.");
     return;
   }
 
@@ -300,12 +320,12 @@ async function main() {
   );
 
   const project = projectsData[projectNumber];
-  const metadata = projectsMetadata[`${projectNumber}-${phase}`];
+  const metadata = projectsMetadata[projectNumber];
 
   if (project && metadata) {
-      populateProjectDetails(project, metadata);
+      populateProjectCommon(project, metadata);
       populateMediaDetails(metadata);
-      loadProjectDescription(project.projectNumber); // Load the project description from file
+      loadProjectDescription(project.projectNumber);
   } else {
     console.error("Project or metadata not found.");
   }
