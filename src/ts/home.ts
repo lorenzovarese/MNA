@@ -392,8 +392,16 @@ function showPopup(data: ProjectData | NavigationData | LegendData | LanguageDat
  * @param {HTMLElement} container - The container where the project content will be rendered.
  */
 function generateProjectContent(project: ProjectData, container: HTMLElement): void {
+    let titleHtmlTag : string;
+    if (project.title.length < 20){
+        titleHtmlTag = "h2"
+    }else if(project.title.length >= 20 && project.title.length <= 28){
+        titleHtmlTag = "h3"
+    }else{
+        titleHtmlTag = "h5"
+    }
     container.innerHTML = `
-        <h2>${project.title}</h2>
+        <${titleHtmlTag}>${project.title}</${titleHtmlTag}>
         <p>Project Number: ${project.projectNumber}</p>
         <p>Category: ${project.category}</p>
         <p>Year: ${project.year}</p>
@@ -403,7 +411,7 @@ function generateProjectContent(project: ProjectData, container: HTMLElement): v
     const button = document.createElement('button');
     button.className = 'project-button';
     button.textContent = '+';
-    button.style.fontSize = '2rem';
+    button.style.fontSize = '3rem';
     button.addEventListener('click', () => redirectToProjectPage(project.projectNumber, project.lastProjectPhase.toString()));
 
     // Append button to the after the project content

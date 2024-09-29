@@ -142,8 +142,9 @@ html {
     background: none;
     border: none;
     color: #ffffff;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
     cursor: pointer; /* Ensure it's clear it is clickable */
+    rotate: 45deg;
 }
 
 .popup-close:hover, .project-button:hover{
@@ -154,7 +155,6 @@ html {
 .project-button {
     position: absolute;
     bottom: 10px; /* Position it at the bottom */
-    left: 10px; /* Position it at the left */
     background: none;
     border: none;
     color: #ffffff;
