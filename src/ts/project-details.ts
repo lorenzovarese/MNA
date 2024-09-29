@@ -1,21 +1,17 @@
 import { Project, ProjectMetadata } from "./interfaces/project-interfaces";
 declare var lightGallery: any;
 
-interface categoryColorMapping {
-  title: string;
-  color: string;
-}
-
-const categoryColors: categoryColorMapping[] = [
-  { title: "urban planning", color: "#a9d252" },
-  { title: "single building", color: "#93dbe0" },
-  { title: "transformation", color: "#ffadc3" },
-  { title: "interior work", color: "#ffa937" },
-  { title: "installation", color: "#ffce36" },
-  { title: "default", color: "#f0f0f0" },
-];
-
 const projectsFolder: String = '../assets/projects'
+
+export const categoryColors: Record<string, string> = {
+    "activity": "#ffffff",
+    "urban planning": "#a9d252",
+    "single building": "#93dbe0",
+    "transformation": "#ffadc3",
+    "interior work": "#ffa937",
+    "installation": "#ffce36",
+    "default": "#f0f0f0"
+};
 
 // #region Translation
 export interface Translations {
@@ -124,16 +120,30 @@ async function loadProjectDescription(projectNumber: number) {
   }
 }
 
-function initializeOSMMap(gpsCoordinates: string, projectTitle: string) {
-    const [lat, lon] = gpsCoordinates.split(",");
-    const map = L.map('osm-map').setView([parseFloat(lat), parseFloat(lon)], 13);
+/**
+ * Initializes an OpenStreetMap (OSM) map with given latitude, longitude, and a project title.
+ *
+ * @param {number | null} latitude - Latitude of the project location or null if not available.
+ * @param {number | null} longitude - Longitude of the project location or null if not available.
+ * @param {string} projectTitle - Title of the project to display on the map marker.
+ */
+function initializeOSMMap(latitude: number | null, longitude: number | null, projectTitle: string) {
+    if (latitude === null || longitude === null) {
+        console.error('GPS coordinates are not available or invalid.');
+        return;
+    }
 
+    // Initialize the map with the provided latitude and longitude
+    const map = L.map('osm-map').setView([latitude, longitude], 13);
+
+    // Add OpenStreetMap tiles
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap contributors'
     }).addTo(map);
 
-    L.marker([parseFloat(lat), parseFloat(lon)]).addTo(map)
+    // Add a marker at the provided coordinates and bind the project title to a popup
+    L.marker([latitude, longitude]).addTo(map)
         .bindPopup(projectTitle)
         .openPopup();
 }
@@ -157,9 +167,7 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
     ".table-wrapper"
   ) as HTMLElement;
 
-  const categoryColor = categoryColors.find(
-    (entry) => entry.title === project.category
-  )?.color;
+  const categoryColor = categoryColors[project.category];
   if (categoryColor) {
     descriptionSection.style.backgroundColor = categoryColor;
     tableWrapper.style.borderColor = categoryColor;
@@ -167,7 +175,7 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
 
   const table = document.querySelector<HTMLTableElement>("table")!;
     table.innerHTML = `
-        <tr><td>${translate('Project')}:</td><td>${project.project}</td></tr>
+        <tr><td>${translate('Project')}:</td><td>${project.projectName}</td></tr>
         <tr><td>${translate('Title')}:</td><td>${project.title}</td></tr>
         <tr><td>${translate('Category')}:</td><td>${project.category}</td></tr>
         <tr><td>${translate('Program')}:</td><td>${project.program}</td></tr>
@@ -182,10 +190,10 @@ function populateProjectDetails(project: Project, metadata: ProjectMetadata) {
         <tr><td>${translate('Building Costs')}:</td><td>${project.buildingCosts}</td></tr>
         <tr><td>${translate('Deepness')}:</td><td>${project.deepness}</td></tr>
         <tr><td>${translate('Phase')}:</td><td>${project.phase}</td></tr>
-        <tr><td>${translate('Subphase')}:</td><td>${project.subphase}</td></tr>
+        <tr><td>${translate('Subphase')}:</td><td>${project.subPhase}</td></tr>
     `;
-    if (project && project.GPS && project.title) {
-        initializeOSMMap(project.GPS, project.title);
+    if (project && project.gps && project.title) {
+        initializeOSMMap(project.gps["latitude"], project.gps["longitude"], project.title);
     }
 }
 

@@ -6,11 +6,6 @@ export interface PageInformation {
     link: string;
 }
 
-export interface LegendEntry {
-    title: string;
-    color: string;
-}
-
 export interface PopupData {
     type: 'project' | 'legend' | 'menu' | 'languages' | 'blog' | 'sorting';
     x: number;
@@ -19,6 +14,7 @@ export interface PopupData {
 
 export interface ProjectData extends PopupData {
     projectNumber: number;
+    projectName: string;
     lastProjectPhase: number
     title: string;
     category: string;
@@ -30,7 +26,7 @@ export interface NavigationData extends PopupData {
 }
 
 export interface LegendData extends PopupData {
-    entries: LegendEntry[];
+    entries: Record<string, string>; // <categoy name, color in html code>
 }
 
 export interface LanguageData extends PopupData {

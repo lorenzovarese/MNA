@@ -1,6 +1,6 @@
 
-import { Project } from './interfaces/project-interfaces';
-import { ProjectData, NavigationData, LegendData, LanguageData, SortingData, LegendEntry, PageInformation } from './interfaces/home-interfaces';
+import { Project, ProjectMetadata } from './interfaces/project-interfaces';
+import { ProjectData, NavigationData, LegendData, LanguageData, SortingData, PageInformation } from './interfaces/home-interfaces';
 
 export enum Languages {
     EN = 'EN',
@@ -15,6 +15,17 @@ export enum SortingOptions {
     PHASE = 'phase',
 }
 
+export const categoryColors: Record<string, string> = {
+    "activity": "#ffffff",
+    "urban planning": "#a9d252",
+    "single building": "#93dbe0",
+    "transformation": "#ffadc3",
+    "interior work": "#ffa937",
+    "installation": "#ffce36",
+    "default": "#f0f0f0"
+};
+
+const projectFolder : string = "../assets/projects";
 const iconFolder : string = "../assets/img/icons";
 
 //#region Squares Display Functions
@@ -76,7 +87,8 @@ function insertProjectSquares(container: HTMLDivElement, projectsArray: Project[
                 x: event.x,
                 y: event.y,
                 projectNumber: project.projectNumber,
-                lastProjectPhase: project.phase || 2, //2 is the most frequent
+                projectName: project.projectName,
+                lastProjectPhase: project.phase || 2, // fallback to 2 as the most frequent
                 title: project.title,
                 category: project.category,
                 year: project.year,
@@ -190,14 +202,6 @@ function insertCategoryControlSquares(container: HTMLDivElement): void {
  * @param {HTMLDivElement} container - The container where the legend and other control squares will be inserted.
  */
 function insertLegendAndOtherControlSquares(container: HTMLDivElement): void {
-
-    const legend: LegendEntry[] = [
-        { title: "urban planning", color: "#a9d252" },
-        { title: "single building", color: "#93dbe0" },
-        { title: "transformation", color: "#ffadc3" },
-        { title: "interior work", color: "#ffa937" },
-        { title: "installation", color: "#ffce36" },
-    ];
     const blogPage: PageInformation = { name: "Blog", link: "blog.html" };
     const languages: Languages[] = [Languages.EN, Languages.DE, Languages.IT];
     const sortingOption: SortingOptions[] = [SortingOptions.NUMBER, SortingOptions.COLOUR, SortingOptions.PROGRAM, SortingOptions.PHASE];
@@ -215,7 +219,7 @@ function insertLegendAndOtherControlSquares(container: HTMLDivElement): void {
                 type: 'legend',
                 x: event.x,
                 y: event.y,
-                entries: legend,
+                entries: categoryColors,
             });
         });
         return controlDiv;
@@ -407,16 +411,35 @@ function generateProjectContent(project: ProjectData, container: HTMLElement): v
 }
 
 /**
- * Updates the background image of the popup to show the project's image.
+ * Updates the background image of the popup to show the project's image or fallback to a color based on category.
  *
  * @param {ProjectData} project - Data about the project to display its image.
  */
 function updateProjectImage(project: ProjectData) {
     const popupImage = document.getElementById('popup-image') as HTMLDivElement;
-    if (popupImage) {
-        popupImage.style.background = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)), url('../assets/projects/${project.projectNumber}/global/img/thumbnail.jpg')`;
-        popupImage.style.backgroundSize = 'cover';
-        popupImage.style.backgroundPosition = 'center';
+    const projectNumberPadded = project.projectNumber.toString().padStart(3, '0');
+    const projectMetadata = JSON.parse(localStorage.getItem('projectsMetadata') || '{}') as Record<string, ProjectMetadata>;
+    const metadata = projectMetadata[project.projectNumber.toString()];
+
+    // Check if covers exist in project metadata
+    if (metadata?.common?.covers) {
+        const coversFolder = `${projectFolder}/${project.projectName}/${projectNumberPadded}.00_common/${projectNumberPadded}.00.01_covers`;
+        if (popupImage) {
+            popupImage.style.background = `linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.33)), url('${coversFolder}/${projectNumberPadded}.00.01_cover_square.webp')`;
+            popupImage.style.backgroundSize = 'cover';
+            popupImage.style.backgroundPosition = 'center';
+        }
+    } else {
+        // If no cover exists, use the category's color from the legend
+        const defaultColor = '#ffffff'; // Default to white if category is not found
+        const legendColor = categoryColors[project.category] || defaultColor;
+        if (popupImage) {
+            const intensityTop : number = (legendColor === defaultColor) ? 0.7 : 0.33; // If white, increase intensity of the black shadow for higher contrast in the background
+            const intensityBottom : number = (legendColor === defaultColor) ? 0.2 : 0;
+            popupImage.style.background = `linear-gradient(rgba(0, 0, 0, ${intensityTop}), rgba(0, 0, 0, ${intensityBottom})), ${legendColor}`;
+            popupImage.style.backgroundSize = 'cover';
+            popupImage.style.backgroundPosition = 'center';
+        }
     }
 }
 
@@ -444,14 +467,14 @@ function redirectToProjectPage(projectNumber: number, phase: string): void {
 /**
  * Generates HTML content for displaying legend information in a popup.
  *
- * @param {LegendEntry[]} legends - Array of legend entries to display.
+ * @param {Record<string, string>} legend - Dictionary of legend entries with categories as keys and colors as values.
  * @returns {string} HTML string representing the legend entries.
  */
-function generateLegendContent(legends: LegendEntry[]): string {
-    return legends.map(legend => `
+function generateLegendContent(legend: Record<string, string>): string {
+    return Object.entries(legend).map(([title, color]) => `
         <div class="legend-entry">
-            <span class="legend-color" style="background-color: ${legend.color};"></span>
-            <span class="legend-text">${legend.title}</span>
+            <span class="legend-color" style="background-color: ${color};"></span>
+            <span class="legend-text">${title}</span>
         </div>
     `).join('');
 }
