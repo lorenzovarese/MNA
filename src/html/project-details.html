@@ -49,38 +49,17 @@
             <div id="osm-map" style="width: 50%; min-height: 30vh;"></div>
         </div>
 
-        <!-- Phase specific header, similar to main project header -->
-        <section class="header">
-            <div class="image-overlay-container">
-                <a id="projectboard-button" class="overlay-button back-home-button">
-                    <img src="/src/assets/img/icons/filedownload.png" alt="Projectboard" style="width:100%; height:auto;"/>
-                  </a>
-                <!-- Phase specific image dynamically set via JavaScript -->
-                <img class="img-overlay" id="phase-image" alt="Phase Image" />
-                <div class="overlay"></div>
-                <h2 class="overlay-text" id="phase-name"></h2>
-            </div>
-        </section>
-
-        <!-- Dynamic image gallery -->
-        <section class="image-gallery" id="project-gallery">
-            <!-- Images will be dynamically inserted here -->
-        </section>
-
-        <!-- Dynamic video embed -->
-        <iframe id="project-video" frameborder="0" allowfullscreen sandbox="allow-scripts allow-forms allow-same-origin" class="video"></iframe>
-
         <footer class="footer">
             <div class="navigation">
-                <a href="/src/html/home.html">
+                <a href="/src/html/home.html" class="footer-button">
                     <img src="../assets/img/icons/phi.png" alt="Phase 1 Logo"/>
-                  </a>
-                  <a href="/src/html/home.html">
-                      <img src="../assets/img/icons/gamma.png" alt="Phase 2 Logo" />
-                  </a>
-                  <a href="/src/html/home.html">
-                      <img src="../assets/img/icons/sigma.png" alt="Phase 3 Logo" />
-                  </a>
+                </a>
+                <a href="/src/html/home.html" class="footer-button">
+                    <img src="../assets/img/icons/gamma.png" alt="Phase 2 Logo"/>
+                </a>
+                <a href="/src/html/home.html" class="footer-button">
+                    <img src="../assets/img/icons/sigma.png" alt="Phase 3 Logo"/>
+                </a>
             </div>
         </footer>
     </div>
@@ -88,3 +67,27 @@
     <script type="module" src="../js/project-details.js"></script>
 </body>
 </html>
+
+<!-- 
+// Phase specific header, similar to main project header
+<section class="header">
+    <div class="image-overlay-container">
+        <a id="projectboard-button" class="overlay-button back-home-button">
+            <img src="/src/assets/img/icons/filedownload.png" alt="Projectboard" style="width:100%; height:auto;"/>
+          </a>
+        // Phase specific image dynamically set via JavaScript 
+        <img class="img-overlay" id="phase-image" alt="Phase Image" />
+        <div class="overlay"></div>
+        <h2 class="overlay-text" id="phase-name"></h2>
+    </div>
+</section>
+
+// Dynamic image gallery
+<section class="image-gallery" id="project-gallery">
+    // Images will be dynamically inserted here
+</section>
+
+// Dynamic video embed
+<iframe id="project-video" frameborder="0" allowfullscreen sandbox="allow-scripts allow-forms allow-same-origin" class="video"></iframe>
+
+-->

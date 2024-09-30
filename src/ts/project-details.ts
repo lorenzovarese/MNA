@@ -159,7 +159,6 @@ function populateProjectCommon(project: Project, metadata: ProjectMetadata) {
     const commonFolder: string = `${projectsFolder}/${metadata.projectName}/${projectNumberPadded}.00_common`;
     const imgOverlay = document.querySelector<HTMLImageElement>(".img-overlay");
     const imgOverlayContainer = document.querySelector<HTMLDivElement>(".image-overlay-container");
-    console.log(imgOverlayContainer)
 
     document.querySelector<HTMLTitleElement>("title")!.textContent = `${project.title} Project`;
     
@@ -170,7 +169,6 @@ function populateProjectCommon(project: Project, metadata: ProjectMetadata) {
             imgOverlay.alt = project.title;
         } else if (imgOverlayContainer) {
             // If no image cover exists and imgOverlayContainer is found, apply a fallback color based on the project category
-            console.log(project.category)
             const fallbackColor = categoryColors[project.category] || categoryColors["default"];
             imgOverlayContainer.style.backgroundColor = fallbackColor;
         }
@@ -191,6 +189,7 @@ function populateProjectCommon(project: Project, metadata: ProjectMetadata) {
   if (categoryColor) {
     descriptionSection.style.backgroundColor = categoryColor;
     tableWrapper.style.borderColor = categoryColor;
+    tableWrapper.style.borderWidth = "5px";
   }
 
   const table = document.querySelector<HTMLTableElement>("table")!;
@@ -221,6 +220,7 @@ function populateProjectCommon(project: Project, metadata: ProjectMetadata) {
 function populateMediaDetails(metadata: ProjectMetadata) {
   // Populate phase specific thumbnail
   const phaseImage = document.getElementById("phase-image") as HTMLImageElement;
+  return;
   const phaseText = document.getElementById(
     "phase-name"
   ) as HTMLTextAreaElement;
