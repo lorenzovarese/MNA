@@ -155,8 +155,8 @@ function initializeOSMMap(latitude: number | null, longitude: number | null, pro
  * @param {ProjectMetadata} metadata - The metadata related to the project.
  */
 function populateProjectCommon(project: Project, metadata: ProjectMetadata) {
-    const projectNumberPadded = project.projectNumber.toString().padStart(3, '0');
-    const commonFolder: string = `${projectsFolder}/${metadata.projectName}/${projectNumberPadded}.00_common`;
+    const projectIdPadded = project.projectId.toString().padStart(3, '0');
+    const commonFolder: string = `${projectsFolder}/${metadata.projectName}/${projectIdPadded}.00_common`;
     const imgOverlay = document.querySelector<HTMLImageElement>(".img-overlay");
     const imgOverlayContainer = document.querySelector<HTMLDivElement>(".image-overlay-container");
 
@@ -165,7 +165,7 @@ function populateProjectCommon(project: Project, metadata: ProjectMetadata) {
     if (imgOverlay) {
         if (metadata.common.covers) {
             // If image cover exists, display the cover image
-            imgOverlay.src = `${commonFolder}/${projectNumberPadded}.00.01_covers/${projectNumberPadded}.00.01_cover_wide.webp`;
+            imgOverlay.src = `${commonFolder}/${projectIdPadded}.00.01_covers/${projectIdPadded}.00.01_cover_wide.webp`;
             imgOverlay.alt = project.title;
         } else if (imgOverlayContainer) {
             // If no image cover exists and imgOverlayContainer is found, apply a fallback color based on the project category
@@ -204,12 +204,11 @@ function populateProjectCommon(project: Project, metadata: ProjectMetadata) {
         <tr><td>${translate('Canton Region')}:</td><td>${project.cantonRegion}</td></tr>
         <tr><td>${translate('Zip Code')}:</td><td>${project.zipCode}</td></tr>
         <tr><td>${translate('Year')}:</td><td>${project.year}</td></tr>
-        <tr><td>${translate('Project Number')}:</td><td>${project.projectNumber}</td></tr>
+        <tr><td>${translate('Project Number')}:</td><td>${project.projectId}</td></tr>
         <tr><td>${translate('Client')}:</td><td>${project.client}</td></tr>
         <tr><td>${translate('Building Costs')}:</td><td>${project.buildingCosts}</td></tr>
-        <tr><td>${translate('Deepness')}:</td><td>${project.deepness}</td></tr>
-        <tr><td>${translate('Phase')}:</td><td>${project.phase}</td></tr>
-        <tr><td>${translate('Subphase')}:</td><td>${project.subPhase}</td></tr>
+        <tr><td>${translate('Phase')}:</td><td>${project.phases}</td></tr>
+        <tr><td>${translate('Subphase')}:</td><td>${project.subphase}</td></tr>
     `;
     if (project && project.gps && project.title) {
         initializeOSMMap(project.gps["latitude"], project.gps["longitude"], project.title);
@@ -221,49 +220,49 @@ function populateMediaDetails(metadata: ProjectMetadata) {
   // Populate phase specific thumbnail
   const phaseImage = document.getElementById("phase-image") as HTMLImageElement;
   return;
-  const phaseText = document.getElementById(
-    "phase-name"
-  ) as HTMLTextAreaElement;
-  const downloadButton = document.querySelector('#projectboard-button') as HTMLLinkElement;
+//   const phaseText = document.getElementById(
+//     "phase-name"
+//   ) as HTMLTextAreaElement;
+//   const downloadButton = document.querySelector('#projectboard-button') as HTMLLinkElement;
 
-  const phaseFolder: String = `${projectsFolder}/${metadata.projectNumber}/phase${metadata.phase}`
+//   const phaseFolder: String = `${projectsFolder}/${metadata.projectNumber}/phase${metadata.phase}`
 
-  phaseText.textContent = `Phase ${metadata.phase}`;
-  phaseImage.src = `${phaseFolder}/img/thumbnail.jpg`;
-  phaseImage.alt = `Phase ${metadata.phase} Thumbnail`;
+//   phaseText.textContent = `Phase ${metadata.phase}`;
+//   phaseImage.src = `${phaseFolder}/img/thumbnail.jpg`;
+//   phaseImage.alt = `Phase ${metadata.phase} Thumbnail`;
 
-  // Toggle the visibility of the download button based on projectboard availability
-  if (metadata.projectboard) {
-    downloadButton.style.display = 'block'; // Show if projectboard is true
-    downloadButton.href = `${phaseFolder}/doc/projectboard.pdf`;
-} else {
-    downloadButton.style.display = 'none'; // Hide if false
-}
+//   // Toggle the visibility of the download button based on projectboard availability
+//   if (metadata.projectboard) {
+//     downloadButton.style.display = 'block'; // Show if projectboard is true
+//     downloadButton.href = `${phaseFolder}/doc/projectboard.pdf`;
+// } else {
+//     downloadButton.style.display = 'none'; // Hide if false
+// }
 
-  const gallery = document.querySelector(".image-gallery")!;
-  gallery.innerHTML = "";
-  for (let i = 1; i <= metadata.numberOfImages; i++) {
-    const link = document.createElement("a");
-    link.href = `${phaseFolder}/img/image${i}.webp`;
-    link.classList.add("gallery-item");
+//   const gallery = document.querySelector(".image-gallery")!;
+//   gallery.innerHTML = "";
+//   for (let i = 1; i <= metadata.numberOfImages; i++) {
+//     const link = document.createElement("a");
+//     link.href = `${phaseFolder}/img/image${i}.webp`;
+//     link.classList.add("gallery-item");
 
-    const img = document.createElement("img");
-    img.src = link.href;
-    img.alt = `Gallery Image ${i}`;
+//     const img = document.createElement("img");
+//     img.src = link.href;
+//     img.alt = `Gallery Image ${i}`;
 
-    link.appendChild(img);
-    gallery.appendChild(link);
-  }
+//     link.appendChild(img);
+//     gallery.appendChild(link);
+//   }
 
-  const youtubeIframe = document.getElementById("project-video")! as HTMLIFrameElement;
-  if (metadata.youtubeVideoLink) {
-    youtubeIframe.src = metadata.youtubeVideoLink;
-  }
-  else{
-    youtubeIframe.style.display='none';
-  }
+//   const youtubeIframe = document.getElementById("project-video")! as HTMLIFrameElement;
+//   if (metadata.youtubeVideoLink) {
+//     youtubeIframe.src = metadata.youtubeVideoLink;
+//   }
+//   else{
+//     youtubeIframe.style.display='none';
+//   }
 
-  initializeLightGallery(); // Initialize the lightGallery on the updated gallery
+//   initializeLightGallery(); // Initialize the lightGallery on the updated gallery
 }
 
 // Initialize lightGallery on the gallery element

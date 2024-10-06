@@ -13,9 +13,9 @@ export interface PopupData {
 }
 
 export interface ProjectData extends PopupData {
-    projectNumber: number;
+    projectId: number;
     projectName: string;
-    lastProjectPhase: number
+    lastProjectPhase: number;
     title: string;
     category: string;
     year: number;
@@ -26,7 +26,7 @@ export interface NavigationData extends PopupData {
 }
 
 export interface LegendData extends PopupData {
-    entries: Record<string, string>; // <categoy name, color in html code>
+    entries: Record<string, string>; // <category name, color in HTML code>
 }
 
 export interface LanguageData extends PopupData {

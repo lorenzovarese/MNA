@@ -1,75 +1,75 @@
-project_name,project_id,year,title,category,program,country,city,street,number,canton/region,zip-code,GPS,cad_num,client,building costs,deepness,phase,subphase,sea_elevation
-019.004_piazzafontana.milano,19,2004,piazzafontana.milano,urban planning,museum,Italy,Milan,Piazza Fontana,,Lombardy,20122,"45.46349108941711, 9.194238858394938",,,,1(3),2,diploma,
-020.005_ostiense.roma,20,2005,ostiense.roma,activity,azione in difesa dell'uomo,Italy,Rome,Via Ostiense,,Lazio,154,"41.87554291478374, 12.480746464748071",,,,1(2),2,workshop,
-021.007_hönggerbergring.zürich,21,2007,hönggerbergring.zürich,urban planning,institute,Switzerland,Zurich,Hönggerbergring,,Zurich,8049,"47.40765573837828, 8.509126692496446",,,,1(2),2,competition,
-022.007_epd.modul,22,2007,epd.modul,installation,pavilion,,,,,,,"45.4721443873063, 9.17723820306027",,,,2,2,free project,
-023.007_viaperincarino.novamilanese,23,2007,viaperincarino.novamilanese,urban planning,swimming hall,Italy,Nova Milanese,Via Perincarino,,Lombardy,20834,"45.58243480366892, 9.197636477481032",,,,1(2),2,competition,
-024.007_elsässerstrasse.basel,24,2007,elsässerstrasse.basel,urban planning,pavilion,Switzerland,Basel,Elsässerstrasse,,Basel-Stadt,4056,"47.56797540818611, 7.58130274497909",,,,1(3),2,competition,
-025.008_dacasavallumnezia.vella,25,2008,dacasavallumnezia.vella,urban planning,retirement home,Switzerland,Vella,,,Grisons,7144,"46.71652264962144, 9.172222671704787",,,,1(3),2,competition,
-026.008_münsterhof.zürich,26,2008,münsterhof.zürich,transformation,housing,Switzerland,Zurich,Münsterhof,,Zurich,8001,"47.37017581884411, 8.540526825804076",,,,1(2),2,construction project,
-027.009_gubelstrasse.zürich,27,2009,gubelstrasse.zürich,urban planning,housing,Switzerland,Zurich,Gubelstrasse,,Zurich,8050,"47.40878696749217, 8.54381472133358",,,,2,2,free project,
-028.010_geeracker.dulliken,28,2010,geeracker.dulliken,urban planning,housing,Switzerland,Dulliken,Alte Landstrasse,,Solothurn,4657,"47.35102697771174, 7.941363573988788",,,,1(2),2,preliminary project,
-029.010_riminibar.zürich,29,2010,riminibar.zürich,installation,gastronomy,Switzerland,Zurich,Badweg,10,Zurich,8001,"47.371436067347005, 8.53273273212242",,,,1,2,construction project,
-030.010_brünnen.bern,30,2010,brünnen.bern,urban planning,housing,Switzerland,Bern,,,Bern,3027,"46.947624770728325, 7.375338700936558",,,,1(2),2,competition,
-031.010_kronenwiese.zürich,31,2010,kronenwiese.zürich,urban planning,housing,Switzerland,Zurich,Nordstrasse,,Zurich,8006,"47.38740028548639, 8.53619561637854",,,,2,2,competition,
-032.011_europaallee.zürich,32,2011,europaallee.zürich,urban planning,mixed use,Switzerland,Zurich,Europaallee,Baufeld B,Zurich,8004,"47.378617579924054, 8.534797171543724",,institutional,CHF 45'000'000,3,2,competition,
-033.011_energycity.zürich,33,2011,energycity.zürich,installation,city vision,Switzerland,Zurich,Dreikönigsstrasse,18,Zürich,8002,"47.34256440219231, 8.552167877605461",,public,CHF 60'000,3,3,built,
-034.011_ethz.darch.handwerkhefte,34,2011,ethz.darch.handwerkhefte,activity,handbooks,Switzerland,Zurich,,,,,"47.40853188380191, 8.506320715250899",,,,1(3),3,publication,
-035.011_zwyssigstrasse.wettingen,35,2011,zwyssigstrasse.wettingen,urban planning,bank,Switzerland,Wettingen,Alberich-Zwyssigstrasse,,Aargau,5430,"47.46670544146943, 8.327946714926643",,institutional,CHF 15'000'000,3,2,competition,
-036.011_nairobi.kenia,36,2011,nairobi.kenia,urban planning,embassy,Kenya,Nairobi,,,,,"-1.2285680098399248, 36.800928919167056",,,,2,2,competition,
-037.011_stadthausareal.adliswil,37,2011,stadthausareal.adliswil,urban planning,mixed use,Switzerland,Adliswil,Zürichstrasse,,Zurich,8134,"47.312896604847595, 8.527061553481195",,institutional,CHF 50'000'000,3,2,competition,
-038.012_rapidplatz.dietikon,38,2012,rapidplatz.dietikon,installation,gastronomy,Switzerland,Dietikon,Rapidplatz,,Zurich,8953,"47.409836579104116, 8.404421226563185",,private,CHF 350'000,3,3,built,
-039.012_desgrandesroches.lausanne,39,2012,desgrandesroches.lausanne,transformation,planetarium,Switzerland,Lausanne,Route de Berne,,Vaud,1000,"46.56461721305716, 6.692571239803328",,,,1(3),2,competition,
-040.012_viaindustria.caslano,40,2012,viaindustria.caslano,urban planning,gymnasium,Switzerland,Caslano,Via Industria,,Ticino,6987,"45.97143401195718, 8.873892458611419",,public,CHF 20'000'000,3,2,competition,
-041.012_summerschool.unica,41,2012,summerschool.unica,activity,territorial planning,Italy,Cagliari,Via Università,,Sardinia,9121,"39.21780658230768, 9.115002909099765",,,,1(2),2,workshop,
-042.012_fraugeroldsgarten.zürich,42,2012,fraugeroldsgarten.zürich,installation,mixed use,Switzerland,Zurich,Geroldstrasse,23,Zurich,8005,"47.385360857504814, 8.519134017074144",,private,CHF 2'500'000,3,3,built,
-043.012_ethz.darch.abenteuerreisen.sardinien,43,2012,ethz.darch.abenteuerreisen.sardinien,activity,travel,Italy,,,,,,"40.833380149619465, 8.402229632574308",,,,1(3),3,event,
-044.013_ethz.darch.abenteuerreisen.sizilien,44,2013,ethz.darch.abenteuerreisen.sizilien,activity,travel,Italy,,,,,,"38.10402192076578, 15.647272295535492",,,,1(3),3,event,
-045.015_buchentwurf.9x9,45,2015,buchentwurf.9x9,activity,drafts,,,,,,,"47.40853188380191, 8.506320715250899",,,,1(3),2,publication,
-046.015_domus.milano.0995.michelelanza,46,2015,domus.milano.0995.michelelanza,activity,text,Italy,Milan,,,,,"45.384130273695845, 9.17096371694847",,,,1(3),3,publication,
-047.015_ochsenboden.nuolen,47,2015,ochsenboden.nuolen,single building,housing,Switzerland,Nuolen,Ochsenboden,,Schwyz,8855,"47.199705993490475, 8.888225365831804",,,,1(3),2,preliminary project,
-048.015_stationsstrasse.wetzikon,48,2015,stationsstrasse.wetzikon,single building,housing,Switzerland,Wetzikon,Stationsstrasse,36,Zurich,8620,"47.33244725820485, 8.80591226861432",,private,CHF 3'500'000,3,3,built,
-049.015_seebacherstrasse.zürich,49,2015,seebacherstrasse.zürich,transformation,housing,Switzerland,Zurich,Seebacherstrasse,36,Zurich,8052,"47.42217774071354, 8.545349267569755",,,,1(2),2,construction project,
-050.016_remsistrasse.weggis,50,2016,remsistrasse.weggis,urban planning,layout plan,Switzerland,Weggis,Remsistrasse,,Lucerne,6353,"47.03784670677852, 8.424445213155963",,private,CHF 4'000'000,3,2,construction project,
-051.016_grüzefeld.winterthur,51,2016,grüzefeld.winterthur,urban planning,facade variants,Switzerland,Winterthur,Grüzefeldstrasse,,Zurich,8400,"47.49541545255711, 8.750380630675181",,,,1(2),2,preliminary project,
-052.016_meientalstrasse.zürich,52,2016,meientalstrasse.zürich,transformation,housing,Switzerland,Zurich,Meientalstrasse,79,Zurich,8048,"47.38625324856347, 8.476446708457777",,private,CHF 2'000'000,3,3,built,
-053.016_maseltrangen.schänis,53,2016,maseltrangen.schänis,single building,housing,Switzerland,Schänis,,,St. Gallen,8718,"47.19065607887878, 9.052652583045738",,,,1,2,competition,
-054.016_marktgasse.biel,54,2016,marktgasse.biel,transformation,housing,Switzerland,Biel,Marktgasse,5-9,Bern,2502,"46.94791761233703, 7.447074896842781",,,,1,2,preliminary project,
-055.016_abiic.nigeria,55,2016,abiic.nigeria,installation,city vision,Nigeria,,,,,,"7.315252623107027, 8.276923862858645",,,,1(2),2,free project,
-056.017_kettberg.zürich,56,2017,kettberg.zürich,single building,housing,Switzerland,Zurich,Kettberg,31,Zurich,8049,"47.39862703399859, 8.514050246056199",,private,CHF 4'500'000,3,2,competition,
-057.017_oberseeweg.rapperswil,57,2017,oberseeweg.rapperswil,urban planning,housing,Switzerland,Rapperswil-Jona,Oberseeweg,,St. Gallen,8633,"47.22227236187302, 8.8296888079168",,,,1(2),2,competition,
-058.017_domus.milano.1019.werneroechslin,58,2017,domus.milano.1019.werneroechslin,activity,text,Italy,Milan,,,Lombardy,20019,"47.125179028073404, 8.748096293622204",,,,1(3),3,publication,
-059.017_eichliackerstrasse.winterthur,59,2017,eichliackerstrasse.winterthur,single building,housing,Switzerland,Winterthur,Eichliackerstrasse,63+65,Zurich,8406,"47.487791435722166, 8.712940858777303",,,,1,2,preliminary project,
-060.017_binzackerstrasse.wetzikon,60,2017,binzackerstrasse.wetzikon,urban planning,housing,Switzerland,Wetzikon,Binzackerstrasse,,Zurich,8620,"47.330270697906975, 8.80236707767215",,,,1(2),2,preliminary project,
-061.017_dimension.mittelmeer,61,2017,dimension.mittelmeer,installation,territorial vision,,,,,,,"35.35148045548858, 17.649424281566535",,,,3,3,free project,
-062.018_weingartenstrasse.naters,62,2018,weingartenstrasse.naters,urban planning,primary school,Switzerland,Naters,Weingartenstrasse,,Wallis,3904,"46.32701129105306, 7.999613693672518",,public,CHF 6'000'000,3,2,competition,
-063.018_kolibriweg.zürich,63,2018,kolibriweg.zürich,single building,housing,Switzerland,Zurich,Kolibriweg,5,Zurich,8048,"47.38483475263876, 8.47583241734967",,,,1(2),2,preliminary project,
-064.018_dufourstrasse.zollikon,64,2018,dufourstrasse.zollikon,single building,housing,Switzerland,Zollikon,Dufourstrasse,41,Zurich,8702,"47.34339163671213, 8.569947196831725",,,,1(2),2,preliminary project,
-065.018_hürststrasse.zürich,65,2018,hürststrasse.zürich,single building,housing,Switzerland,Zurich,Hürststrasse,72,Zurich,8046,"47.4156525871605, 8.527994090868091",,,,1(2),2,preliminary project,
-066.018_computational.architecture,66,2018,computational.architecture,installation,city vision,,,,,,,"45.42880308317082, 12.357203152387944",,,,1(3),2,competition,
-067.018_eichstrasse.uitikonwaldegg,67,2018,eichstrasse.uitikonwaldegg,transformation,housing,Switzerland,Uitikon Waldegg,Eichstrasse,8,Zurich,8142,"47.370007065656345, 8.460680638692832",,private,CHF 3'500'000,3,3,built,
-068.019_sustenstrasse.zürich,68,2019,sustenstrasse.zürich,single building,housing,Switzerland,Zurich,Sustenstrasse,11,Zurich,8048,"47.387812364456224, 8.47794559988678",,institutional,CHF 12'500'000,3,3,built,
-069.019_sprensenbühlstrasse.zürich,69,2019,sprensenbühlstrasse.zürich,transformation,housing,Switzerland,Zurich,Sprensenbühlstrasse,2,Zurich,8032,"47.36888299067958, 8.562954776494609",,private,CHF 5'500'000,3,2,construction project,
-070.019_forchstrasse.zürich,70,2019,forchstrasse.zürich,urban planning,housing,Switzerland,Zurich,Forchstrasse,247,Zurich,8032,"47.35890276463889, 8.571298625024625",,private,CHF 16'000'000,3,2,construction project,
-071.019_alterzürichweg.schlieren,71,2019,alterzürichweg.schlieren,transformation,housing,Switzerland,Schlieren,Alter Zürichweg,6+8,Zurich,8952,"47.393187520849885, 8.449562907448746",,private,CHF 1'600'000,3,3,built,
-072.019_disegno.diffuso,72,2019,disegno.diffuso,installation,objects,,,,,,,"47.36961311743911, 8.51709527408885",,,,1(2),3,spin off,
-073.019_urbaniz3r,73,2019,urbaniz3r,installation,city vision,,,,,,,"46.01182368982848, 8.961400313662278",,,,1(2),2,software project,
-074.019_fondazionehenraux.querceta.lucca,74,2019,fondazionehenraux.querceta.lucca,activity,stone quarry,Italy,Lucca,,,,,"43.98025209079047, 10.199502678049033",,,,1(2),2,event,
-075.019_geoz.stadt.zürich,75,2019,geoz.stadt.zürich,activity,presentation,Switzerland,Zurich,,,,,"47.37033557642352, 8.528618017202474",,,,1(3),3,event,
-076.020_feldweg.termen,76,2020,feldweg.termen,transformation,housing,Switzerland,Termen,Feldweg,47,Wallis,3912,"46.32422332561032, 8.022261687917572",,,,1(2),2,preliminary project,
-077.020_rindermarkt.zürich,77,2020,rindermarkt.zürich,transformation,housing,Switzerland,Zurich,Rindermarkt,6,Zurich,8001,"47.3723953719675, 8.544346307376665",,private,CHF 1'500'000,3,2,preliminary project,
-078.020_badenerstrasse.zürich,78,2020,badenerstrasse.zürich,transformation,housing,Switzerland,Zurich,Badenerstrasse,271,Zurich,8003,"47.37611779778709, 8.515114222212071",,private,CHF 2'300'000,3,2,preliminary project,
-079.020_borsaimmobiliare.lugano,79,2020,borsaimmobiliare.lugano,activity,presentation,Switzerland,Lugano,,,,,"45.98115043344422, 8.929092214194503",,,,1(3),3,event,
-080.020_uitikonerstrasse.schlieren,80,2020,uitikonerstrasse.schlieren,transformation,meeting room,Switzerland,Schlieren,Uitikonerstrasse,29,ZH,8952,"47.39522996119513, 8.448548771136162",,private,CHF 250'000,3,3,built,
-081.020_mna.abenteuerreisen.wallis,81,2020,mna.abenteuerreisen.wallis,activity,travel,Switzerland,,,,,,"46.315058906497796, 7.990468401336954",,,,2,2,event,
-082.020_kronenareal.hedingen,82,2020,kronenareal.hedingen,urban planning,housing,Switzerland,Hedingen,Zürcherstrasse,,Zurich,8908,"47.3000210764568, 8.448806327618959",,private,CHF 15'000'000,3,2,construction project,
-083.021_brixel.italia,83,2021,brixel.italia,activity,selling model,Italy,,,,,,"47.381064302177144, 8.516744410277058",,,,1(2),2,spin off,
-084.021_codelounge.zone,84,2021,codelounge.zone,installation,evaluation model,,,,,,,"46.01182368982848, 8.961400313662278",,,,1(2),2,software project,
-085.021_rümlangerstrasse.watt,85,2021,rümlangerstrasse.watt,single building,housing,Switzerland,Regensdorf-Watt,Rümlangerstrasse,15,ZH,8105,"47.44300692034358, 8.48257407112739",,private,CHF 3'500'000,3,2,construction project,
-086.021_sulzerallee.winterthur,86,2021,sulzerallee.winterthur,urban planning,mixed use,Switzerland,Winterthur,Sulzerallee,,Zurich,8404,"47.50233130039428, 8.762303937992058",,private,CHF 26'000'000,3,2,competition,
-087.022_herrligstrasse.zürich,87,2022,herrligstrasse.zürich,single building,housing,Switzerland,Zurich,Herrligstrasse,11+13,Zurich,8048,"47.39074720045174, 8.486153407715651",,,,2,2,preliminary project,
-088.022_dorfplatz.termen,88,2022,dorfplatz.termen,single building,housing,Switzerland,Termen,Dorfplatz,3,Wallis,3912,"46.32801193235539, 8.022051091637259",,,,1(2),2,preliminary project,
-089.023_viacapeter.zignau,89,2023,viacapeter.zignau,single building,housing,Switzerland,Zignau,Via Capeter,19,Grisons,7167,"46.74113720141929, 9.006799679083358",,,,2,2,construction project,
-090.023_rautistrasse.zürich,90,2023,rautistrasse.zürich,single building,housing,Switzerland,Zurich,Rautistrasse,116,Zurich,8048,"47.383483277014975, 8.485162598124868",,,,1(3),2,construction project,
-091.023_micasgarten.zürich,91,2023,micasgarten.zürich,installation,gastronomy,Switzerland,Zurich,Badenerstrasse,790,Zurich,8003,"47.39297292979813, 8.475953165155913",,,,1(2),3,built,
-092.023_otelfingerstrasse.wettingen,92,2023,otelfingerstrasse.wettingen,urban planning,mixed use,Switzerland,Wettingen,Otelfingerstrasse,15+19,Aargau,5430,"47.459652788955104, 8.342927757860606",,,,1(3),2,preliminary project,
+project_name,project_id,year,title,category,phases,program,country,city,street,number,number_range,canton/region,zip-code,gps_latitude,gps_longitude,cad_num,client,building_costs,currency,depth,subphase
+019.004_piazzafontana.milano,19,2004,piazzafontana.milano,urban planning,"2, 1, 3",museum,Italy,Milan,Piazza Fontana,,,Lombardy,20122,45.4634910894171,9.19423885839494,,,,,1(3),diploma
+020.005_ostiense.roma,20,2005,ostiense.roma,activity,"2, 1",azione in difesa dell'uomo,Italy,Rome,Via Ostiense,,,Lazio,154,41.8755429147837,12.48074646474810,,,,,1(2),workshop
+021.007_hönggerbergring.zürich,21,2007,hönggerbergring.zürich,urban planning,2,institute,Switzerland,Zurich,Hönggerbergring,,,Zurich,8049,47.4076557383783,8.50912669249645,,,,,1(2),competition
+022.007_epd.modul,22,2007,epd.modul,installation,2,pavilion,,,,,,,,45.4721443873063,9.17723820306027,,,,,2,free project
+023.007_viaperincarino.novamilanese,23,2007,viaperincarino.novamilanese,urban planning,"2, 1",swimming hall,Italy,Nova Milanese,Via Perincarino,,,Lombardy,20834,45.5824348036689,9.19763647748103,,,,,1(2),competition
+024.007_elsässerstrasse.basel,24,2007,elsässerstrasse.basel,urban planning,2,pavilion,Switzerland,Basel,Elsässerstrasse,,,Basel-Stadt,4056,47.5679754081861,7.58130274497909,,,,,1(3),competition
+025.008_dacasavallumnezia.vella,25,2008,dacasavallumnezia.vella,urban planning,2,retirement home,Switzerland,Vella,,,,Grisons,7144,46.7165226496214,9.17222267170479,,,,,1(3),competition
+026.008_münsterhof.zürich,26,2008,münsterhof.zürich,transformation,2,housing,Switzerland,Zurich,Münsterhof,,,Zurich,8001,47.3701758188441,8.54052682580408,,,,,1(2),construction project
+027.009_gubelstrasse.zürich,27,2009,gubelstrasse.zürich,urban planning,2,housing,Switzerland,Zurich,Gubelstrasse,,,Zurich,8050,47.4087869674922,8.54381472133358,,,,,2,free project
+028.010_geeracker.dulliken,28,2010,geeracker.dulliken,urban planning,2,housing,Switzerland,Dulliken,Alte Landstrasse,,,Solothurn,4657,47.3510269777117,7.94136357398879,,,,,1(2),preliminary project
+029.010_riminibar.zürich,29,2010,riminibar.zürich,installation,2,gastronomy,Switzerland,Zurich,Badweg,10,,Zurich,8001,47.3714360673470,8.53273273212242,,,,,1,construction project
+030.010_brünnen.bern,30,2010,brünnen.bern,urban planning,2,housing,Switzerland,Bern,,,,Bern,3027,46.9476247707283,7.37533870093656,,,,,1(2),competition
+031.010_kronenwiese.zürich,31,2010,kronenwiese.zürich,urban planning,2,housing,Switzerland,Zurich,Nordstrasse,,,Zurich,8006,47.3874002854864,8.53619561637854,,,,,2,competition
+032.011_europaallee.zürich,32,2011,europaallee.zürich,urban planning,2,mixed use,Switzerland,Zurich,Europaallee Baufeld B,,,Zurich,8004,47.3786175799241,8.53479717154372,,institutional,"45,000,000",CHF,3,competition
+033.011_energycity.zürich,33,2011,energycity.zürich,installation,3,city vision,Switzerland,Zurich,Dreikönigsstrasse,18,,Zurich,8002,47.3425644021923,8.55216787760546,,public,"60,000",CHF,3,built
+034.011_ethz.darch.handwerkhefte,34,2011,ethz.darch.handwerkhefte,activity,3,handbooks,Switzerland,Zurich,,,,,,47.4085318838019,8.50632071525090,,,,,1(3),publication
+035.011_zwyssigstrasse.wettingen,35,2011,zwyssigstrasse.wettingen,urban planning,2,bank,Switzerland,Wettingen,Alberich-Zwyssigstrasse,,,Aargau,5430,47.4667054414694,8.32794671492664,,institutional,"15,000,000",CHF,3,competition
+036.011_nairobi.kenia,36,2011,nairobi.kenia,urban planning,2,embassy,Kenya,Nairobi,,,,,,-1.2285680098399,36.80092891916710,,,,,2,competition
+037.011_stadthausareal.adliswil,37,2011,stadthausareal.adliswil,urban planning,2,mixed use,Switzerland,Adliswil,Zürichstrasse,,,Zurich,8134,47.3128966048476,8.52706155348120,,institutional,"50,000,000",CHF,3,competition
+038.012_rapidplatz.dietikon,38,2012,rapidplatz.dietikon,installation,3,gastronomy,Switzerland,Dietikon,Rapidplatz,,,Zurich,8953,47.4098365791041,8.40442122656319,,private,"350,000",CHF,3,built
+039.012_desgrandesroches.lausanne,39,2012,desgrandesroches.lausanne,transformation,2,planetarium,Switzerland,Lausanne,Route de Berne,,,Vaud,1000,46.5646172130572,6.69257123980333,,,,,1(3),competition
+040.012_viaindustria.caslano,40,2012,viaindustria.caslano,urban planning,2,gymnasium,Switzerland,Caslano,Via Industria,,,Ticino,6987,45.9714340119572,8.87389245861142,,public,"20,000,000",CHF,3,competition
+041.012_summerschool.unica,41,2012,summerschool.unica,activity,2,territorial planning,Italy,Cagliari,Via Università,,,Sardinia,9121,39.2178065823077,9.11500290909977,,,,,1(2),workshop
+042.012_fraugeroldsgarten.zürich,42,2012,fraugeroldsgarten.zürich,installation,3,mixed use,Switzerland,Zurich,Geroldstrasse,23,,Zurich,8005,47.3853608575048,8.51913401707414,,private,"2,500,000",CHF,3,built
+043.012_ethz.darch.abenteuerreisen.sardinien,43,2012,ethz.darch.abenteuerreisen.sardinien,activity,3,travel,Italy,,,,,,,40.8333801496195,8.40222963257431,,,,,1(3),event
+044.013_ethz.darch.abenteuerreisen.sizilien,44,2013,ethz.darch.abenteuerreisen.sizilien,activity,3,travel,Italy,,,,,,,38.1040219207658,15.64727229553550,,,,,1(3),event
+045.015_buchentwurf.9x9,45,2015,buchentwurf.9x9,activity,2,drafts,,,,,,,,47.4085318838019,8.50632071525090,,,,,1(3),publication
+046.015_domus.milano.0995.michelelanza,46,2015,domus.milano.0995.michelelanza,activity,3,text,Italy,Milan,,,,,,45.3841302736958,9.17096371694847,,,,,1(3),publication
+047.015_ochsenboden.nuolen,47,2015,ochsenboden.nuolen,single building,2,housing,Switzerland,Nuolen,Ochsenboden,,,Schwyz,8855,47.1997059934905,8.88822536583180,,,,,1(3),preliminary project
+048.015_stationsstrasse.wetzikon,48,2015,stationsstrasse.wetzikon,single building,3,housing,Switzerland,Wetzikon,Stationsstrasse,36,,Zurich,8620,47.3324472582049,8.80591226861432,,private,"3,500,000",CHF,3,built
+049.015_seebacherstrasse.zürich,49,2015,seebacherstrasse.zürich,transformation,2,housing,Switzerland,Zurich,Seebacherstrasse,36,,Zurich,8052,47.4221777407135,8.54534926756976,,,,,1(2),construction project
+050.016_remsistrasse.weggis,50,2016,remsistrasse.weggis,urban planning,2,layout plan,Switzerland,Weggis,Remsistrasse,,,Lucerne,6353,47.0378467067785,8.42444521315596,,private,"4,000,000",CHF,3,construction project
+051.016_grüzefeld.winterthur,51,2016,grüzefeld.winterthur,urban planning,2,facade variants,Switzerland,Winterthur,Grüzefeldstrasse,,,Zurich,8400,47.4954154525571,8.75038063067518,,,,,1(2),preliminary project
+052.016_meientalstrasse.zürich,52,2016,meientalstrasse.zürich,transformation,3,housing,Switzerland,Zurich,Meientalstrasse,79,,Zurich,8048,47.3862532485635,8.47644670845778,,private,"2,000,000",CHF,3,built
+053.016_maseltrangen.schänis,53,2016,maseltrangen.schänis,single building,2,housing,Switzerland,Schänis,,,,St. Gallen,8718,47.1906560788788,9.05265258304574,,,,,1,competition
+054.016_marktgasse.biel,54,2016,marktgasse.biel,transformation,2,housing,Switzerland,Biel,Marktgasse,5-9,,Bern,2502,46.9479176123370,7.44707489684278,,,,,1,preliminary project
+055.016_abiic.nigeria,55,2016,abiic.nigeria,installation,2,city vision,Nigeria,,,,,,,7.3152526231070,8.27692386285865,,,,,1(2),free project
+056.017_kettberg.zürich,56,2017,kettberg.zürich,single building,2,housing,Switzerland,Zurich,Kettberg,31,,Zurich,8049,47.3986270339986,8.51405024605620,,private,"4,500,000",CHF,3,competition
+057.017_oberseeweg.rapperswil,57,2017,oberseeweg.rapperswil,urban planning,2,housing,Switzerland,Rapperswil-Jona,Oberseeweg,,,St. Gallen,8633,47.2222723618730,8.82968880791680,,,,,1(2),competition
+058.017_domus.milano.1019.werneroechslin,58,2017,domus.milano.1019.werneroechslin,activity,3,text,Italy,Milan,,,,Lombardy,20019,47.1251790280734,8.74809629362220,,,,,1(3),publication
+059.017_eichliackerstrasse.winterthur,59,2017,eichliackerstrasse.winterthur,single building,2,housing,Switzerland,Winterthur,Eichliackerstrasse,,63-65,Zurich,8406,47.4877914357222,8.71294085877730,,,,,1,preliminary project
+060.017_binzackerstrasse.wetzikon,60,2017,binzackerstrasse.wetzikon,urban planning,2,housing,Switzerland,Wetzikon,Binzackerstrasse,,,Zurich,8620,47.3302706979070,8.80236707767215,,,,,1(2),preliminary project
+061.017_dimension.mittelmeer,61,2017,dimension.mittelmeer,installation,3,territorial vision,,,,,,,,35.3514804554886,17.64942428156650,,,,,3,free project
+062.018_weingartenstrasse.naters,62,2018,weingartenstrasse.naters,urban planning,2,primary school,Switzerland,Naters,Weingartenstrasse,,,Wallis,3904,46.3270112910531,7.99961369367252,,public,"6,000,000",CHF,3,competition
+063.018_kolibriweg.zürich,63,2018,kolibriweg.zürich,single building,2,housing,Switzerland,Zurich,Kolibriweg,5,,Zurich,8048,47.3848347526388,8.47583241734967,,,,,1(2),preliminary project
+064.018_dufourstrasse.zollikon,64,2018,dufourstrasse.zollikon,single building,2,housing,Switzerland,Zollikon,Dufourstrasse,41,,Zurich,8702,47.3433916367121,8.56994719683173,,,,,1(2),preliminary project
+065.018_hürststrasse.zürich,65,2018,hürststrasse.zürich,single building,2,housing,Switzerland,Zurich,Hürststrasse,72,,Zurich,8046,47.4156525871605,8.52799409086809,,,,,1(2),preliminary project
+066.018_computational.architecture,66,2018,computational.architecture,installation,2,city vision,,,,,,,,45.4288030831708,12.35720315238790,,,,,1(3),competition
+067.018_eichstrasse.uitikonwaldegg,67,2018,eichstrasse.uitikonwaldegg,transformation,3,housing,Switzerland,Uitikon Waldegg,Eichstrasse,8,,Zurich,8142,47.3700070656563,8.46068063869283,,private,"3,500,000",CHF,3,built
+068.019_sustenstrasse.zürich,68,2019,sustenstrasse.zürich,single building,3,housing,Switzerland,Zurich,Sustenstrasse,11,,Zurich,8048,47.3878123644562,8.47794559988678,,institutional,"12,500,000",CHF,3,built
+069.019_sprensenbühlstrasse.zürich,69,2019,sprensenbühlstrasse.zürich,transformation,2,housing,Switzerland,Zurich,Sprensenbühlstrasse,2,,Zurich,8032,47.3688829906796,8.56295477649461,,private,"5,500,000",CHF,3,construction project
+070.019_forchstrasse.zürich,70,2019,forchstrasse.zürich,urban planning,2,housing,Switzerland,Zurich,Forchstrasse,247,,Zurich,8032,47.3589027646389,8.57129862502463,,private,"16,000,000",CHF,3,construction project
+071.019_alterzürichweg.schlieren,71,2019,alterzürichweg.schlieren,transformation,3,housing,Switzerland,Schlieren,Alter Zürichweg,,6-8,Zurich,8952,47.3931875208499,8.44956290744875,,private,"1,600,000",CHF,3,built
+072.019_disegno.diffuso,72,2019,disegno.diffuso,installation,3,objects,,,,,,,,47.3696131174391,8.51709527408885,,,,,1(2),spin off
+073.019_urbaniz3r,73,2019,urbaniz3r,installation,2,city vision,,,,,,,,46.0118236898285,8.96140031366228,,,,,1(2),software project
+074.019_fondazionehenraux.querceta.lucca,74,2019,fondazionehenraux.querceta.lucca,activity,2,stone quarry,Italy,Lucca,,,,,,43.9802520907905,10.19950267804900,,,,,1(2),event
+075.019_geoz.stadt.zürich,75,2019,geoz.stadt.zürich,activity,3,presentation,Switzerland,Zurich,,,,,,47.3703355764235,8.52861801720247,,,,,1(3),event
+076.020_feldweg.termen,76,2020,feldweg.termen,transformation,2,housing,Switzerland,Termen,Feldweg,47,,Wallis,3912,46.3242233256103,8.02226168791757,,,,,1(2),preliminary project
+077.020_rindermarkt.zürich,77,2020,rindermarkt.zürich,transformation,2,housing,Switzerland,Zurich,Rindermarkt,6,,Zurich,8001,47.3723953719675,8.54434630737667,,private,"1,500,000",CHF,3,preliminary project
+078.020_badenerstrasse.zürich,78,2020,badenerstrasse.zürich,transformation,2,housing,Switzerland,Zurich,Badenerstrasse,271,,Zurich,8003,47.3761177977871,8.51511422221207,,private,"2,300,000",CHF,3,preliminary project
+079.020_borsaimmobiliare.lugano,79,2020,borsaimmobiliare.lugano,activity,3,presentation,Switzerland,Lugano,,,,,,45.9811504334442,8.92909221419450,,,,,1(3),event
+080.020_uitikonerstrasse.schlieren,80,2020,uitikonerstrasse.schlieren,transformation,3,meeting room,Switzerland,Schlieren,Uitikonerstrasse,29,,Zurich,8952,47.3952299611951,8.44854877113616,,private,"250,000",CHF,3,built
+081.020_mna.abenteuerreisen.wallis,81,2020,mna.abenteuerreisen.wallis,activity,2,travel,Switzerland,,,,,,,46.3150589064978,7.99046840133695,,,,,2,event
+082.020_kronenareal.hedingen,82,2020,kronenareal.hedingen,urban planning,2,housing,Switzerland,Hedingen,Zürcherstrasse,,,Zurich,8908,47.3000210764568,8.44880632761896,,private,"15,000,000",CHF,3,construction project
+083.021_brixel.italia,83,2021,brixel.italia,activity,2,selling model,Italy,,,,,,,47.3810643021771,8.51674441027706,,,,,1(2),spin off
+084.021_codelounge.zone,84,2021,codelounge.zone,installation,2,evaluation model,,,,,,,,46.0118236898285,8.96140031366228,,,,,1(2),software project
+085.021_rümlangerstrasse.watt,85,2021,rümlangerstrasse.watt,single building,2,housing,Switzerland,Regensdorf-Watt,Rümlangerstrasse,15,,Zurich,8105,47.4430069203436,8.48257407112739,,private,"3,500,000",CHF,3,construction project
+086.021_sulzerallee.winterthur,86,2021,sulzerallee.winterthur,urban planning,2,mixed use,Switzerland,Winterthur,Sulzerallee,,,Zurich,8404,47.5023313003943,8.76230393799206,,private,"26,000,000",CHF,3,competition
+087.022_herrligstrasse.zürich,87,2022,herrligstrasse.zürich,single building,2,housing,Switzerland,Zurich,Herrligstrasse,,11-13,Zurich,8048,47.3907472004517,8.48615340771565,,,,,2,preliminary project
+088.022_dorfplatz.termen,88,2022,dorfplatz.termen,single building,2,housing,Switzerland,Termen,Dorfplatz,3,,Wallis,3912,46.3280119323554,8.02205109163726,,,,,1(2),preliminary project
+089.023_viacapeter.zignau,89,2023,viacapeter.zignau,single building,2,housing,Switzerland,Zignau,Via Capeter,19,,Grisons,7167,46.7411372014193,9.00679967908336,,,,,2,construction project
+090.023_rautistrasse.zürich,90,2023,rautistrasse.zürich,single building,2,housing,Switzerland,Zurich,Rautistrasse,116,,Zurich,8048,47.3834832770150,8.48516259812487,,,,,1(3),construction project
+091.023_micasgarten.zürich,91,2023,micasgarten.zürich,installation,3,gastronomy,Switzerland,Zurich,Badenerstrasse,790,,Zurich,8003,47.3929729297981,8.47595316515591,,,,,1(2),built
+092.023_otelfingerstrasse.wettingen,92,2023,otelfingerstrasse.wettingen,urban planning,2,mixed use,Switzerland,Wettingen,Otelfingerstrasse,,15-19,Aargau,5430,47.4596527889551,8.34292775786061,,,,,1(3),preliminary project

@@ -74,21 +74,27 @@ function insertProjectSquares(container: HTMLDivElement, projectsArray: Project[
         const div = document.createElement('div');
         const projectCategoryClass = project.category.toLowerCase().replace(/ /g, '-');
         div.className = `square project-square ${projectCategoryClass}`;
-        div.id = `${project.projectNumber}`;
-        const yearCode = project.year.toString().substring(2, 4); // Adjusted for TypeScript
-        div.innerHTML = `0${yearCode}<br>${project.projectNumber < 100 ? `0${project.projectNumber}` : project.projectNumber}`;
+        div.id = `${project.projectId}`;
+        const projectNumberPadded = project.projectId.toString().padStart(3, '0');
+        const yearCode = project.year.toString().substring(2, 4); // Extract last two digits of the year
+        div.innerHTML = `0${yearCode}<br>${projectNumberPadded}`;
         div.setAttribute('data-info', JSON.stringify(project));
         container.appendChild(div);
 
         // Add event listener for project squares
         div.addEventListener('click', (event: MouseEvent) => {
+            // Determine the last phase from the phases array
+            const lastPhase = (project.phases && project.phases.length > 0)
+                ? project.phases[project.phases.length - 1]
+                : 2; // Fallback to 2 if phases are unavailable
+
             showPopup({
                 type: 'project',
-                x: event.x,
-                y: event.y,
-                projectNumber: project.projectNumber,
+                x: event.clientX,
+                y: event.clientY,
+                projectId: project.projectId,
                 projectName: project.projectName,
-                lastProjectPhase: project.phase || 2, // fallback to 2 as the most frequent
+                lastProjectPhase: lastPhase,
                 title: project.title,
                 category: project.category,
                 year: project.year,
@@ -402,7 +408,7 @@ function generateProjectContent(project: ProjectData, container: HTMLElement): v
     }
     container.innerHTML = `
         <${titleHtmlTag}>${project.title}</${titleHtmlTag}>
-        <p>Project Number: ${project.projectNumber}</p>
+        <p>Project Id: ${project.projectId}</p>
         <p>Category: ${project.category}</p>
         <p>Year: ${project.year}</p>
     `;
@@ -412,7 +418,7 @@ function generateProjectContent(project: ProjectData, container: HTMLElement): v
     button.className = 'project-button';
     button.textContent = '+';
     button.style.fontSize = '3rem';
-    button.addEventListener('click', () => redirectToProjectPage(project.projectNumber, project.lastProjectPhase.toString()));
+    button.addEventListener('click', () => redirectToProjectPage(project.projectId, project.lastProjectPhase.toString()));
 
     // Append button to the after the project content
     container.appendChild(button);
@@ -425,9 +431,9 @@ function generateProjectContent(project: ProjectData, container: HTMLElement): v
  */
 function updateProjectImage(project: ProjectData) {
     const popupImage = document.getElementById('popup-image') as HTMLDivElement;
-    const projectNumberPadded = project.projectNumber.toString().padStart(3, '0');
+    const projectNumberPadded = project.projectId.toString().padStart(3, '0');
     const projectMetadata = JSON.parse(localStorage.getItem('projectsMetadata') || '{}') as Record<string, ProjectMetadata>;
-    const metadata = projectMetadata[project.projectNumber.toString()];
+    const metadata = projectMetadata[project.projectId.toString()];
 
     // Check if covers exist in project metadata
     if (metadata?.common?.covers) {
@@ -540,19 +546,28 @@ function setupSortingOptions(): void {
  * @returns {Project[]} The sorted array of projects.
  */
 function sortProjects(projectsArray: Project[], sortOrder: SortingOptions): Project[] {
-    // Sort logic here depends on what 'sortOrder' actually represents in your data
     return projectsArray.sort((a, b) => {
         switch (sortOrder) {
             case SortingOptions.NUMBER:
-                return a.projectNumber - b.projectNumber;
+                return a.projectId - b.projectId;
+
             case SortingOptions.COLOUR:
                 return a.category.localeCompare(b.category);
+
             case SortingOptions.PROGRAM:
-                if (!a.program) return 0;
-                return a.program.localeCompare(b.program || '');
+                const aProgram = a.program || '';
+                const bProgram = b.program || '';
+                return aProgram.localeCompare(bProgram);
+
             case SortingOptions.PHASE:
-                if (!a.phase || !b.phase) {console.error('Cannot sort by phase when comparing these projects:', a.projectName, b.projectName); return 0;}
-                return a.phase - b.phase;
+                const aPhase = (a.phases && a.phases.length > 0)
+                    ? Math.max(...a.phases)
+                    : 0;
+                const bPhase = (b.phases && b.phases.length > 0)
+                    ? Math.max(...b.phases)
+                    : 0;
+                return aPhase - bPhase;
+
             default:
                 return 0;
         }

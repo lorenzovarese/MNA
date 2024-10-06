@@ -3,32 +3,36 @@
  * Base interface representing the minimum required properties of a project.
  */
 export interface BaseProject {
-    projectNumber: number;  // Unique project identifier, e.g., "19" for "019.004_piazzafontana.milano"
-    projectName: string;  // Project name, e.g., "019.004_piazzafontana.milano"
+    projectId: number;    // Unique project identifier, from "project_id"
+    projectName: string;  // Project name, from "project_name"
 }
 
 /**
  * Interface representing detailed information about a project.
  */
 export interface Project extends BaseProject {
-    year: number;  // Year of the project, e.g., 2004, 2007
-    title: string;  // Project title, e.g., "piazzafontana.milano"
-    category: string;  // Project category, e.g., "urban planning", "installation"
-    program: string | null;  // Program associated with the project, e.g., "museum", "institute", or null if not applicable
-    country: string | null;  // Country where the project is located, e.g., "Italy", "Switzerland"
-    city: string | null;  // City where the project is located, e.g., "Milan", "Zurich"
-    street: string | null;  // Street name, e.g., "Piazza Fontana", "Via Ostiense"
-    houseNumber: string | null;  // House number, if applicable
-    cantonRegion: string | null;  // Canton or region, e.g., "Lombardy", "Zürich"
-    zipCode: string | null;  // ZIP or postal code, e.g., "20122", "8049"
-    gps: { latitude: number, longitude: number } | null;  // GPS coordinates wrapped in an object, or null if not available
-    cadNum: string | null;  // CAD number or code, if available
-    client: string | null;  // Name of the client, or null if not applicable
-    buildingCosts: string | null;  // Building costs associated with the project, or null if not provided
-    deepness: string | null;  // Depth of the project, or null if not applicable
-    phase: number | null;  // Phase of the project, e.g., "1" for initial phase
-    subPhase: string | null;  // Subphase, e.g., "2", representing detailed progress stages
-    seaElevation: string | null;  // Sea elevation, if applicable, or null
+    year: number;                     // Year of the project, from "year"
+    title: string;                    // Project title, from "title"
+    category: string;                 // Project category, from "category"
+    phases: number[] | null;          // Array of phase numbers, parsed from "phases"
+    program: string | null;           // Program associated with the project, from "program"
+    country: string | null;           // Country where the project is located, from "country"
+    city: string | null;              // City where the project is located, from "city"
+    street: string | null;            // Street name, from "street"
+    houseNumber: string | null;       // House number, from "number"
+    numberRange: string | null;       // Number range, from "number_range"
+    cantonRegion: string | null;      // Canton or region, from "canton/region"
+    zipCode: string | null;           // ZIP or postal code, from "zip-code"
+    gps: {                            // GPS coordinates, from "gps_latitude" and "gps_longitude"
+        latitude: number;
+        longitude: number;
+    } | null;
+    cadNum: string | null;            // CAD number or code, from "cad_num"
+    client: string | null;            // Name of the client, from "client"
+    buildingCosts: string | null;     // Building costs, from "building_costs"
+    currency: string | null;          // Currency of the building costs, from "currency"
+    depth: string | null;             // Depth of the project, from "depth"
+    subphase: string | null;          // Subphase, from "subphase"
 }
 
 /**
@@ -36,32 +40,36 @@ export interface Project extends BaseProject {
  */
 export interface ProjectMetadata extends BaseProject {
     common: {
-      covers: boolean;  // Yes/No
-      texts: Record<string, string | null> | null;  // Dictionary of language codes and their respective texts (initially null) or null if N/A or empty
-      youtubeVideoLink?: string;  // Optional URL for a YouTube video
+        available: boolean;           // From "common.available", parsed from "Yes"/"No"
+        covers: boolean;              // From "common.covers", parsed from "Yes"/"No"
+        texts: string[] | null;       // From "common.texts", array of language codes or null if "N/A" or empty
+        youtubeVideoLink?: string;    // From "common.youtube.link", optional URL for a YouTube video
     };
     study: {
-      available: boolean;  // Yes/No
-      conceptsTexts: Record<string, string | null> | null;  // Dictionary of language codes and their respective texts or null if N/A or empty
-      plans?: number | null;  // Number of plans, 0 or null if unavailable
-      visualizationsPhotos?: number | null;  // Number of visualizations/photos, 0 or null if unavailable
-      videos?: number | null;  // Number of videos, 0 or null if unavailable
-      dossiers?: number | null;  // Number of dossiers, 0 or null if unavailable
+        available: boolean;           // From "study.available", parsed from "Yes"/"No"
+        conceptsTexts: string[] | null;  // From "study.concepts.texts", array of language codes or null if "N/A" or empty
+        plans?: number | null;        // From "study.plans", number of plans, or null if unavailable
+        visualizationsPhotos?: number | null; // From "study.visualizations.photos", number or null
+        videos?: number | null;       // From "study.videos", number or null
+        dossiers?: number | null;     // From "study.dossiers", number or null
+        youtubeVideoLink?: string;    // From "study.youtube.link", optional URL
     };
     project: {
-      available: boolean;  // Yes/No
-      conceptsTexts: Record<string, string | null> | null;  // Dictionary of language codes and their respective texts or null if N/A or empty
-      plans?: number | null;  // Number of plans, 0 or null if unavailable
-      visualizationsPhotos?: number | null;  // Number of visualizations/photos, 0 or null if unavailable
-      videos?: number | null;  // Number of videos, 0 or null if unavailable
-      dossiers?: number | null;  // Number of dossiers, 0 or null if unavailable
+        available: boolean;           // From "project.available", parsed from "Yes"/"No"
+        conceptsTexts: string[] | null;  // From "project.concepts.texts", array of language codes or null
+        plans?: number | null;        // From "project.plans", number or null
+        visualizationsPhotos?: number | null; // From "project.visualizations.photos", number or null
+        videos?: number | null;       // From "project.videos", number or null
+        dossiers?: number | null;     // From "project.dossiers", number or null
+        youtubeVideoLink?: string;    // From "project.youtube.link", optional URL
     };
     realization: {
-      available: boolean;  // Yes/No
-      conceptsTexts: Record<string, string | null> | null;  // Dictionary of language codes and their respective texts or null if N/A or empty
-      plans?: number | null;  // Number of plans, 0 or null if unavailable
-      visualizationsPhotos?: number | null;  // Number of visualizations/photos, 0 or null if unavailable
-      videos?: number | null;  // Number of videos, 0 or null if unavailable
-      dossiers?: number | null;  // Number of dossiers, 0 or null if unavailable
+        available: boolean;           // From "realization.available", parsed from "Yes"/"No"
+        conceptsTexts: string[] | null;  // From "realization.concepts.texts", array of language codes or null
+        plans?: number | null;        // From "realization.plans", number or null
+        visualizationsPhotos?: number | null; // From "realization.visualizations.photos", number or null
+        videos?: number | null;       // From "realization.videos", number or null
+        dossiers?: number | null;     // From "realization.dossiers", number or null
+        youtubeVideoLink?: string;    // From "realization.youtube.link", optional URL
     };
 }
